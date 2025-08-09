@@ -8,6 +8,7 @@
   <meta name="keywords" content="borrowing power calculator, home loan Australia, mortgage estimate" />
   <meta name="robots" content="index, follow" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
@@ -50,7 +51,11 @@
     </div>
 
     <div class="toggle-container">
-      <label><input type="checkbox" id="bufferToggle" checked /> Include APRA Buffer (+3%)</label>
+      <label class="switch">
+        <input type="checkbox" id="bufferToggle" checked />
+        <span class="slider round"></span>
+      </label>
+      <span>Include APRA Buffer (+3%)</span>
     </div>
 
     <div class="card result" id="results">
@@ -60,9 +65,12 @@
       Monthly Repayment (Interest Only): $0
     </div>
 
-    <div class="card ad-container" style="text-align:center;">
-      <p>Advertisement</p>
-      <!-- Google AdSense code will go here -->
+    <div class="card">
+      <canvas id="borrowingChart" height="120"></canvas>
+    </div>
+
+    <div class="card">
+      <canvas id="repaymentChart" height="120"></canvas>
     </div>
 
     <div class="affiliate-scroller">
@@ -70,24 +78,6 @@
       <a href="https://www.mortgagechoice.com.au" target="_blank">Mortgage Choice: Free Advice</a>
       <a href="https://www.aussie.com.au" target="_blank">Aussie: Find a Broker</a>
       <a href="https://www.canstar.com.au/home-loans/" target="_blank">Canstar: Loan Comparisons</a>
-    </div>
-  </div>
-
-  <div class="sidebar-scroller">
-    <h3>Latest from Our Partners</h3>
-    <div class="scroll-content">
-      <a href="https://www.brokernews.com.au/news/breaking-news/lendi-group-unveils-aussie-brand-makeover-286829.aspx" target="_blank">
-        <img src="https://via.placeholder.com/280x120?text=Lendi+Preview" alt="Lendi article" class="preview-img" />
-        <strong>Lendi:</strong> Aussie brand makeover aims for full-service ecosystem
-      </a>
-      <a href="https://www.mortgagechoice.com.au/about-us/media-centre/media-releases/mortgage-choice-home-loan-report-the-housing-issues-that-matter-most-to-voters/" target="_blank">
-        <img src="https://via.placeholder.com/280x120?text=Mortgage+Choice" alt="Mortgage Choice article" class="preview-img" />
-        <strong>Mortgage Choice:</strong> Housing issues that matter most to voters
-      </a>
-      <a href="https://www.canstar.com.au/finance-news/" target="_blank">
-        <img src="https://via.placeholder.com/280x120?text=Canstar+Finance+News" alt="Canstar article" class="preview-img" />
-        <strong>Canstar:</strong> Latest finance news and insights
-      </a>
     </div>
   </div>
 
