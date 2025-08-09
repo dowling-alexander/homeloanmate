@@ -37,7 +37,6 @@ let borrowingChart, repaymentChart;
 
 function initCharts() {
   const ctx1 = document.getElementById('borrowingChart').getContext('2d');
-  const ctx2 = document.getElementById('repaymentChart').getContext('2d');
 
   borrowingChart = new Chart(ctx1, {
     type: 'bar',
@@ -52,24 +51,11 @@ function initCharts() {
     options: { responsive: true }
   });
 
-  repaymentChart = new Chart(ctx2, {
-    type: 'pie',
-    data: {
-      labels: ['Principal & Interest', 'Interest Only'],
-      datasets: [{
-        backgroundColor: ['#2196F3', '#9C27B0'],
-        data: [0, 0]
-      }]
-    },
-    options: { responsive: true }
-  });
 }
 
 function updateCharts(bp, bpBuffer, piMonthly, ioMonthly) {
   borrowingChart.data.datasets[0].data = [bp, bpBuffer];
-  repaymentChart.data.datasets[0].data = [piMonthly, ioMonthly];
   borrowingChart.update();
-  repaymentChart.update();
 }
 
 function calculate() {

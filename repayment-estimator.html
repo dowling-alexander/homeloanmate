@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Repayment Estimator - HomeLoanMate</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+	
+  <nav>
+    <a href="index.html">Borrowing Power</a> |
+    <a href="repayment-estimator.html">Repayment Estimator</a> |
+    <a href="about.html">About Me</a> |
+    <a href="faq.html">FAQ</a>
+  </nav>
+<div class="container">
+  <main>
+    <h1>Home Loan Repayment Estimator</h1>
+
+    <form id="loan-form">
+		<div class="card">
+		  <label for="housePrice">Estimated House Price (AUD):</label>
+		  <div class="slider-container">
+			<input type="range" id="housePrice" min="50000" max="2000000" step="5000" value="500000" />
+			<input type="number" id="housePriceInput" min="50000" max="2000000" step="1000" value="500000" />
+		  </div>
+		 </div>
+		<div class="card">
+		  <label for="deposit">Expected Deposit (AUD):</label>
+		  <div class="slider-container">
+			<input type="range" id="deposit" min="0" max="500000" step="1000" value="100000" />
+			<input type="number" id="depositInput" min="0" max="500000" step="1000" value="100000" />
+		  </div>
+		 </div>
+		<div class="card">
+		  <label for="income">Annual Income (AUD):</label>
+		  <div class="slider-container">
+			<input type="range" id="income" min="20000" max="300000" step="1000" value="90000" />
+			<input type="number" id="incomeInput" min="20000" max="300000" step="1000" value="90000" />
+		  </div>
+		 </div>
+		<div class="card">
+		  <label for="expenses">Monthly Expenses (AUD):</label>
+		  <div class="slider-container">
+			<input type="range" id="expenses" min="500" max="15000" step="50" value="3000" />
+			<input type="number" id="expensesInput" min="500" max="15000" step="50" value="3000" />
+		  </div>
+		 </div>
+		<div class="card">
+		  <label for="state">State:</label>
+		  <select id="state" required>
+			<option value="NSW" selected>New South Wales (NSW)</option>
+			<option value="VIC">Victoria (VIC)</option>
+			<option value="QLD">Queensland (QLD)</option>
+		  </select>
+		 </div>
+		<div class="card">
+		  <label for="interestRate">Interest Rate (Annual %):</label>
+		  <div class="slider-container">
+			<input type="range" id="interestRate" min="1" max="12" step="0.05" value="6.5" />
+			<input type="number" id="interestRateInput" min="1" max="12" step="0.01" value="6.5" />
+		  </div>
+		 </div>
+		<div class="card">
+		  <label for="loanTerm">Loan Term (Years):</label>
+		  <div class="slider-container">
+			<input type="range" id="loanTerm" min="5" max="40" step="1" value="30" />
+			<input type="number" id="loanTermInput" min="5" max="40" step="1" value="30" />
+		  </div>
+		</div>
+      <button type="submit">Calculate</button>
+    </form>
+
+    <div id="result" class="result" style="display:none;"></div>
+  </main>
+</div>
+  <script>
+    // Utility for currency formatting
+    function formatCurrency(value) {
+      return value.toLocaleString('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2 });
+    }
+
+    // Synchronize range and number inputs
+    function syncInputs(rangeEl, numberEl, maxLimit) {
+      // When range changes, update number input (clamp to maxLimit if given)
+      rangeEl.addEventListener('input', () => {
+        let val = Number(rangeEl.value);
+        if (maxLimit !== undefined && val > maxLimit()) {
+          val = maxLimit();
+          rangeEl.value = val;
+        }
+        numberEl.value = val;
+      });
+
+      // When number input changes, update range (clamp to min/max)
+      numberEl.addEventListener('input', () => {
+        let val = Number(numberEl.value);
+        if (isNaN(val)) return;
+
+        let min = Number(rangeEl.min);
+        let max = Number(rangeEl.max);
+        if (maxLimit !== undefined) {
+          max = Math.min(max, maxLimit());
+        }
+        if (val < min) val = min;
+        if (val > max) val = max;
+        numberEl.value = val;
+        rangeEl.value = val;
+      });
+    }
+
+    // Get elements
+    const housePriceRange = document.getElementById('housePrice');
+    const housePriceInput = document.getElementById('housePriceInput');
+
+    const depositRange = document.getElementById('deposit');
+    const depositInput = document.getElementById('depositInput');
+
+    const incomeRange = document.getElementById('income');
+    const incomeInput = document.getElementById('incomeInput');
+
+    const expensesRange = document.getElementById('expenses');
+    const expensesInput = document.getElementById('expensesInput');
+
+    const interestRateRange = document.getElementById('interestRate');
+    const interestRateInput = document.getElementById('interestRateInput');
+
+    const loanTermRange = document.getElementById('loanTerm');
+    const loanTermInput = document.getElementById('loanTermInput');
+
+    const stateSelect = document.getElementById('state');
+
+    // Sync housePrice and deposit max value dynamically
+    function maxDeposit() {
+      return Number(housePriceRange.value);
+    }
+
+    // Sync all inputs
+    syncInputs(housePriceRange, housePriceInput);
+    syncInputs(depositRange, depositInput, maxDeposit);
+    syncInputs(incomeRange, incomeInput);
+    syncInputs(expensesRange, expensesInput);
+    syncInputs(interestRateRange, interestRateInput);
+    syncInputs(loanTermRange, loanTermInput);
+
+    // When house price changes, update deposit max dynamically and clamp deposit values
+    housePriceRange.addEventListener('input', () => {
+      depositRange.max = housePriceRange.value;
+      depositInput.max = housePriceRange.value;
+      if (Number(depositRange.value) > Number(housePriceRange.value)) {
+        depositRange.value = housePriceRange.value;
+        depositInput.value = housePriceRange.value;
+      }
+    });
+    housePriceInput.addEventListener('input', () => {
+      depositRange.max = housePriceInput.value;
+      depositInput.max = housePriceInput.value;
+      if (Number(depositInput.value) > Number(housePriceInput.value)) {
+        depositInput.value = housePriceInput.value;
+        depositRange.value = housePriceInput.value;
+      }
+    });
+
+    // Stamp Duty Calculator (simplified)
+    function calculateStampDuty(price, state) {
+      let duty = 0;
+      switch (state) {
+        case 'NSW':
+          if (price <= 14000) duty = price * 0.0125;
+          else if (price <= 30000) duty = 175 + (price - 14000) * 0.015;
+          else if (price <= 80000) duty = 415 + (price - 30000) * 0.0175;
+          else if (price <= 300000) duty = 1290 + (price - 80000) * 0.035;
+          else if (price <= 1000000) duty = 8990 + (price - 300000) * 0.045;
+          else duty = 40440 + (price - 1000000) * 0.055;
+          break;
+
+        case 'VIC':
+          if (price <= 25000) duty = price * 0.015;
+          else if (price <= 130000) duty = 375 + (price - 25000) * 0.02;
+          else if (price <= 960000) duty = 2875 + (price - 130000) * 0.06;
+          else duty = 53470 + (price - 960000) * 0.055;
+          break;
+
+        case 'QLD':
+          if (price <= 5000) duty = 0;
+          else if (price <= 75000) duty = price * 0.0125;
+          else if (price <= 540000) duty = 937.5 + (price - 75000) * 0.035;
+          else duty = 17982.5 + (price - 540000) * 0.045;
+          break;
+
+        default:
+          duty = 0;
+      }
+      return duty;
+    }
+
+    document.getElementById('loan-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const housePrice = Number(housePriceRange.value);
+      const deposit = Number(depositRange.value);
+      const income = Number(incomeRange.value);
+      const expenses = Number(expensesRange.value);
+      const state = stateSelect.value;
+      const interestRateAnnual = Number(interestRateRange.value) / 100;
+      const loanTermYears = Number(loanTermRange.value);
+
+      if (!state) {
+        alert('Please select a state.');
+        return;
+      }
+      if (deposit > housePrice) {
+        alert('Deposit cannot be more than the house price.');
+        return;
+      }
+
+      // Calculate loan amount needed (house price - deposit)
+      let loanAmount = housePrice - deposit;
+
+      // Calculate Stamp Duty
+      const stampDuty = calculateStampDuty(housePrice, state);
+
+      // Loan to Value Ratio (LVR)
+      const lvr = loanAmount / housePrice;
+
+      // Calculate LMI if deposit < 20% (LVR > 0.8)
+      let lmi = 0;
+      if (lvr > 0.8) {
+        lmi = loanAmount * 0.015;
+        loanAmount += lmi;
+      }
+
+      // Monthly interest rate and terms
+      const loanTermMonths = loanTermYears * 12;
+      const monthlyInterestRate = interestRateAnnual / 12;
+
+      // Monthly repayment (amortization formula)
+      const numerator = loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanTermMonths);
+      const denominator = Math.pow(1 + monthlyInterestRate, loanTermMonths) - 1;
+      const monthlyRepayment = numerator / denominator;
+
+      // Income after expenses
+      const monthlyIncome = income / 12;
+      const incomeAfterExpenses = monthlyIncome - expenses;
+
+      // Affordability message
+      let affordabilityMsg = '';
+      if (incomeAfterExpenses >= monthlyRepayment) {
+        affordabilityMsg = `<strong style="color:green;">This loan repayment appears affordable based on your income and expenses.</strong>`;
+      } else {
+        affordabilityMsg = `<strong class="warning">Warning: Your expenses and repayments may exceed your income capacity.</strong>`;
+      }
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `
+        <h2>Estimate Summary</h2>
+        <p><strong>Loan Amount:</strong> ${formatCurrency(loanAmount)}</p>
+        <p><strong>Stamp Duty (${state}):</strong> ${formatCurrency(stampDuty)}</p>
+        <p><strong>Loan Mortgage Insurance (LMI):</strong> ${formatCurrency(lmi)}</p>
+        <p><strong>Estimated Monthly Repayment:</strong> ${formatCurrency(monthlyRepayment)}</p>
+        <p><strong>Monthly Income after Expenses:</strong> ${formatCurrency(incomeAfterExpenses)}</p>
+        ${affordabilityMsg}
+      `;
+    });
+  </script>
+
+</body>
+</html>
