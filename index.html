@@ -3,204 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HomeLoanMate | Calculate Your Home Loan Borrowing Power</title>
-  <meta name="description" content="Trusted Australian home loan calculator and guide to help you borrow smart and find the best loan for your budget." />
-  <meta name="keywords" content="home loan calculator Australia, borrowing power, mortgage estimate, best home loan" />
+  <title>Borrowing Power Calculator</title>
+  <meta name="description" content="Estimate your borrowing power with our fast, mobile-friendly calculator. Designed for Australian home buyers." />
+  <meta name="keywords" content="borrowing power calculator, home loan Australia, mortgage estimate" />
   <meta name="robots" content="index, follow" />
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #f4f4f4;
-    }
-    header {
-      background: #004aad;
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
-    }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      position: relative;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
-    }
-    .slider-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    input[type="range"] {
-      flex: 1;
-    }
-    input[type="number"] {
-      width: 100px;
-      padding: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .info-icon {
-      font-size: 16px;
-      color: #007BFF;
-      cursor: pointer;
-      margin-left: 5px;
-    }
-    .tooltip {
-      display: none;
-      position: absolute;
-      background: #333;
-      color: #fff;
-      padding: 5px;
-      font-size: 12px;
-      border-radius: 5px;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 250px;
-      z-index: 10;
-    }
-    .result {
-      font-size: 16px;
-      line-height: 1.6;
-    }
-    .toggle-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .affiliate-scroller {
-      display: flex;
-      overflow-x: auto;
-      white-space: nowrap;
-      background: #fff;
-      padding: 10px;
-      border-top: 1px solid #ddd;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-    }
-    .affiliate-scroller a {
-      display: inline-block;
-      margin-right: 20px;
-      font-size: 14px;
-      color: #007BFF;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-    .affiliate-scroller a:hover {
-      text-decoration: underline;
-    }
-    .sidebar-scroller {
-      position: fixed;
-      top: 80px;
-      right: 0;
-      width: 280px;
-      height: 80vh;
-      overflow-y: auto;
-      background: #fff;
-      border-left: 1px solid #ddd;
-      box-shadow: -2px 0 5px rgba(0,0,0,0.05);
-      padding: 15px;
-      font-size: 14px;
-      z-index: 100;
-    }
-    .sidebar-scroller h3 {
-      margin-top: 0;
-      font-size: 16px;
-      color: #333;
-    }
-    .scroll-content a {
-      display: block;
-      margin-bottom: 20px;
-      color: #007BFF;
-      text-decoration: none;
-    }
-    .scroll-content a:hover {
-      text-decoration: underline;
-    }
-    .preview-img {
-      width: 100%;
-      height: auto;
-      max-height: 120px;
-      object-fit: cover;
-      border-radius: 5px;
-      margin-bottom: 5px;
-    }
-    @media (max-width: 768px) {
-      .sidebar-scroller {
-        display: none;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <h1>Calculate Your Home Loan Borrowing Power Quickly & Easily</h1>
-    <p>Trusted Australian home loan calculator and guide to help you borrow smart and find the best loan for your budget.</p>
-  </header>
-
   <div class="container">
     <h1>Borrowing Power Estimator</h1>
 
     <div class="card">
       <label>Annual Income ($)<span class="info-icon" data-tooltip="Your total yearly income before tax.">ℹ</span></label>
       <div class="slider-container">
-        <input type="range" id="incomeSlider" min="20000" max="300000" step="1000" value="80000">
-        <input type="number" id="incomeInput" value="80000">
+        <input type="range" id="incomeSlider" min="20000" max="300000" step="1000" value="80000" />
+        <input type="number" id="incomeInput" value="80000" />
       </div>
+      <div class="tooltip"></div>
     </div>
 
     <div class="card">
       <label>Monthly Expenses ($)<span class="info-icon" data-tooltip="Your total monthly living expenses including bills, groceries, and other costs.">ℹ</span></label>
       <div class="slider-container">
-        <input type="range" id="expensesSlider" min="500" max="15000" step="50" value="3000">
-        <input type="number" id="expensesInput" value="3000">
+        <input type="range" id="expensesSlider" min="500" max="15000" step="50" value="3000" />
+        <input type="number" id="expensesInput" value="3000" />
       </div>
+      <div class="tooltip"></div>
     </div>
 
     <div class="card">
       <label>Interest Rate (%)<span class="info-icon" data-tooltip="The percentage your lender charges on your loan amount per year.">ℹ</span></label>
       <div class="slider-container">
-        <input type="range" id="interestSlider" min="1" max="10" step="0.05" value="5">
-        <input type="number" id="interestInput" step="0.05" value="5.00">
+        <input type="range" id="interestSlider" min="1" max="10" step="0.05" value="5" />
+        <input type="number" id="interestInput" step="0.05" value="5.00" />
       </div>
+      <div class="tooltip"></div>
     </div>
 
     <div class="card">
       <label>Loan Term (Years)<span class="info-icon" data-tooltip="The total number of years you plan to take to pay off the loan.">ℹ</span></label>
       <div class="slider-container">
-        <input type="range" id="termSlider" min="5" max="40" step="1" value="30">
-        <input type="number" id="termInput" step="1" value="30">
+        <input type="range" id="termSlider" min="5" max="40" step="1" value="30" />
+        <input type="number" id="termInput" step="1" value="30" />
       </div>
+      <div class="tooltip"></div>
     </div>
 
     <div class="toggle-container">
-      <label><input type="checkbox" id="bufferToggle" checked> Include APRA Buffer (+3%)</label>
+      <label><input type="checkbox" id="bufferToggle" checked /> Include APRA Buffer (+3%)</label>
     </div>
 
     <div class="card result" id="results">
-      Borrowing Power: $0<br>
-      Borrowing Power (With Buffer): $0<br>
-      Monthly Repayment (P&I): $0<br>
+      Borrowing Power: $0<br />
+      Borrowing Power (With Buffer): $0<br />
+      Monthly Repayment (P&I): $0<br />
       Monthly Repayment (Interest Only): $0
     </div>
 
-    <div class="card" style="text-align:center;">
+    <div class="card ad-container" style="text-align:center;">
       <p>Advertisement</p>
       <!-- Google AdSense code will go here -->
     </div>
@@ -217,8 +77,20 @@
     <h3>Latest from Our Partners</h3>
     <div class="scroll-content">
       <a href="https://www.brokernews.com.au/news/breaking-news/lendi-group-unveils-aussie-brand-makeover-286829.aspx" target="_blank">
-        <img src="https://via.placeholder.com/280x120?text=Lendi+Preview" alt="Lendi article" class="preview-img">
+        <img src="https://via.placeholder.com/280x120?text=Lendi+Preview" alt="Lendi article" class="preview-img" />
         <strong>Lendi:</strong> Aussie brand makeover aims for full-service ecosystem
       </a>
       <a href="https://www.mortgagechoice.com.au/about-us/media-centre/media-releases/mortgage-choice-home-loan-report-the-housing-issues-that-matter-most-to-voters/" target="_blank">
-        <img src="https://via.placeholder.com/280x120?text=Mortgage+Choice" alt="Mortgage Choice article" class
+        <img src="https://via.placeholder.com/280x120?text=Mortgage+Choice" alt="Mortgage Choice article" class="preview-img" />
+        <strong>Mortgage Choice:</strong> Housing issues that matter most to voters
+      </a>
+      <a href="https://www.canstar.com.au/finance-news/" target="_blank">
+        <img src="https://via.placeholder.com/280x120?text=Canstar+Finance+News" alt="Canstar article" class="preview-img" />
+        <strong>Canstar:</strong> Latest finance news and insights
+      </a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
