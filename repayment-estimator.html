@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="theme-color" content="#0f766e" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Repayment Estimator - HomeLoanMate</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 	
-  <nav>
+  <nav class="site-nav"><a class="brand" href="index.html">HomeLoanMate</a>
     <a href="index.html">Borrowing Power</a> |
     <a href="repayment-estimator.html">Repayment Estimator</a> |
     <a href="about.html">About Me</a> |
@@ -23,28 +25,28 @@
 		  <label for="housePrice">Estimated House Price (AUD):</label>
 		  <div class="slider-container">
 			<input type="range" id="housePrice" min="50000" max="2000000" step="5000" value="500000" />
-			<input type="number" id="housePriceInput" min="50000" max="2000000" step="1000" value="500000" />
+			<input type="number" id="housePriceInput" inputmode="numeric" pattern="[0-9]*" min="50000" max="2000000" step="1000" value="500000" />
 		  </div>
 		 </div>
 		<div class="card">
 		  <label for="deposit">Expected Deposit (AUD):</label>
 		  <div class="slider-container">
 			<input type="range" id="deposit" min="0" max="500000" step="1000" value="100000" />
-			<input type="number" id="depositInput" min="0" max="500000" step="1000" value="100000" />
+			<input type="number" id="depositInput" inputmode="numeric" pattern="[0-9]*" min="0" max="500000" step="1000" value="100000" />
 		  </div>
 		 </div>
 		<div class="card">
 		  <label for="income">Annual Income (AUD):</label>
 		  <div class="slider-container">
 			<input type="range" id="income" min="20000" max="300000" step="1000" value="90000" />
-			<input type="number" id="incomeInput" min="20000" max="300000" step="1000" value="90000" />
+			<input type="number" id="incomeInput" inputmode="numeric" pattern="[0-9]*" min="20000" max="300000" step="1000" value="90000" />
 		  </div>
 		 </div>
 		<div class="card">
 		  <label for="expenses">Monthly Expenses (AUD):</label>
 		  <div class="slider-container">
 			<input type="range" id="expenses" min="500" max="15000" step="50" value="3000" />
-			<input type="number" id="expensesInput" min="500" max="15000" step="50" value="3000" />
+			<input type="number" id="expensesInput" inputmode="numeric" pattern="[0-9]*" min="500" max="15000" step="50" value="3000" />
 		  </div>
 		 </div>
 		<div class="card">
@@ -65,282 +67,46 @@
 		  <label for="interestRate">Interest Rate (Annual %):</label>
 		  <div class="slider-container">
 			<input type="range" id="interestRate" min="1" max="12" step="0.05" value="6.5" />
-			<input type="number" id="interestRateInput" min="1" max="12" step="0.01" value="6.5" />
+			<input type="number" id="interestRateInput" inputmode="decimal" min="1" max="12" step="0.01" value="6.5" />
 		  </div>
 		 </div>
 		<div class="card">
 		  <label for="loanTerm">Loan Term (Years):</label>
 		  <div class="slider-container">
 			<input type="range" id="loanTerm" min="5" max="40" step="1" value="30" />
-			<input type="number" id="loanTermInput" min="5" max="40" step="1" value="30" />
+			<input type="number" id="loanTermInput" inputmode="numeric" pattern="[0-9]*" min="5" max="40" step="1" value="30" />
 		  </div>
 		</div>
-      <button type="submit">Calculate</button>
+      <button type="submit" class="btn">Calculate</button>
     </form>
+
+    <div class="card"><canvas id="estimatorChart" height="120"></canvas></div>
 
     <div id="result" class="result" style="display:none;"></div>
   </main>
 </div>
-  <script>
-    // Utility for currency formatting
-    function formatCurrency(value) {
-      return value.toLocaleString('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2 });
-    }
-
-    // Synchronize range and number inputs
-    function syncInputs(rangeEl, numberEl, maxLimit) {
-      // When range changes, update number input (clamp to maxLimit if given)
-      rangeEl.addEventListener('input', () => {
-        let val = Number(rangeEl.value);
-        if (maxLimit !== undefined && val > maxLimit()) {
-          val = maxLimit();
-          rangeEl.value = val;
-        }
-        numberEl.value = val;
-      });
-
-      // When number input changes, update range (clamp to min/max)
-      numberEl.addEventListener('input', () => {
-        let val = Number(numberEl.value);
-        if (isNaN(val)) return;
-
-        let min = Number(rangeEl.min);
-        let max = Number(rangeEl.max);
-        if (maxLimit !== undefined) {
-          max = Math.min(max, maxLimit());
-        }
-        if (val < min) val = min;
-        if (val > max) val = max;
-        numberEl.value = val;
-        rangeEl.value = val;
-      });
-    }
-
-    // Get elements
-    const housePriceRange = document.getElementById('housePrice');
-    const housePriceInput = document.getElementById('housePriceInput');
-
-    const depositRange = document.getElementById('deposit');
-    const depositInput = document.getElementById('depositInput');
-
-    const incomeRange = document.getElementById('income');
-    const incomeInput = document.getElementById('incomeInput');
-
-    const expensesRange = document.getElementById('expenses');
-    const expensesInput = document.getElementById('expensesInput');
-
-    const interestRateRange = document.getElementById('interestRate');
-    const interestRateInput = document.getElementById('interestRateInput');
-
-    const loanTermRange = document.getElementById('loanTerm');
-    const loanTermInput = document.getElementById('loanTermInput');
-
-    const stateSelect = document.getElementById('state');
-
-    // Sync housePrice and deposit max value dynamically
-    function maxDeposit() {
-      return Number(housePriceRange.value);
-    }
-
-    // Sync all inputs
-    syncInputs(housePriceRange, housePriceInput);
-    syncInputs(depositRange, depositInput, maxDeposit);
-    syncInputs(incomeRange, incomeInput);
-    syncInputs(expensesRange, expensesInput);
-    syncInputs(interestRateRange, interestRateInput);
-    syncInputs(loanTermRange, loanTermInput);
-
-    // When house price changes, update deposit max dynamically and clamp deposit values
-    housePriceRange.addEventListener('input', () => {
-      depositRange.max = housePriceRange.value;
-      depositInput.max = housePriceRange.value;
-      if (Number(depositRange.value) > Number(housePriceRange.value)) {
-        depositRange.value = housePriceRange.value;
-        depositInput.value = housePriceRange.value;
-      }
-    });
-    housePriceInput.addEventListener('input', () => {
-      depositRange.max = housePriceInput.value;
-      depositInput.max = housePriceInput.value;
-      if (Number(depositInput.value) > Number(housePriceInput.value)) {
-        depositInput.value = housePriceInput.value;
-        depositRange.value = housePriceInput.value;
-      }
-    });
-
-    // Stamp Duty Calculator (simplified)
-	function calculateStampDuty(price, state) {
-	let duty = 0;
-	switch (state) {
-	case 'NSW':
-	  if (price <= 14000) duty = price * 0.0125;
-	  else if (price <= 30000) duty = 175 + (price - 14000) * 0.015;
-	  else if (price <= 80000) duty = 415 + (price - 30000) * 0.0175;
-	  else if (price <= 300000) duty = 1290 + (price - 80000) * 0.035;
-	  else if (price <= 1000000) duty = 8990 + (price - 300000) * 0.045;
-	  else duty = 40440 + (price - 1000000) * 0.055;
-	  break;
-
-	case 'VIC':
-	  if (price <= 25000) duty = price * 0.015;
-	  else if (price <= 130000) duty = 375 + (price - 25000) * 0.02;
-	  else if (price <= 960000) duty = 2875 + (price - 130000) * 0.06;
-	  else duty = 53470 + (price - 960000) * 0.055;
-	  break;
-
-	case 'QLD':
-	  if (price <= 5000) duty = 0;
-	  else if (price <= 75000) duty = price * 0.0125;
-	  else if (price <= 540000) duty = 937.5 + (price - 75000) * 0.035;
-	  else duty = 17982.5 + (price - 540000) * 0.045;
-	  break;
-
-	case 'TAS':
-	  if (price <= 3000) {
-		duty = 50;
-	  } else if (price <= 25000) {
-		duty = 50 + Math.ceil((price - 3000) / 100) * 1.75;
-	  } else if (price <= 75000) {
-		duty = 435 + Math.ceil((price - 25000) / 100) * 2.25;
-	  } else if (price <= 200000) {
-		duty = 1560 + Math.ceil((price - 75000) / 100) * 3.50;
-	  } else if (price <= 375000) {
-		duty = 5935 + Math.ceil((price - 200000) / 100) * 4.00;
-	  } else if (price <= 725000) {
-		duty = 12935 + Math.ceil((price - 375000) / 100) * 4.25;
-	  } else {
-		duty = 27810 + Math.ceil((price - 725000) / 100) * 4.50;
-	  }
-	  break;
-
-    case 'WA':
-      if (price <= 120000) {
-        duty = Math.ceil(price / 100) * 1.90;
-      } else if (price <= 150000) {
-        duty = 2280 + Math.ceil((price - 120000) / 100) * 2.85;
-      } else if (price <= 360000) {
-        duty = 3135 + Math.ceil((price - 150000) / 100) * 3.80;
-      } else if (price <= 725000) {
-        duty = 11115 + Math.ceil((price - 360000) / 100) * 4.75;
-      } else {
-        duty = 28453 + Math.ceil((price - 725000) / 100) * 5.15;
-      }
-      break;
-
-    case 'ACT':
-      if (price <= 200000) {
-        duty = price * 0.015;
-      } else if (price <= 300000) {
-        duty = 3000 + (price - 200000) * 0.03;
-      } else if (price <= 500000) {
-        duty = 6000 + (price - 300000) * 0.045;
-      } else if (price <= 1000000) {
-        duty = 15000 + (price - 500000) * 0.06;
-      } else {
-        duty = 45000 + (price - 1000000) * 0.07;
-      }
-      break;
-
-    case 'NT':
-      if (price <= 525000) {
-        const V = price / 1000;
-        duty = (0.06571441 * V * V) + 15 * V;
-      } else if (price <= 3000000) {
-        duty = price * 0.0495;
-      } else if (price <= 5000000) {
-        duty = price * 0.0575;
-      } else {
-        duty = price * 0.0595;
-      }
-      break;
-
-    case 'SA':
-      if (price <= 500000) {
-        duty = 0 + Math.max(0, price - 500000) * 0.03;  // Adjust as needed
-      } else if (price <= 700000) {
-        duty = 21330 + (price - 500000) * 0.055; // Using marginal rate above 500k
-      } else {
-        duty = 21330 + (price - 500000) * 0.055;
-      }
-      break;
+  
 
 
-	default:
-	  duty = 0; // fallback for unknown states
-	}
-	return Math.round(duty * 100) / 100;
-	}
+  
 
-    document.getElementById('loan-form').addEventListener('submit', (e) => {
-      e.preventDefault();
+  <script src="script.js"></script>
 
-      const housePrice = Number(housePriceRange.value);
-      const deposit = Number(depositRange.value);
-      const income = Number(incomeRange.value);
-      const expenses = Number(expensesRange.value);
-      const state = stateSelect.value;
-      const interestRateAnnual = Number(interestRateRange.value) / 100;
-      const loanTermYears = Number(loanTermRange.value);
+  <footer class="site-footer">
+    <p>© 2025 HomeLoanMate • Estimates only, not financial advice.</p>
+    <p class="small">Rates/thresholds can change. Check your state revenue office or a licensed broker.</p>
+  </footer>
 
-      if (!state) {
-        alert('Please select a state.');
-        return;
-      }
-      if (deposit > housePrice) {
-        alert('Deposit cannot be more than the house price.');
-        return;
-      }
 
-      // Calculate loan amount needed (house price - deposit)
-      let loanAmount = housePrice - deposit;
-
-      // Calculate Stamp Duty
-      const stampDuty = calculateStampDuty(housePrice, state);
-
-      // Loan to Value Ratio (LVR)
-      const lvr = loanAmount / housePrice;
-
-      // Calculate LMI if deposit < 20% (LVR > 0.8)
-      let lmi = 0;
-      if (lvr > 0.8) {
-        lmi = loanAmount * 0.015;
-        loanAmount += lmi;
-      }
-
-      // Monthly interest rate and terms
-      const loanTermMonths = loanTermYears * 12;
-      const monthlyInterestRate = interestRateAnnual / 12;
-
-      // Monthly repayment (amortization formula)
-      const numerator = loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanTermMonths);
-      const denominator = Math.pow(1 + monthlyInterestRate, loanTermMonths) - 1;
-      const monthlyRepayment = numerator / denominator;
-
-      // Income after expenses
-      const monthlyIncome = income / 12;
-      const incomeAfterExpenses = monthlyIncome - expenses;
-
-      // Affordability message
-      let affordabilityMsg = '';
-      if (incomeAfterExpenses >= monthlyRepayment) {
-        affordabilityMsg = `<strong style="color:green;">This loan repayment appears affordable based on your income and expenses.</strong>`;
-      } else {
-        affordabilityMsg = `<strong class="warning">Warning: Your expenses and repayments may exceed your income capacity.</strong>`;
-      }
-
-      const resultDiv = document.getElementById('result');
-      resultDiv.style.display = 'block';
-      resultDiv.innerHTML = `
-        <h2>Estimate Summary</h2>
-        <p><strong>Loan Amount:</strong> ${formatCurrency(loanAmount)}</p>
-        <p><strong>Stamp Duty (${state}):</strong> ${formatCurrency(stampDuty)}</p>
-        <p><strong>Loan Mortgage Insurance (LMI):</strong> ${formatCurrency(lmi)}</p>
-        <p><strong>Estimated Monthly Repayment:</strong> ${formatCurrency(monthlyRepayment)}</p>
-        <p><strong>Monthly Income after Expenses:</strong> ${formatCurrency(incomeAfterExpenses)}</p>
-        ${affordabilityMsg}
-      `;
-    });
-  </script>
+  <div id="stickySummary" class="sticky-summary" hidden>
+    <div class="sticky-inner">
+      <div class="sticky-lines">
+        <div class="sticky-line" id="stickyLine1"></div>
+        <div class="sticky-line" id="stickyLine2"></div>
+      </div>
+      <a id="stickyCta" class="btn sticky-cta" href="https://www.canstar.com.au/home-loans/" target="_blank" rel="noopener">Compare rates</a>
+    </div>
+  </div>
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="theme-color" content="#0f766e" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Borrowing Power Calculator</title>
@@ -10,7 +11,7 @@
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-  <nav>
+  <nav class="site-nav"><a class="brand" href="index.html">HomeLoanMate</a>
     <a href="index.html">Borrowing Power</a> |
     <a href="repayment-estimator.html">Repayment Estimator</a> |
     <a href="about.html">About Me</a> |
@@ -24,7 +25,7 @@
       <label>Annual Income ($)<span class="info-icon" data-tooltip="Your total yearly income before tax.">ℹ</span></label>
       <div class="slider-container">
         <input type="range" id="incomeSlider" min="20000" max="300000" step="1000" value="80000" />
-        <input type="number" id="incomeInput" value="80000" />
+        <input type="number" id="incomeInput" inputmode="numeric" pattern="[0-9]*" value="80000" />
       </div>
       <div class="tooltip"></div>
     </div>
@@ -33,7 +34,7 @@
       <label>Monthly Expenses ($)<span class="info-icon" data-tooltip="Your total monthly living expenses including bills, groceries, and other costs.">ℹ</span></label>
       <div class="slider-container">
         <input type="range" id="expensesSlider" min="500" max="15000" step="50" value="3000" />
-        <input type="number" id="expensesInput" value="3000" />
+        <input type="number" id="expensesInput" inputmode="numeric" pattern="[0-9]*" value="3000" />
       </div>
       <div class="tooltip"></div>
     </div>
@@ -42,7 +43,7 @@
       <label>Interest Rate (%)<span class="info-icon" data-tooltip="The percentage your lender charges on your loan amount per year.">ℹ</span></label>
       <div class="slider-container">
         <input type="range" id="interestSlider" min="1" max="10" step="0.05" value="5" />
-        <input type="number" id="interestInput" step="0.05" value="5.00" />
+        <input type="number" id="interestInput" inputmode="decimal" step="0.05" value="5.00" />
       </div>
       <div class="tooltip"></div>
     </div>
@@ -51,7 +52,7 @@
       <label>Loan Term (Years)<span class="info-icon" data-tooltip="The total number of years you plan to take to pay off the loan.">ℹ</span></label>
       <div class="slider-container">
         <input type="range" id="termSlider" min="5" max="40" step="1" value="30" />
-        <input type="number" id="termInput" step="1" value="30" />
+        <input type="number" id="termInput" inputmode="numeric" pattern="[0-9]*" step="1" value="30" />
       </div>
       <div class="tooltip"></div>
     </div>
@@ -88,5 +89,22 @@
   </div>
 
   <script src="script.js"></script>
+
+  <footer class="site-footer">
+    <p>© 2025 HomeLoanMate • Estimates only, not financial advice.</p>
+    <p class="small">Rates/thresholds can change. Check your state revenue office or a licensed broker.</p>
+  </footer>
+
+
+  <div id="stickySummary" class="sticky-summary" hidden>
+    <div class="sticky-inner">
+      <div class="sticky-lines">
+        <div class="sticky-line" id="stickyLine1"></div>
+        <div class="sticky-line" id="stickyLine2"></div>
+      </div>
+      <a id="stickyCta" class="btn sticky-cta" href="https://www.canstar.com.au/home-loans/" target="_blank" rel="noopener">Compare rates</a>
+    </div>
+  </div>
+
 </body>
 </html>
