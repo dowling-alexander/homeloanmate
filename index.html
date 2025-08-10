@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-  <nav class="site-nav"><a class="brand" href="index.html">HomeLoanMate</a>
+  <nav class="site-nav"><a class="brand" href="index.html">BorrowPower</a>
     <a href="index.html">Borrowing Power</a> |
     <a href="repayment-estimator.html">Repayment Estimator</a> |
     <a href="about.html">About Me</a> |
@@ -57,28 +57,22 @@
       <div class="tooltip"></div>
     </div>
 
-    <div class="toggle-container">
-      <label class="switch">
-        <input type="checkbox" id="bufferToggle" checked />
-        <span class="slider round"></span>
-      </label>
-      <span>Include APRA Buffer (+3%)</span>
-    </div>
+ 
 
     <div class="card result" id="results">
       Borrowing Power: $0<br />
-      Borrowing Power (With Buffer): $0<br />
+      Borrowing Power (With APRA 3% Buffer): $0<br />
       Monthly Repayment (P&I): $0<br />
       Monthly Repayment (Interest Only): $0
     </div>
 
-    <div class="card">
+<!--     <div class="card">
       <canvas id="borrowingChart" height="120"></canvas>
     </div>
 
     <div class="card">
       <canvas id="repaymentChart" height="120"></canvas>
-    </div>
+    </div> -->
 
     <div class="affiliate-scroller">
       <a href="https://www.lendi.com.au" target="_blank">Lendi: Compare Home Loans</a>
@@ -96,15 +90,32 @@
   </footer>
 
 
-  <div id="stickySummary" class="sticky-summary" hidden>
-    <div class="sticky-inner">
-      <div class="sticky-lines">
-        <div class="sticky-line" id="stickyLine1"></div>
-        <div class="sticky-line" id="stickyLine2"></div>
+	<div id="stickySummary" class="sticky-summary" hidden>
+	  <div class="sticky-inner">
+		<div class="sticky-lines">
+		  <div class="sticky-line" id="stickyLine1"></div>
+		  <div class="sticky-line" id="stickyLine2"></div>
+		</div>
+		    <div class="sticky-budget" aria-label="Monthly budget">
+      <div class="sticky-bar" id="stickyBudgetBar">
+        <span class="sseg repay" id="sSegRepay" style="width:0%"></span>
+        <span class="sseg exp"   id="sSegExp"   style="width:0%"></span>
+        <span class="sseg left"  id="sSegLeft"  style="width:0%"></span>
+        <span class="sseg short" id="sSegShort" style="width:0%"></span>
       </div>
-      <a id="stickyCta" class="btn sticky-cta" href="https://www.canstar.com.au/home-loans/" target="_blank" rel="noopener">Compare rates</a>
+
+      <div class="sticky-legend">
+        <div class="li"><span class="dot repay"></span><span id="sAmtRepay">$0</span></div>
+        <div class="li"><span class="dot exp"></span><span id="sAmtExp">$0</span></div>
+        <!-- <div class="li"><span class="dot left"></span><span id="sAmtLeft">$0</span></div> -->
+        <!-- <div class="li short" id="sShortWrap" style="display:none;"> -->
+         <!--  <span class="dot short"></span><span id="sAmtShort">$0</span> -->
+        </div>
+      </div>
     </div>
-  </div>
+		<a id="stickyCta" class="btn sticky-cta" href="..." target="_blank" rel="noopener">Compare rates</a>
+	  </div>
+	</div>
 
 </body>
 </html>

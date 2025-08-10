@@ -22,28 +22,28 @@
 
     <form id="loan-form">
 		<div class="card">
-		  <label for="housePrice">Estimated House Price (AUD):</label>
+		  <label for="housePrice">Estimated House Price ($):</label>
 		  <div class="slider-container">
 			<input type="range" id="housePrice" min="50000" max="2000000" step="5000" value="500000" />
 			<input type="number" id="housePriceInput" inputmode="numeric" pattern="[0-9]*" min="50000" max="2000000" step="1000" value="500000" />
 		  </div>
 		 </div>
 		<div class="card">
-		  <label for="deposit">Expected Deposit (AUD):</label>
+		  <label for="deposit">Expected Deposit ($):</label>
 		  <div class="slider-container">
 			<input type="range" id="deposit" min="0" max="500000" step="1000" value="100000" />
 			<input type="number" id="depositInput" inputmode="numeric" pattern="[0-9]*" min="0" max="500000" step="1000" value="100000" />
 		  </div>
 		 </div>
 		<div class="card">
-		  <label for="income">Annual Income (AUD):</label>
+		  <label for="income">Annual Income ($):</label>
 		  <div class="slider-container">
 			<input type="range" id="income" min="20000" max="300000" step="1000" value="90000" />
 			<input type="number" id="incomeInput" inputmode="numeric" pattern="[0-9]*" min="20000" max="300000" step="1000" value="90000" />
 		  </div>
 		 </div>
 		<div class="card">
-		  <label for="expenses">Monthly Expenses (AUD):</label>
+		  <label for="expenses">Monthly Expenses ($):</label>
 		  <div class="slider-container">
 			<input type="range" id="expenses" min="500" max="15000" step="50" value="3000" />
 			<input type="number" id="expensesInput" inputmode="numeric" pattern="[0-9]*" min="500" max="15000" step="50" value="3000" />
@@ -55,7 +55,7 @@
 			
 			<option value="ACT">Australian Capital Territory (ACT)</option>
 			<option value="NSW" selected>New South Wales (NSW)</option>
-			<option value="NT" selected>Northern Territory (NT)</option>
+			<option value="NT">Northern Territory (NT)</option>
 			<option value="QLD">Queensland (QLD)</option>
 			<option value="SA">South Australia (SA)</option>
 			<option value="TAS">Tasmania (TAS)</option>
@@ -77,7 +77,7 @@
 			<input type="number" id="loanTermInput" inputmode="numeric" pattern="[0-9]*" min="5" max="40" step="1" value="30" />
 		  </div>
 		</div>
-      <button type="submit" class="btn">Calculate</button>
+      <!-- <button type="submit" class="btn">Calculate</button> -->
     </form>
 
     <div class="card"><canvas id="estimatorChart" height="120"></canvas></div>
@@ -104,6 +104,23 @@
         <div class="sticky-line" id="stickyLine1"></div>
         <div class="sticky-line" id="stickyLine2"></div>
       </div>
+	      <div class="sticky-budget" aria-label="Monthly budget">
+      <div class="sticky-bar" id="stickyBudgetBar">
+        <span class="sseg repay" id="sSegRepay" style="width:0%"></span>
+        <span class="sseg exp"   id="sSegExp"   style="width:0%"></span>
+        <span class="sseg left"  id="sSegLeft"  style="width:0%"></span>
+        <span class="sseg short" id="sSegShort" style="width:0%"></span>
+      </div>
+
+      <div class="sticky-legend">
+        <div class="li"><span class="dot repay"></span><span id="sAmtRepay">$0</span></div>
+        <div class="li"><span class="dot exp"></span><span id="sAmtExp">$0</span></div>
+        <div class="li"><span class="dot left"></span><span id="sAmtLeft">$0</span></div>
+        <div class="li short" id="sShortWrap" style="display:none;">
+          <span class="dot short"></span><span id="sAmtShort">$0</span>
+        </div>
+      </div>
+    </div>
       <a id="stickyCta" class="btn sticky-cta" href="https://www.canstar.com.au/home-loans/" target="_blank" rel="noopener">Compare rates</a>
     </div>
   </div>

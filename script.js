@@ -22,6 +22,56 @@ function updateStickySummary(opts){
   }catch(e){}
 }
 
+function __sFmtAUD(x){
+  try { return (x||0).toLocaleString('en-AU', {style:'currency',currency:'AUD',maximumFractionDigits:0}); }
+  catch(e){ return '$' + Math.round(x||0).toLocaleString(); }
+}
+
+function updateStickyBudgetBar({ monthlyIncome, monthlyExpenses, repayment }){
+  const remaining = Math.max(0, (monthlyIncome||0) - (monthlyExpenses||0) - (repayment||0));
+  const shortfall = Math.max(0, -((monthlyIncome||0) - (monthlyExpenses||0) - (repayment||0)));
+
+  // scale segments against income (or sum if income is 0)
+  const base = Math.max(1, monthlyIncome || (monthlyExpenses + repayment + remaining));
+
+  const pctRepay = Math.min(100, Math.max(0, (repayment / base) * 100));
+  const pctExp   = Math.min(100, Math.max(0, (monthlyExpenses / base) * 100));
+  const pctLeft  = Math.min(100, Math.max(0, (remaining / base) * 100));
+  const pctShort = Math.min(100, Math.max(0, (shortfall / base) * 100));
+
+  const segRepay = document.getElementById('sSegRepay');
+  const segExp   = document.getElementById('sSegExp');
+  const segLeft  = document.getElementById('sSegLeft');
+  const segShort = document.getElementById('sSegShort');
+  const sAmtRepay= document.getElementById('sAmtRepay');
+  const sAmtExp  = document.getElementById('sAmtExp');
+  const sAmtLeft = document.getElementById('sAmtLeft');
+  const sShortWrap=document.getElementById('sShortWrap');
+  const sAmtShort= document.getElementById('sAmtShort');
+
+  if (!segRepay || !segExp || !segLeft) return; // not on this page / not rendered
+
+  segRepay.style.width = pctRepay + '%';
+  segExp.style.width   = pctExp + '%';
+  segLeft.style.width  = pctLeft + '%';
+  segShort.style.width = pctShort + '%';
+  segShort.style.display = pctShort > 0 ? 'block' : 'none';
+
+  if (sAmtRepay) sAmtRepay.textContent = __sFmtAUD(repayment);
+  if (sAmtExp)   sAmtExp.textContent   = __sFmtAUD(monthlyExpenses);
+  if (sAmtLeft)  sAmtLeft.textContent  = __sFmtAUD(remaining);
+
+  if (sShortWrap){
+    if (pctShort > 0){
+      sShortWrap.style.display = '';
+      if (sAmtShort) sAmtShort.textContent = __sFmtAUD(shortfall);
+    } else {
+      sShortWrap.style.display = 'none';
+    }
+  }
+}
+
+
 /* Charts (Borrowing Power page) */
 let borrowingChart=null, repaymentChart=null;
 function initBorrowingCharts(){
@@ -95,39 +145,67 @@ function bindBorrowingPower(){
   syncInputs(interestSlider, interestInput, true);
   syncInputs(termSlider, termInput);
 
-  function calculateBorrowing(){
-    const income = parseFloat(incomeInput.value||'0'); 
-	const monthlyIncome = Math.max(0, income / 12);
-    const expenses = Math.min(parseFloat(expensesInput.value||'0'), monthlyIncome); // clamp
-    const interest = ensureInterestStep(interestInput.value||0);
-    const years = parseFloat(termInput.value||'30');
-    const buffer = !!(bufferToggle && bufferToggle.checked);
+function calculateBorrowing(){
+  // income input is ANNUAL; expenses are MONTHLY
+  const income = parseFloat(incomeInput.value || '0');
+  const monthlyIncome = Math.max(0, income / 12);
+  const monthlyExpenses = Math.max(0, parseFloat(expensesInput.value || '0'));
+  const interest = ensureInterestStep(interestInput.value || 0);
+  const years = parseFloat(termInput.value || '30');
+  const buffer = !!(bufferToggle && bufferToggle.checked);
 
-    const monthlyRate = (interest/100)/12;
-    const n = years * 12;
-    const affordable = Math.max(0, monthlyIncome - expenses);
+  const monthlyRate = (interest / 100) / 12;
+  const n = years * 12;
+  const affordable = Math.max(0, monthlyIncome - monthlyExpenses);
 
-    let borrowingPower = 0;
-    if (monthlyRate>0 && n>0){
-      const f = Math.pow(1+monthlyRate, n);
-      const paymentFactor = (monthlyRate * f) / (f - 1);
-      borrowingPower = affordable / paymentFactor;
-    } else {
-      borrowingPower = affordable * 100; // fallback if 0% or invalid
-    }
-    const borrowingPowerWithBuffer = buffer ? borrowingPower * 0.9 : borrowingPower;
-    const piMonthly = monthlyRate>0 ? borrowingPower * ((monthlyRate*Math.pow(1+monthlyRate, n))/(Math.pow(1+monthlyRate, n)-1)) : affordable;
-    const ioMonthly = borrowingPower * monthlyRate;
+  let borrowingPower = 0;
+  if (monthlyRate > 0 && n > 0){
+    const f = Math.pow(1 + monthlyRate, n);
+    const paymentFactor = (monthlyRate * f) / (f - 1);
+    borrowingPower = affordable / paymentFactor;
+  } else {
+    // 0% fallback: payment * months
+    borrowingPower = affordable * n;
+  }
 
-    resultsDiv.innerHTML = 
+  const borrowingPowerWithBuffer = borrowingPower * 0.97;
+
+  // Repayments derived from the same principal
+  const f = Math.pow(1 + monthlyRate, n);
+  const paymentFactor = (monthlyRate > 0 && n > 0) ? (monthlyRate * f) / (f - 1) : 0;
+  const piMonthly = (monthlyRate > 0 && n > 0) ? (borrowingPower * paymentFactor)
+                                               : (n > 0 ? borrowingPower / n : affordable);
+  const ioMonthly = borrowingPower * monthlyRate;
+
+  if (resultsDiv) {
+    resultsDiv.innerHTML =
       `Borrowing Power: $${borrowingPower.toFixed(0)}<br />
        Borrowing Power (With Buffer): $${borrowingPowerWithBuffer.toFixed(0)}<br />
        Monthly Repayment (P&I): $${piMonthly.toFixed(0)}<br />
        Monthly Repayment (Interest Only): $${ioMonthly.toFixed(0)}`;
-
-    updateBorrowingCharts(borrowingPower, borrowingPowerWithBuffer, piMonthly, ioMonthly);
-    updateStickySummary({ line1: `Borrowing Power: $${borrowingPower.toFixed(0)}`, line2: `P&I est: $${piMonthly.toFixed(0)}` });
   }
+
+  // keep if you still have the old charts; otherwise delete this line
+  if (typeof updateBorrowingCharts === 'function') {
+    updateBorrowingCharts(borrowingPower, borrowingPowerWithBuffer, piMonthly, ioMonthly);
+  }
+
+  if (typeof updateStickySummary === 'function') {
+    updateStickySummary({
+      line1: `Borrowing Power: $${borrowingPower.toFixed(0)}`,
+      line2: `P&I est: $${piMonthly.toFixed(0)}`
+    });
+  }
+
+  // NEW: sticky mini “budget bar”
+  if (typeof updateStickyBudgetBar === 'function') {
+    updateStickyBudgetBar({
+      monthlyIncome,
+      monthlyExpenses,
+      repayment: piMonthly
+    });
+  }
+}
 
   initBorrowingCharts();
   calculateBorrowing();
