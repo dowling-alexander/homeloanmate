@@ -412,6 +412,7 @@ input[type="number"]{
 .sticky-cta{
   white-space: nowrap;
   padding: .7rem .9rem;
+  align-items: right;
 }
 
 .sticky-summary .sticky-budget{
