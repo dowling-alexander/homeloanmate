@@ -97,6 +97,45 @@ function updateBorrowingCharts(bp, bpBuffer, piMonthly, ioMonthly){
   if (repaymentChart){ repaymentChart.data.datasets[0].data = [piMonthly, ioMonthly]; repaymentChart.update(); }
 }
 
+//2024 tax table, need to revisit this in one year
+const TAX_TABLE_AU_2024 = [
+  { upto: 18200,  rate: 0.00, baseAt: 0,     baseTax: 0 },
+  { upto: 45000,  rate: 0.16, baseAt: 18200, baseTax: 0 },
+  { upto: 135000, rate: 0.30, baseAt: 45000, baseTax: (45000-18200)*0.16 },
+  { upto: 190000, rate: 0.37, baseAt: 135000,baseTax: (45000-18200)*0.16 + (135000-45000)*0.30 },
+  { upto: Infinity, rate: 0.45, baseAt: 190000, baseTax:
+      (45000-18200)*0.16 + (135000-45000)*0.30 + (190000-135000)*0.37 }
+];
+
+// Progressive tax on taxable income
+function calcIncomeTaxAU(annual, table = TAX_TABLE_AU_2024){
+  const y = Math.max(0, Number(annual) || 0);
+  for (const b of table){
+    if (y <= b.upto){
+      return b.baseTax + Math.max(0, y - b.baseAt) * b.rate;
+    }
+  }
+  return 0;
+}
+
+// Simple Medicare levy (2% flat). Set to false below if you don't want to include it.
+function calcMedicareLevy(annual, include = true){
+  if (!include) return 0;
+  const y = Math.max(0, Number(annual) || 0);
+  return y * 0.02; // (basic approximation; thresholds/phase-ins can be added if needed)
+}
+
+function netAnnualIncomeAU(annual, { includeMedicare = true } = {}){
+  const tax  = calcIncomeTaxAU(annual);
+  const levy = calcMedicareLevy(annual, includeMedicare);
+  return Math.max(0, (Number(annual) || 0) - tax - levy);
+}
+
+
+
+
+
+
 /* Borrowing Power page logic */
 function bindBorrowingPower(){
   const incomeSlider = document.getElementById('incomeSlider');
@@ -148,7 +187,9 @@ function bindBorrowingPower(){
 function calculateBorrowing(){
   // income input is ANNUAL; expenses are MONTHLY
   const income = parseFloat(incomeInput.value || '0');
-  const monthlyIncome = Math.max(0, income / 12);
+// Net (after-tax) income per month
+  const netAnnual      = netAnnualIncomeAU(income, { includeMedicare: true });
+  const monthlyIncome  = Math.max(0, netAnnual / 12);
   const monthlyExpenses = Math.max(0, parseFloat(expensesInput.value || '0'));
   const interest = ensureInterestStep(interestInput.value || 0);
   const years = parseFloat(termInput.value || '30');
