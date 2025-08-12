@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>FAQ – HomeLoanMate</title>
+  <meta name="description" content="Frequently asked questions about HomeLoanMate calculators." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+      {"@type":"Question","name":"How do you estimate LMI?","acceptedAnswer":{"@type":"Answer","text":"If your Loan-to-Value Ratio (LVR) is above 80%, we apply a tiered LMI approximation based on your LVR band and loan size. The estimate ranges from ~0.7%–0.9% (80–85% LVR) up to ~2.6%–3.2% (90–95% LVR). We default to capitalising LMI into the loan but you can switch to paying it upfront. Actual LMI varies by lender/insurer and application details."}},
+      {"@type":"Question","name":"Which tax year do you use when converting gross to net income?","acceptedAnswer":{"@type":"Answer","text":"We use the 2025/26 ATO resident income tax bands. These exclude the 2% Medicare levy and any Medicare Levy Surcharge or offsets. You can turn tax conversion off and enter your net position directly. Australian Taxation Office"}},
+      {"@type":"Question","name":"How are living expenses and dependants handled?","acceptedAnswer":{"@type":"Answer","text":"We enforce a conservative minimum monthly expense floor that scales with the number of dependants (0–6). You can enter higher expenses; the floor prevents unrealistically low costs of living."}},
+      {"@type":"Question","name":"Do you include stamp duty and state costs?","acceptedAnswer":{"@type":"Answer","text":"Yes. We reference the state stamp duty tables already in the app’s script.js for indicative calculations. Check your state/territory revenue office or your lender for exact, current amounts."}},
+      {"@type":"Question","name":"Why add a 3% serviceability buffer?","acceptedAnswer":{"@type":"Answer","text":"Lenders assess your ability to repay at a higher “buffered” rate to account for potential rate rises. We default to +3% on top of your entered rate; you can toggle this."}},
+      {"@type":"Question","name":"Is this financial advice?","acceptedAnswer":{"@type":"Answer","text":"No. HomeLoanMate is a general-information tool only. Speak to a licensed professional for advice tailored to you."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  
+<header class="header" role="banner">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Home">
+	  <svg viewBox="0 0 1300 320" class="logo">
+		<!-- icon -->
+		<g transform="translate(0,32)">
+		  <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+				fill="none"
+				stroke="var(--logo-stroke, #167d83)"
+				stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+		  <!-- bars -->
+		  <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
+				fill="var(--logo-fill, #167d83)"/>
+		  <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
+				fill="var(--logo-fill, #167d83)"/>
+		  <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
+				fill="var(--logo-fill, #167d83)"/>
+		</g>
+		<!-- wordmark uses currentColor so we can flip it easily -->
+		<text x="296" y="210" font-size="148"
+			  font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+			  font-weight="800" fill="currentColor">BorrowPower</text>
+	  </svg>
+    </a>
+
+    <!-- Mobile menu button -->
+    <button id="menuToggle"
+            class="menu-toggle"
+            aria-label="Open menu"
+            aria-controls="primaryNav"
+            aria-expanded="false">
+      <span class="menu-box" aria-hidden="true">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </span>
+    </button>
+
+    <!-- Primary nav -->
+    <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary" data-open="false">
+      <a href="/"              >Borrowing Power</a>
+      <a href="/repayment-estimator.html">Repayments</a>
+      <a href="/faq.html"      >FAQ</a>
+      <a href="/about.html"    >About</a>
+    </nav>
+  </div>
+
+  <!-- Backdrop for slide-in drawer -->
+  <div id="backdrop" class="backdrop" hidden></div>
+</header>
+
+  <main class="container prose">
+    <!-- === Keep your existing FAQ content here verbatim ABOVE this line === -->
+
+    <!-- === Appended items === -->
+    <h2>How do you estimate LMI?</h2>
+    <p>If your Loan-to-Value Ratio (LVR) is above 80%, we apply a tiered LMI approximation based on your LVR band and loan size. The estimate ranges from ~0.7%–0.9% (80–85% LVR) up to ~2.6%–3.2% (90–95% LVR). We default to capitalising LMI into the loan but you can switch to paying it upfront. Actual LMI varies by lender/insurer and application details.</p>
+
+    <h2>Which tax year do you use when converting gross to net income?</h2>
+    <p>We use the 2025/26 ATO resident income tax bands. These exclude the 2% Medicare levy and any Medicare Levy Surcharge or offsets. You can turn tax conversion off and enter your net position directly. <em>Australian Taxation Office</em></p>
+
+    <h2>How are living expenses and dependants handled?</h2>
+    <p>We enforce a conservative minimum monthly expense floor that scales with the number of dependants (0–6). You can enter higher expenses; the floor prevents unrealistically low costs of living.</p>
+
+    <h2>Do you include stamp duty and state costs?</h2>
+    <p>Yes. We reference the state stamp duty tables already in the app’s <code>script.js</code> for indicative calculations. Check your state/territory revenue office or your lender for exact, current amounts.</p>
+
+    <h2>Why add a 3% serviceability buffer?</h2>
+    <p>Lenders assess your ability to repay at a higher “buffered” rate to account for potential rate rises. We default to +3% on top of your entered rate; you can toggle this.</p>
+
+    <h2>Is this financial advice?</h2>
+    <p>No. HomeLoanMate is a general-information tool only. Speak to a licensed professional for advice tailored to you.</p>
+  </main>
+  
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <strong>Important:</strong> General information only — not financial or credit advice.
+    <div>
+      <a href="/privacy.html">Privacy</a> ·
+      <a href="/terms.html">Terms</a> ·
+      <a href="#" aria-disabled="true">Contact (coming soon)</a>
+    </div>
+    <small>© <span id="y"></span> HomeLoanMate</small>
+  </div>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</footer>
+
+</body>
+</html>

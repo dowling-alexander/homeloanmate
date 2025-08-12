@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "notes": "Approximate LMI premium as a percentage of loan amount by LVR band and loan size. Owner-occupied, full-doc assumption. Actual LMI varies by lender/insurer.",
+  "capitalise_by_default": true,
+  "bands": [
+    {"min_lvr":0.80,"max_lvr":0.85,"rates":[
+      {"min_loan":0,"max_loan":500000,"rate":0.009},
+      {"min_loan":500000,"max_loan":1000000,"rate":0.008},
+      {"min_loan":1000000,"max_loan":null,"rate":0.007}]},
+    {"min_lvr":0.85,"max_lvr":0.90,"rates":[
+      {"min_loan":0,"max_loan":500000,"rate":0.016},
+      {"min_loan":500000,"max_loan":1000000,"rate":0.014},
+      {"min_loan":1000000,"max_loan":null,"rate":0.012}]},
+    {"min_lvr":0.90,"max_lvr":0.95,"rates":[
+      {"min_loan":0,"max_loan":500000,"rate":0.032},
+      {"min_loan":500000,"max_loan":1000000,"rate":0.028},
+      {"min_loan":1000000,"max_loan":null,"rate":0.026}]}
+  ]
+}

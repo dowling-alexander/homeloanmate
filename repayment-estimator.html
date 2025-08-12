@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Repayment Estimator – HomeLoanMate</title>
+  <meta name="description" content="Estimate P&I or interest‑only repayments with extra payments and frequency options." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta property="og:title" content="Repayment Estimator – HomeLoanMate" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/chart.js" />
+</head>
+<body>
+  
+<header class="header" role="banner">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Home">
+	  <svg viewBox="0 0 1300 320" class="logo">
+		<!-- icon -->
+		<g transform="translate(0,32)">
+		  <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+				fill="none"
+				stroke="var(--logo-stroke, #167d83)"
+				stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+		  <!-- bars -->
+		  <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
+				fill="var(--logo-fill, #167d83)"/>
+		  <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
+				fill="var(--logo-fill, #167d83)"/>
+		  <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
+				fill="var(--logo-fill, #167d83)"/>
+		</g>
+		<!-- wordmark uses currentColor so we can flip it easily -->
+		<text x="296" y="210" font-size="148"
+			  font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+			  font-weight="800" fill="currentColor">BorrowPower</text>
+	  </svg>
+    </a>
+
+    <!-- Mobile menu button -->
+    <button id="menuToggle"
+            class="menu-toggle"
+            aria-label="Open menu"
+            aria-controls="primaryNav"
+            aria-expanded="false">
+      <span class="menu-box" aria-hidden="true">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </span>
+    </button>
+
+    <!-- Primary nav -->
+    <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary" data-open="false">
+      <a href="/"              >Borrowing Power</a>
+      <a href="/repayment-estimator.html">Repayments</a>
+      <a href="/faq.html"      >FAQ</a>
+      <a href="/about.html"    >About</a>
+    </nav>
+  </div>
+
+  <!-- Backdrop for slide-in drawer -->
+  <div id="backdrop" class="backdrop" hidden></div>
+</header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="repay-heading">
+      <h1 id="repay-heading">Repayment Estimator</h1>
+      <form id="repay-form" class="form-grid" novalidate>
+        <div class="field"><label for="loanAmount">Loan amount</label><div class="input-row"><input type="number" id="loanAmount" inputmode="decimal" value="500000" /></div></div>
+        <div class="field"><label for="rRate">Interest rate (%)</label><div class="input-row"><input type="number" id="rRate" step="0.05" value="5.60" /></div></div>
+        <div class="field"><label for="rTerm">Term (years)</label><select id="rTerm"></select></div>
+        <div class="field"><label for="frequency">Frequency</label><select id="frequency"><option value="monthly">Monthly</option><option value="fortnightly">Fortnightly</option><option value="weekly">Weekly</option></select></div>
+        <div class="field"><label for="loanType">Type</label><select id="loanType"><option value="pi">Principal & Interest</option><option value="io">Interest‑Only</option></select></div>
+        <div class="field"><label for="ioYears">Interest‑Only period (years)</label><select id="ioYears"><option value="0">0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><small class="helper">Applied only if Type = IO.</small></div>
+        <div class="field"><label for="extra">Extra repayments per frequency</label><div class="input-row"><input type="number" id="extra" inputmode="decimal" value="0" /></div></div>
+        <div class="field"><div class="toggle"><input type="checkbox" id="rememberRepay" /><label for="rememberRepay">Remember my inputs on this device</label></div></div>
+      </form>
+      <section class="results" aria-live="polite">
+        <div class="result-item"><span>Repayment per period</span><strong id="perRepay">—</strong></div>
+        <div class="result-item"><span>Total interest</span><strong id="totalInterest">—</strong></div>
+        <div class="result-item"><span>Total paid</span><strong id="totalPaid">—</strong></div>
+        <div class="result-item"><span>Comparison (P&I vs IO)</span><strong id="compare">—</strong></div>
+      </section>
+      <div class="card" style="height:320px"><canvas id="balanceChart" width="600" height="300" aria-label="Balance over time"></canvas></div>
+      <div class="ad-slot"></div>
+    </section>
+    <div data-include="/partials/important-information.html"></div>
+  </main>
+  <div class="sticky-cta"><button class="btn btn-primary" id="calcRepayBtn">Recalculate</button><button class="btn btn-outline" onclick="location.href='/'">Borrowing Power</button></div>
+  <script defer src="/assets/include.js"></script>
+  <script defer src="/script.js"></script>
+</body>
+</html>

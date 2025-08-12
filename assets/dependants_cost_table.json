@@ -1,0 +1,8 @@
+{
+  "currency": "AUD",
+  "version": "1.0",
+  "notes": "Minimum monthly living expense floor used for serviceability by dependant count. Users can enter higher expenses.",
+  "minimum_monthly_expense_floor": {
+    "0": 2000, "1": 2400, "2": 2800, "3": 3200, "4": 3600, "5": 4000, "6": 4400
+  }
+}
