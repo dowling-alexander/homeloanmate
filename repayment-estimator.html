@@ -1,183 +1,94 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta name="theme-color" content="#0f766e" />
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
+  <title>Repayment Estimator – HomeLoanMate</title>
+  <meta name="description" content="Estimate P&I or interest‑only repayments with extra payments and frequency options." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Repayment Estimator - HomeLoanMate</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="/styles.css" />
+  <meta property="og:title" content="Repayment Estimator – HomeLoanMate" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/chart.js" />
 </head>
-<header class="topbar">
-
-<a href="/" class="brand" aria-label="BorrowPower home">
-  <svg viewBox="0 0 1300 320" class="logo">
-    <!-- icon -->
-    <g transform="translate(0,32)">
-      <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
-            fill="none"
-            stroke="var(--logo-stroke, #167d83)"
-            stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
-      <!-- bars -->
-      <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
-            fill="var(--logo-fill, #167d83)"/>
-      <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
-            fill="var(--logo-fill, #167d83)"/>
-      <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
-            fill="var(--logo-fill, #167d83)"/>
-    </g>
-    <!-- wordmark uses currentColor so we can flip it easily -->
-    <text x="296" y="210" font-size="148"
-          font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
-          font-weight="800" fill="currentColor">BorrowPower</text>
-  </svg>
-</a>
-  <nav class="nav" id="siteNav">
-    <a href="index.html">Borrowing Power</a>
-    <a href="repayment-estimator.html">Repayment Estimator</a>
-    <a href="about.html">About Me</a>
-    <a href="faq.html">FAQ</a>
-  </nav>
-
-  <button class="nav-toggle" aria-controls="siteNav" aria-expanded="false">
-    <span class="sr-only">Menu</span>☰
-  </button>
-  <div class="actions"><!-- optional CTA goes here --></div>
-</header>
-<div class="container">
-  <main>
-    <h1>Home Loan Repayment Estimator</h1>
-
-    <form id="loan-form">
-		<div class="card">
-		  <label for="housePrice">Estimated House Price ($):</label>
-		  <div class="slider-container">
-			<input type="range" id="housePrice" min="50000" max="2000000" step="5000" value="500000" />
-			<input type="number" id="housePriceInput" inputmode="numeric" pattern="[0-9]*" min="50000" max="2000000" step="1000" value="500000" />
-		  </div>
-		 </div>
-		<div class="card">
-		  <label for="deposit">Expected Deposit ($):</label>
-		  <div class="slider-container">
-			<input type="range" id="deposit" min="0" max="500000" step="1000" value="100000" />
-			<input type="number" id="depositInput" inputmode="numeric" pattern="[0-9]*" min="0" max="500000" step="1000" value="100000" />
-		  </div>
-		 </div>
-		<div class="card">
-		  <label for="income">Annual Income ($):</label>
-		  <div class="slider-container">
-			<input type="range" id="income" min="20000" max="300000" step="1000" value="90000" />
-			<input type="number" id="incomeInput" inputmode="numeric" pattern="[0-9]*" min="20000" max="300000" step="1000" value="90000" />
-		  </div>
-		 </div>
-		<div class="card">
-		  <label for="expenses">Monthly Expenses ($):</label>
-		  <div class="slider-container">
-			<input type="range" id="expenses" min="500" max="15000" step="50" value="3000" />
-			<input type="number" id="expensesInput" inputmode="numeric" pattern="[0-9]*" min="500" max="15000" step="50" value="3000" />
-		  </div>
-		 </div>
-		<div class="card">
-		  <label for="state">State:</label>
-		  <select id="state" required>
-			
-			<option value="ACT">Australian Capital Territory (ACT)</option>
-			<option value="NSW" selected>New South Wales (NSW)</option>
-			<option value="NT">Northern Territory (NT)</option>
-			<option value="QLD">Queensland (QLD)</option>
-			<option value="SA">South Australia (SA)</option>
-			<option value="TAS">Tasmania (TAS)</option>
-			<option value="VIC">Victoria (VIC)</option>
-			<option value="WA">Western Australia (WA)</option>
-		  </select>
-		 </div>
-		<div class="card">
-		  <label for="interestRate">Interest Rate (Annual %):</label>
-		  <div class="slider-container">
-			<input type="range" id="interestRate" min="1" max="12" step="0.05" value="6.5" />
-			<input type="number" id="interestRateInput" inputmode="decimal" min="1" max="12" step="0.01" value="6.5" />
-		  </div>
-		 </div>
-		<div class="card">
-		  <label for="loanTerm">Loan Term (Years):</label>
-		  <div class="slider-container">
-			<input type="range" id="loanTerm" min="5" max="40" step="1" value="30" />
-			<input type="number" id="loanTermInput" inputmode="numeric" pattern="[0-9]*" min="5" max="40" step="1" value="30" />
-		  </div>
-		</div>
-      <!-- <button type="submit" class="btn">Calculate</button> -->
-    </form>
-
-    <div class="card"><canvas id="estimatorChart" height="120"></canvas></div>
-
-    <div id="result" class="result" style="display:none;"></div>
-  </main>
-</div>
+<body>
   
+<header class="header" role="banner">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Home">
+	  <svg viewBox="0 0 1300 320" class="logo">
+		<!-- icon -->
+		<g transform="translate(0,32)">
+		  <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+				fill="none"
+				stroke="var(--logo-stroke, #167d83)"
+				stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+		  <!-- bars -->
+		  <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
+				fill="var(--logo-fill, #167d83)"/>
+		  <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
+				fill="var(--logo-fill, #167d83)"/>
+		  <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
+				fill="var(--logo-fill, #167d83)"/>
+		</g>
+		<!-- wordmark uses currentColor so we can flip it easily -->
+		<text x="296" y="210" font-size="148"
+			  font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+			  font-weight="800" fill="currentColor">BorrowPower</text>
+	  </svg>
+    </a>
 
+    <!-- Mobile menu button -->
+    <button id="menuToggle"
+            class="menu-toggle"
+            aria-label="Open menu"
+            aria-controls="primaryNav"
+            aria-expanded="false">
+      <span class="menu-box" aria-hidden="true">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </span>
+    </button>
 
-  
-
-  <script src="script.js"></script>
-
-  <footer class="site-footer">
-    <p>© 2025 HomeLoanMate • Estimates only, not financial advice.</p>
-    <p class="small">Rates/thresholds can change. Check your state revenue office or a licensed broker.</p>
-  </footer>
-
-
-  <div id="stickySummary" class="sticky-summary" hidden>
-    <div class="sticky-inner">
-      <div class="sticky-lines">
-        <div class="sticky-line" id="stickyLine1"></div>
-        <div class="sticky-line" id="stickyLine2"></div>
-      </div>
-	      <div class="sticky-budget" aria-label="Monthly budget">
-      <div class="sticky-bar" id="stickyBudgetBar">
-        <span class="sseg repay" id="sSegRepay" style="width:0%"></span>
-        <span class="sseg exp"   id="sSegExp"   style="width:0%"></span>
-        <span class="sseg left"  id="sSegLeft"  style="width:0%"></span>
-        <span class="sseg short" id="sSegShort" style="width:0%"></span>
-      </div>
-
-		<div class="sticky-legend">
-		  <div class="li">
-			<span class="dot repay"></span>
-			<span class="lab long">Repayments</span><span class="lab short">Repay</span>
-			<span class="amount" id="sAmtRepay">$0</span>
-		  </div>
-		  <div class="li">
-			<span class="dot exp"></span>
-			<span class="lab long">Expenses</span><span class="lab short">Exp</span>
-			<span class="amount" id="sAmtExp">$0</span>
-		  </div>
-		  <div class="li">
-			<span class="dot left"></span>
-			<span class="lab long">Remaining</span><span class="lab short">Left</span>
-			<span class="amount" id="sAmtLeft">$0</span>
-		  </div>
-		  <div class="li short" id="sShortWrap" style="display:none;">
-			<span class="dot short"></span>
-			<span class="lab long">Shortfall</span><span class="lab short">Short</span>
-			<span class="amount" id="sAmtShort">$0</span>
-		  </div>
-		</div>
-    </div>
-      <a id="stickyCta" class="btn sticky-cta" href="https://www.canstar.com.au/home-loans/" target="_blank" rel="noopener">Compare rates</a>
-    </div>
+    <!-- Primary nav -->
+    <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary" data-open="false">
+      <a href="/"              >Borrowing Power</a>
+      <a href="/repayment-estimator.html">Repayments</a>
+      <a href="/faq.html"      >FAQ</a>
+      <a href="/about.html"    >About</a>
+    </nav>
   </div>
 
-<script>
-  const btn = document.querySelector('.nav-toggle');
-  const nav = document.getElementById('siteNav');
-  if (btn && nav){
-    btn.addEventListener('click', () => {
-      const isOpen = nav.getAttribute('data-open') === 'true';
-      nav.setAttribute('data-open', String(!isOpen));
-      btn.setAttribute('aria-expanded', String(!isOpen));
-    });
-  }
-</script>
+  <!-- Backdrop for slide-in drawer -->
+  <div id="backdrop" class="backdrop" hidden></div>
+</header>
 
+  <main class="container">
+    <section class="card" aria-labelledby="repay-heading">
+      <h1 id="repay-heading">Repayment Estimator</h1>
+      <form id="repay-form" class="form-grid" novalidate>
+        <div class="field"><label for="loanAmount">Loan amount</label><div class="input-row"><input type="number" id="loanAmount" inputmode="decimal" value="500000" /></div></div>
+        <div class="field"><label for="rRate">Interest rate (%)</label><div class="input-row"><input type="number" id="rRate" step="0.05" value="5.60" /></div></div>
+        <div class="field"><label for="rTerm">Term (years)</label><select id="rTerm"></select></div>
+        <div class="field"><label for="frequency">Frequency</label><select id="frequency"><option value="monthly">Monthly</option><option value="fortnightly">Fortnightly</option><option value="weekly">Weekly</option></select></div>
+        <div class="field"><label for="loanType">Type</label><select id="loanType"><option value="pi">Principal & Interest</option><option value="io">Interest‑Only</option></select></div>
+        <div class="field"><label for="ioYears">Interest‑Only period (years)</label><select id="ioYears"><option value="0">0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><small class="helper">Applied only if Type = IO.</small></div>
+        <div class="field"><label for="extra">Extra repayments per frequency</label><div class="input-row"><input type="number" id="extra" inputmode="decimal" value="0" /></div></div>
+        <div class="field"><div class="toggle"><input type="checkbox" id="rememberRepay" /><label for="rememberRepay">Remember my inputs on this device</label></div></div>
+      </form>
+      <section class="results" aria-live="polite">
+        <div class="result-item"><span>Repayment per period</span><strong id="perRepay">—</strong></div>
+        <div class="result-item"><span>Total interest</span><strong id="totalInterest">—</strong></div>
+        <div class="result-item"><span>Total paid</span><strong id="totalPaid">—</strong></div>
+        <div class="result-item"><span>Comparison (P&I vs IO)</span><strong id="compare">—</strong></div>
+      </section>
+      <div class="card" style="height:320px"><canvas id="balanceChart" width="600" height="300" aria-label="Balance over time"></canvas></div>
+      <div class="ad-slot"></div>
+    </section>
+    <div data-include="/partials/important-information.html"></div>
+  </main>
+  <div class="sticky-cta"><button class="btn btn-primary" id="calcRepayBtn">Recalculate</button><button class="btn btn-outline" onclick="location.href='/'">Borrowing Power</button></div>
+  <script defer src="/assets/include.js"></script>
+  <script defer src="/script.js"></script>
 </body>
 </html>

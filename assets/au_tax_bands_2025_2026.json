@@ -1,0 +1,12 @@
+{
+  "financial_year": "2025-2026",
+  "notes": "Resident individual marginal tax rates (excludes Medicare levy and MLS).",
+  "brackets": [
+    { "min": 0, "max": 18200, "base": 0, "rate": 0.0, "over": 0 },
+    { "min": 18201, "max": 45000, "base": 0, "rate": 0.16, "over": 18200 },
+    { "min": 45001, "max": 135000, "base": 4288, "rate": 0.30, "over": 45000 },
+    { "min": 135001, "max": 190000, "base": 31288, "rate": 0.37, "over": 135000 },
+    { "min": 190001, "max": null, "base": 51638, "rate": 0.45, "over": 190000 }
+  ],
+  "exclude_medicare_levy_percent": 0.02
+}

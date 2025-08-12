@@ -1,180 +1,208 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta name="theme-color" content="#0f766e" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Borrowing Power Calculator</title>
-  <meta name="description" content="Estimate your borrowing power with our fast, mobile-friendly calculator. Designed for Australian home buyers." />
-  <meta name="keywords" content="borrowing power calculator, home loan Australia, mortgage estimate" />
-  <meta name="robots" content="index, follow" />
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<header class="topbar">
-
-<a href="/" class="brand" aria-label="BorrowPower home">
-  <svg viewBox="0 0 1300 320" class="logo">
-    <!-- icon -->
-    <g transform="translate(0,32)">
-      <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
-            fill="none"
-            stroke="var(--logo-stroke, #167d83)"
-            stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
-      <!-- bars -->
-      <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
-            fill="var(--logo-fill, #167d83)"/>
-      <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
-            fill="var(--logo-fill, #167d83)"/>
-      <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
-            fill="var(--logo-fill, #167d83)"/>
-    </g>
-    <!-- wordmark uses currentColor so we can flip it easily -->
-    <text x="296" y="210" font-size="148"
-          font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
-          font-weight="800" fill="currentColor">BorrowPower</text>
-  </svg>
-</a>
-  <nav class="nav" id="siteNav">
-    <a href="index.html">Borrowing Power</a>
-    <a href="repayment-estimator.html">Repayment Estimator</a>
-    <a href="about.html">About Me</a>
-    <a href="faq.html">FAQ</a>
-  </nav>
-
-  <button class="nav-toggle" aria-controls="siteNav" aria-expanded="false">
-    <span class="sr-only">Menu</span>☰
-  </button>
-  <div class="actions"><!-- optional CTA goes here --></div>
-</header>
-
-<body>
-  <div class="container">
-    <h1>Borrowing Power Estimator</h1>
-
-    <div class="card">
-      <label>Annual Income ($)<span class="info-icon" data-tooltip="Your total yearly income before tax.">ℹ</span></label>
-      <div class="slider-container">
-        <input type="range" id="incomeSlider" min="20000" max="300000" step="1000" value="80000" />
-        <input type="number" id="incomeInput" inputmode="numeric" pattern="[0-9]*" value="80000" />
-      </div>
-      <div class="tooltip"></div>
-    </div>
-
-    <div class="card">
-      <label>Monthly Expenses ($)<span class="info-icon" data-tooltip="Your total monthly living expenses including bills, groceries, and other costs.">ℹ</span></label>
-      <div class="slider-container">
-        <input type="range" id="expensesSlider" min="500" max="15000" step="50" value="3000" />
-        <input type="number" id="expensesInput" inputmode="numeric" pattern="[0-9]*" value="3000" />
-      </div>
-      <div class="tooltip"></div>
-    </div>
-
-    <div class="card">
-      <label>Interest Rate (%)<span class="info-icon" data-tooltip="The percentage your lender charges on your loan amount per year.">ℹ</span></label>
-      <div class="slider-container">
-        <input type="range" id="interestSlider" min="1" max="10" step="0.05" value="5" />
-        <input type="number" id="interestInput" inputmode="decimal" step="0.05" value="5.00" />
-      </div>
-      <div class="tooltip"></div>
-    </div>
-
-    <div class="card">
-      <label>Loan Term (Years)<span class="info-icon" data-tooltip="The total number of years you plan to take to pay off the loan.">ℹ</span></label>
-      <div class="slider-container">
-        <input type="range" id="termSlider" min="5" max="40" step="1" value="30" />
-        <input type="number" id="termInput" inputmode="numeric" pattern="[0-9]*" step="1" value="30" />
-      </div>
-      <div class="tooltip"></div>
-    </div>
-
- 
-
-    <div class="card result" id="results">
-      Borrowing Power: $0<br />
-      Borrowing Power (With APRA 3% Buffer): $0<br />
-      Monthly Repayment (P&I): $0<br />
-      Monthly Repayment (Interest Only): $0
-    </div>
-
-<!--     <div class="card">
-      <canvas id="borrowingChart" height="120"></canvas>
-    </div>
-
-    <div class="card">
-      <canvas id="repaymentChart" height="120"></canvas>
-    </div> -->
-
-    <div class="affiliate-scroller">
-      <a href="https://www.lendi.com.au" target="_blank">Lendi: Compare Home Loans</a>
-      <a href="https://www.mortgagechoice.com.au" target="_blank">Mortgage Choice: Free Advice</a>
-      <a href="https://www.aussie.com.au" target="_blank">Aussie: Find a Broker</a>
-      <a href="https://www.canstar.com.au/home-loans/" target="_blank">Canstar: Loan Comparisons</a>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-
-  <footer class="site-footer">
-    <p>© 2025 HomeLoanMate • Estimates only, not financial advice.</p>
-    <p class="small">Rates/thresholds can change. Check your state revenue office or a licensed broker.</p>
-  </footer>
-
-
-	<div id="stickySummary" class="sticky-summary" hidden>
-	  <div class="sticky-inner">
-		<div class="sticky-lines">
-		  <div class="sticky-line" id="stickyLine1"></div>
-		  <div class="sticky-line" id="stickyLine2"></div>
-		</div>
-		    <div class="sticky-budget" aria-label="Monthly budget">
-			  <div class="sticky-bar" id="stickyBudgetBar">
-				<span class="sseg repay" id="sSegRepay" style="width:0%"></span>
-				<span class="sseg exp"   id="sSegExp"   style="width:0%"></span>
-				<span class="sseg left"  id="sSegLeft"  style="width:0%"></span>
-				<span class="sseg short" id="sSegShort" style="width:0%"></span>
-			  </div>
-
-				<div class="sticky-legend">
-				  <div class="li">
-					<span class="dot repay"></span>
-					<span class="lab long">Repayments</span><span class="lab short"></span>
-					<span class="amount" id="sAmtRepay">$0</span>
-				  </div>
-				  <div class="li">
-					<span class="dot exp"></span>
-					<span class="lab long">Expenses</span><span class="lab short"></span>
-					<span class="amount" id="sAmtExp">$0</span>
-				  </div>
-				  <div class="li">
-					<span class="dot left"></span>
-					<span class="lab long">Remaining</span><span class="lab short">Left</span>
-					<span class="amount" id="sAmtLeft">$0</span>
-				  </div>
-				  <div class="li short" id="sShortWrap" style="display:none;">
-					<span class="dot short"></span>
-					<span class="lab long">Shortfall</span><span class="lab short">Short</span>
-					<span class="amount" id="sAmtShort">$0</span>
-				  </div>
-				</div>
-			  </div>
-    </div>
-		<a id="stickyCta" class="btn sticky-cta" href="..." target="_blank" rel="noopener">Compare rates</a>
-	  </div>
-	</div>
-
-
+  <meta charset="utf-8" />
+  <title>Borrowing Power Calculator – HomeLoanMate</title>
+  <meta name="description" content="Estimate your borrowing power using 2025/26 AU tax bands, dependants expense floor, LMI, and a 3% serviceability buffer." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Borrowing Power Calculator – HomeLoanMate" />
+  <meta property="og:description" content="Mobile-first AU borrowing power estimate with tax→net, dependants floor, LMI and stamp duty." />
+  <meta name="twitter:card" content="summary" />
+  
 <script>
-  const btn = document.querySelector('.nav-toggle');
-  const nav = document.getElementById('siteNav');
-  if (btn && nav){
-    btn.addEventListener('click', () => {
-      const isOpen = nav.getAttribute('data-open') === 'true';
-      nav.setAttribute('data-open', String(!isOpen));
-      btn.setAttribute('aria-expanded', String(!isOpen));
-    });
+  window.ADSENSE_CLIENT = window.ADSENSE_CLIENT || "";
+  if (window.ADSENSE_CLIENT) {
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" + encodeURIComponent(window.ADSENSE_CLIENT);
+    s.crossOrigin = "anonymous";
+    document.head.appendChild(s);
   }
 </script>
 
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org","@type":"WebSite","name":"HomeLoanMate","url":"https://homeloanmate.com.au/",
+    "publisher":{"@type":"Organization","name":"HomeLoanMate"}
+  }
+  </script>
+</head>
+<body>
+  
+<header class="header" role="banner">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Home">
+	  <svg viewBox="0 0 1300 320" class="logo">
+		<!-- icon -->
+		<g transform="translate(0,32)">
+		  <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+				fill="none"
+				stroke="var(--logo-stroke, #167d83)"
+				stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+		  <!-- bars -->
+		  <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
+				fill="var(--logo-fill, #167d83)"/>
+		  <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
+				fill="var(--logo-fill, #167d83)"/>
+		  <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
+				fill="var(--logo-fill, #167d83)"/>
+		</g>
+		<!-- wordmark uses currentColor so we can flip it easily -->
+		<text x="296" y="210" font-size="148"
+			  font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+			  font-weight="800" fill="currentColor">BorrowPower</text>
+	  </svg>
+    </a>
+
+    <!-- Mobile menu button -->
+    <button id="menuToggle"
+            class="menu-toggle"
+            aria-label="Open menu"
+            aria-controls="primaryNav"
+            aria-expanded="false">
+      <span class="menu-box" aria-hidden="true">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </span>
+    </button>
+
+    <!-- Primary nav -->
+    <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary" data-open="false">
+      <a href="/"              >Borrowing Power</a>
+      <a href="/repayment-estimator.html">Repayments</a>
+      <a href="/faq.html"      >FAQ</a>
+      <a href="/about.html"    >About</a>
+    </nav>
+  </div>
+
+  <!-- Backdrop for slide-in drawer -->
+  <div id="backdrop" class="backdrop" hidden></div>
+</header>
+
+  <main class="container" id="main">
+    <section class="card" aria-labelledby="bp-heading">
+      <h1 id="bp-heading">Borrowing Power</h1>
+      <p class="helper">Enter your details. All figures are indicative and for general information only.</p>
+      <form id="bp-form" class="form-grid" novalidate>
+        <div class="field">
+          <label for="incomeSlider">Annual gross income</label>
+          <div class="input-row">
+            <input type="range" id="incomeSlider" min="20000" max="300000" step="1000" value="80000" />
+            <input type="number" id="incomeInput" inputmode="numeric" value="80000" aria-describedby="incomeHelp" />
+          </div>
+
+          <div id="tt-income" class="tooltip" role="region" aria-live="polite">
+            We convert gross to net using 2025/26 resident tax bands (excludes 2% Medicare levy).
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="expensesSlider">Monthly living expenses</label>
+          <div class="input-row">
+            <input type="range" id="expensesSlider" min="0" max="20000" step="50" value="2500" />
+            <input type="number" id="expensesInput" inputmode="decimal" value="2500" aria-describedby="expensesHelp" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="dependants">Dependants</label>
+          <select id="dependants" aria-describedby="depHelp">
+            <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+          </select>
+          <small id="depHelp" class="helper">Used to set the minimum monthly expense floor.</small>
+        </div>
+
+        <div class="field">
+          <label for="otherDebts">Other monthly debt repayments</label>
+          <div class="input-row">
+            <input type="range" id="otherDebtsSlider" min="0" max="10000" step="50" value="0" />
+            <input type="number" id="otherDebts" inputmode="decimal" value="0" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="rate">Interest rate (%)</label>
+          <div class="input-row">
+            <input type="range" id="rateSlider" min="1" max="10" step="0.05" value="5.60" />
+            <input type="number" id="rate" inputmode="decimal" step="0.05" value="5.60" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="term">Loan term (years)</label>
+          <select id="term"></select>
+        </div>
+
+        <div class="field">
+          <label for="propertyPrice">Property price (for LVR/LMI & stamp duty)</label>
+          <div class="input-row"><input type="number" id="propertyPrice" inputmode="decimal" value="650000" /></div>
+        </div>
+        <div class="field">
+          <label for="deposit">Deposit / savings</label>
+          <div class="input-row"><input type="number" id="deposit" inputmode="decimal" value="130000" /></div>
+        </div>
+        <div class="field">
+          <label for="state">State/Territory (stamp duty)</label>
+          <select id="state">
+            <option value="NSW">NSW</option><option value="VIC">VIC</option><option value="QLD">QLD</option>
+            <option value="SA">SA</option><option value="WA">WA</option><option value="TAS">TAS</option>
+            <option value="ACT">ACT</option><option value="NT">NT</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="toggle">
+            <input type="checkbox" id="capitaliseLMI" />
+            <label for="capitaliseLMI">Capitalise LMI into the loan</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="toggle">
+            <input type="checkbox" id="rememberInputs" />
+            <label for="rememberInputs">Remember my inputs on this device</label>
+          </div>
+        </div>
+      </form>
+
+      <section class="results" aria-live="polite">
+        <div class="result-item"><span>Max loan (buffered)</span><strong id="maxLoanBuffered">—</strong></div>
+        <div class="result-item"><span>Max loan (at your rate)</span><strong id="maxLoanActual">—</strong></div>
+        <div class="result-item"><span>Indicative monthly P&I @ your rate</span><strong id="monthlyPI">—</strong></div>
+        <div class="result-item"><span>Interest‑only monthly @ your rate</span><strong id="monthlyIO">—</strong></div>
+        <div class="result-item"><span>LVR</span><strong id="lvr">—</strong></div>
+        <div class="result-item"><span>Estimated LMI</span><strong id="lmi">—</strong></div>
+        <div class="result-item"><span>Stamp duty (indicative)</span><strong id="stampDuty">—</strong></div>
+      </section>
+
+      
+<div class="ad-slot" aria-label="Advertisement">
+  <ins class="adsbygoogle"
+       style="display:block;min-height:120px"
+       data-ad-client=""
+       data-ad-slot="auto"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+</div>
+<script>
+  if (window.ADSENSE_CLIENT && window.adsbygoogle) {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  }
+</script>
+
+    </section>
+
+    <div data-include="/partials/important-information.html"></div>
+  </main>
+
+  <div class="sticky-cta" role="region" aria-label="Quick actions">
+    <button class="btn btn-primary" id="recalculateBtn">Recalculate</button>
+    <button class="btn btn-outline" onclick="location.href='/repayment-estimator.html'">Estimate repayments</button>
+  </div>
+
+  <script defer src="/assets/include.js"></script>
+  <script defer src="/script.js"></script>
 </body>
 </html>

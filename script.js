@@ -1,378 +1,358 @@
-/* HomeLoanMate consolidated script */
-/* Utilities */
-function roundToStep(value, step) { return Math.round(value / step) * step; }
-function ensureInterestStep(val) { const s = roundToStep(parseFloat(val||0), 0.05); return parseFloat(s.toFixed(2)); }
-function formatAUD(val) {
-  return (val||0).toLocaleString('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2 });
-}
+(function(){
+  const AUD = new Intl.NumberFormat('en-AU',{style:'currency', currency:'AUD', maximumFractionDigits:0});
+  const PCT = n => (n*100).toFixed(2)+'%';
+  const clamp = (v,min,max)=>Math.max(min, Math.min(max, v));
+  const toNumber = v => isNaN(+v) ? 0 : +v;
 
-/* Sticky Summary */
-function updateStickySummary(opts){
-  try{
-    const bar = document.getElementById('stickySummary');
-    if(!bar) return;
-    const l1 = document.getElementById('stickyLine1');
-    const l2 = document.getElementById('stickyLine2');
-    const cta = document.getElementById('stickyCta');
-    if(!opts){ bar.hidden = true; return; }
-    if(l1) l1.innerHTML = opts.line1 || '';
-    if(l2) l2.innerHTML = opts.line2 || '';
-    if(cta && opts.ctaHref) cta.href = opts.ctaHref;
-    bar.hidden = false;
-  }catch(e){}
-}
+  /* Accessible slide-in mobile menu */
+function initMenu(){
+  const btn = document.getElementById('menuToggle');
+  const nav = document.getElementById('primaryNav');
+  const backdrop = document.getElementById('backdrop');
+  if(!btn || !nav || !backdrop) return;
 
-function __sFmtAUD(x){
-  try { return (x||0).toLocaleString('en-AU', {style:'currency',currency:'AUD',maximumFractionDigits:0}); }
-  catch(e){ return '$' + Math.round(x||0).toLocaleString(); }
-}
-
-function updateStickyBudgetBar({ monthlyIncome, monthlyExpenses, repayment }){
-  const remaining = Math.max(0, (monthlyIncome||0) - (monthlyExpenses||0) - (repayment||0));
-  const shortfall = Math.max(0, -((monthlyIncome||0) - (monthlyExpenses||0) - (repayment||0)));
-
-  // scale segments against income (or sum if income is 0)
-  const base = Math.max(1, monthlyIncome || (monthlyExpenses + repayment + remaining));
-
-  const pctRepay = Math.min(100, Math.max(0, (repayment / base) * 100));
-  const pctExp   = Math.min(100, Math.max(0, (monthlyExpenses / base) * 100));
-  const pctLeft  = Math.min(100, Math.max(0, (remaining / base) * 100));
-  const pctShort = Math.min(100, Math.max(0, (shortfall / base) * 100));
-
-  const segRepay = document.getElementById('sSegRepay');
-  const segExp   = document.getElementById('sSegExp');
-  const segLeft  = document.getElementById('sSegLeft');
-  const segShort = document.getElementById('sSegShort');
-  const sAmtRepay= document.getElementById('sAmtRepay');
-  const sAmtExp  = document.getElementById('sAmtExp');
-  const sAmtLeft = document.getElementById('sAmtLeft');
-  const sShortWrap=document.getElementById('sShortWrap');
-  const sAmtShort= document.getElementById('sAmtShort');
-
-  if (!segRepay || !segExp || !segLeft) return; // not on this page / not rendered
-
-  segRepay.style.width = pctRepay + '%';
-  segExp.style.width   = pctExp + '%';
-  segLeft.style.width  = pctLeft + '%';
-  segShort.style.width = pctShort + '%';
-  segShort.style.display = pctShort > 0 ? 'block' : 'none';
-
-  if (sAmtRepay) sAmtRepay.textContent = __sFmtAUD(repayment);
-  if (sAmtExp)   sAmtExp.textContent   = __sFmtAUD(monthlyExpenses);
-  if (sAmtLeft)  sAmtLeft.textContent  = __sFmtAUD(remaining);
-
-  if (sShortWrap){
-    if (pctShort > 0){
-      sShortWrap.style.display = '';
-      if (sAmtShort) sAmtShort.textContent = __sFmtAUD(shortfall);
-    } else {
-      sShortWrap.style.display = 'none';
-    }
-  }
-}
-
-
-/* Charts (Borrowing Power page) */
-let borrowingChart=null, repaymentChart=null;
-function initBorrowingCharts(){
-  const ctx1 = document.getElementById('borrowingChart')?.getContext('2d');
-  const ctx2 = document.getElementById('repaymentChart')?.getContext('2d');
-  if (ctx1 && !borrowingChart){
-    borrowingChart = new Chart(ctx1, {
-      type: 'bar',
-      data: { labels: ['Borrowing Power','With Buffer'], datasets: [{ data: [0,0] }] },
-      options: { responsive: true, plugins:{legend:{display:false}}, scales:{ y:{ beginAtZero:true } } }
-    });
-  }
-  if (ctx2 && !repaymentChart){
-    repaymentChart = new Chart(ctx2, {
-      type: 'bar',
-      data: { labels: ['P&I','Interest Only'], datasets: [{ data: [0,0] }] },
-      options: { responsive: true, plugins:{legend:{display:false}}, scales:{ y:{ beginAtZero:true } } }
-    });
-  }
-}
-function updateBorrowingCharts(bp, bpBuffer, piMonthly, ioMonthly){
-  if (borrowingChart){ borrowingChart.data.datasets[0].data = [bp, bpBuffer]; borrowingChart.update(); }
-  if (repaymentChart){ repaymentChart.data.datasets[0].data = [piMonthly, ioMonthly]; repaymentChart.update(); }
-}
-
-//2024 tax table, need to revisit this in one year
-const TAX_TABLE_AU_2024 = [
-  { upto: 18200,  rate: 0.00, baseAt: 0,     baseTax: 0 },
-  { upto: 45000,  rate: 0.16, baseAt: 18200, baseTax: 0 },
-  { upto: 135000, rate: 0.30, baseAt: 45000, baseTax: (45000-18200)*0.16 },
-  { upto: 190000, rate: 0.37, baseAt: 135000,baseTax: (45000-18200)*0.16 + (135000-45000)*0.30 },
-  { upto: Infinity, rate: 0.45, baseAt: 190000, baseTax:
-      (45000-18200)*0.16 + (135000-45000)*0.30 + (190000-135000)*0.37 }
-];
-
-// Progressive tax on taxable income
-function calcIncomeTaxAU(annual, table = TAX_TABLE_AU_2024){
-  const y = Math.max(0, Number(annual) || 0);
-  for (const b of table){
-    if (y <= b.upto){
-      return b.baseTax + Math.max(0, y - b.baseAt) * b.rate;
-    }
-  }
-  return 0;
-}
-
-// Simple Medicare levy (2% flat). Set to false below if you don't want to include it.
-function calcMedicareLevy(annual, include = true){
-  if (!include) return 0;
-  const y = Math.max(0, Number(annual) || 0);
-  return y * 0.02; // (basic approximation; thresholds/phase-ins can be added if needed)
-}
-
-function netAnnualIncomeAU(annual, { includeMedicare = true } = {}){
-  const tax  = calcIncomeTaxAU(annual);
-  const levy = calcMedicareLevy(annual, includeMedicare);
-  return Math.max(0, (Number(annual) || 0) - tax - levy);
-}
-
-
-
-
-
-
-/* Borrowing Power page logic */
-function bindBorrowingPower(){
-  const incomeSlider = document.getElementById('incomeSlider');
-  const incomeInput = document.getElementById('incomeInput');
-  const expensesSlider = document.getElementById('expensesSlider');
-  const expensesInput = document.getElementById('expensesInput');
-  const interestSlider = document.getElementById('interestSlider');
-  const interestInput = document.getElementById('interestInput');
-  const termSlider = document.getElementById('termSlider');
-  const termInput = document.getElementById('termInput');
-  const bufferToggle = document.getElementById('bufferToggle');
-  const resultsDiv = document.getElementById('results');
-
-  if(!incomeSlider || !incomeInput || !resultsDiv) return; // not on this page
-
-  const syncInputs = (slider, input, isDecimal=false) => {
-    if(!slider || !input) return;
-    slider.addEventListener('input', () => {
-      input.value = isDecimal ? ensureInterestStep(slider.value).toFixed(2) : slider.value;
-      calculateBorrowing();
-    });
-    input.addEventListener('input', () => {
-      slider.value = input.value;
-      calculateBorrowing();
-    });
+  const open = () => {
+    nav.setAttribute('data-open','true');
+    backdrop.hidden = false;
+    backdrop.setAttribute('data-open','true');
+    btn.setAttribute('aria-expanded','true');
+    document.body.classList.add('no-scroll');
+    const first = nav.querySelector('a'); first && first.focus();
   };
 
-  // Interest snapping
-  if (interestSlider) { interestSlider.step = 0.05; }
-  interestSlider?.addEventListener('change', ()=>{
-    const snapped = ensureInterestStep(interestSlider.value||0);
-    interestSlider.value = snapped;
-    if (interestInput) interestInput.value = snapped.toFixed(2);
-    calculateBorrowing();
+  const close = () => {
+    nav.setAttribute('data-open','false');
+    backdrop.removeAttribute('data-open');
+    btn.setAttribute('aria-expanded','false');
+    document.body.classList.remove('no-scroll');
+    // Allow fade-out before hide
+    window.setTimeout(() => { backdrop.hidden = true; }, 200);
+  };
+
+  btn.addEventListener('click', () => {
+    const isOpen = nav.getAttribute('data-open') === 'true';
+    (isOpen ? close : open)();
   });
-  interestInput?.addEventListener('change', ()=>{
-    const snapped = ensureInterestStep(interestInput.value||0);
-    interestInput.value = snapped.toFixed(2);
-    if (interestSlider) interestSlider.value = snapped;
-    calculateBorrowing();
-  });
 
-  // Wire pairs
-  syncInputs(incomeSlider, incomeInput);
-  syncInputs(expensesSlider, expensesInput);
-  syncInputs(interestSlider, interestInput, true);
-  syncInputs(termSlider, termInput);
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape'){ close(); btn.focus(); } });
+  nav.addEventListener('click', (e) => { if(e.target.matches('a')) close(); });
 
-function calculateBorrowing(){
-  // income input is ANNUAL; expenses are MONTHLY
-  const income = parseFloat(incomeInput.value || '0');
-// Net (after-tax) income per month
-  const netAnnual      = netAnnualIncomeAU(income, { includeMedicare: true });
-  const monthlyIncome  = Math.max(0, netAnnual / 12);
-  const monthlyExpenses = Math.max(0, parseFloat(expensesInput.value || '0'));
-  const interest = ensureInterestStep(interestInput.value || 0);
-  const years = parseFloat(termInput.value || '30');
-  const buffer = !!(bufferToggle && bufferToggle.checked);
-
-  const monthlyRate = (interest / 100) / 12;
-  const n = years * 12;
-  const affordable = Math.max(0, monthlyIncome - monthlyExpenses);
-
-  let borrowingPower = 0;
-  if (monthlyRate > 0 && n > 0){
-    const f = Math.pow(1 + monthlyRate, n);
-    const paymentFactor = (monthlyRate * f) / (f - 1);
-    borrowingPower = affordable / paymentFactor;
-  } else {
-    // 0% fallback: payment * months
-    borrowingPower = affordable * n;
-  }
-
-  const borrowingPowerWithBuffer = borrowingPower * 0.97;
-
-  // Repayments derived from the same principal
-  const f = Math.pow(1 + monthlyRate, n);
-  const paymentFactor = (monthlyRate > 0 && n > 0) ? (monthlyRate * f) / (f - 1) : 0;
-  const piMonthly = (monthlyRate > 0 && n > 0) ? (borrowingPower * paymentFactor)
-                                               : (n > 0 ? borrowingPower / n : affordable);
-  const ioMonthly = borrowingPower * monthlyRate;
-
-  if (resultsDiv) {
-    resultsDiv.innerHTML =
-      `Borrowing Power: $${borrowingPower.toFixed(0)}<br />
-       Borrowing Power (With Buffer): $${borrowingPowerWithBuffer.toFixed(0)}<br />
-       Monthly Repayment (P&I): $${piMonthly.toFixed(0)}<br />
-       Monthly Repayment (Interest Only): $${ioMonthly.toFixed(0)}`;
-  }
-
-  // keep if you still have the old charts; otherwise delete this line
-  if (typeof updateBorrowingCharts === 'function') {
-    updateBorrowingCharts(borrowingPower, borrowingPowerWithBuffer, piMonthly, ioMonthly);
-  }
-
-  if (typeof updateStickySummary === 'function') {
-    updateStickySummary({
-      line1: `Borrowing Power: $${borrowingPower.toFixed(0)}`,
-      line2: `P&I est: $${piMonthly.toFixed(0)}`
-    });
-  }
-
-  // NEW: sticky mini “budget bar”
-  if (typeof updateStickyBudgetBar === 'function') {
-    updateStickyBudgetBar({
-      monthlyIncome,
-      monthlyExpenses,
-      repayment: piMonthly
-    });
-  }
+  // Close if resizing up to desktop
+  const mql = window.matchMedia('(min-width: 768px)');
+  const onChange = () => { if(mql.matches){ close(); } };
+  mql.addEventListener('change', onChange);
 }
 
-  initBorrowingCharts();
-  calculateBorrowing();
-}
 
-/* State-based Stamp Duty */
-function calculateStampDuty(price, state){ return 0; }
-// Alias for estimator module
-function calcStampDuty(amount, state){ return calculateStampDuty(amount, state); }
+  function pmt(rate, nper, pv){
+    if(rate === 0) return -(pv / nper);
+    const pow = Math.pow(1+rate, nper);
+    return -(pv * rate * pow) / (pow - 1);
+  }
+  const periodsPer = { monthly:12, fortnightly:26, weekly:52 };
+  const annualPctToMonthly = pct => (pct/100)/12;
 
-/* Repayment Estimator */
-(function(){
-  function monthlyRepayment(P, annualRatePct, years){
-    const r = (annualRatePct/100)/12;
-    const n = years * 12;
-    if (r === 0) return P / (n||1);
-    const f = Math.pow(1+r, n);
-    return P * (r * f) / (f - 1);
-  }
-  function bindSync(rangeEl, numberEl, maxFn=null, isInterest=false){
-    if(!rangeEl || !numberEl) return;
-    const snap = v => isInterest ? ensureInterestStep(parseFloat(v||0)) : Number(v||0);
-    rangeEl.addEventListener('input', () => {
-      let v = snap(rangeEl.value);
-      if (maxFn) v = Math.min(v, maxFn());
-      numberEl.value = isInterest ? v.toFixed(2) : v;
-    });
-    numberEl.addEventListener('input', () => {
-      let v = snap(numberEl.value);
-      if (maxFn) v = Math.min(v, maxFn());
-      numberEl.value = isInterest ? v.toFixed(2) : v;
-      rangeEl.value = v;
-    });
-    if (isInterest){
-      [rangeEl, numberEl].forEach(el => el.addEventListener('change', () => {
-        const v = snap(el.value);
-        rangeEl.value = v;
-        numberEl.value = v.toFixed(2);
-      }));
+  function amortize({amount, annualRatePct, years, frequency='monthly', extraPerPeriod=0, type='pi', ioYears=0}){
+    const periods = periodsPer[frequency] || 12;
+    const totalPeriods = years * periods;
+    const ratePer = (annualRatePct/100)/periods;
+    let balance = amount, schedule = [];
+    let ioRemaining = (type==='io' ? ioYears*periods : 0);
+    const piPayment = ratePer===0 ? (amount/totalPeriods) : -pmt(ratePer, totalPeriods, amount);
+    for(let i=1;i<=totalPeriods;i++){
+      let interest = balance * ratePer;
+      let principal = 0;
+      let pay = 0;
+      if(ioRemaining>0){ pay = interest + extraPerPeriod; principal = Math.max(0, pay - interest); ioRemaining--; }
+      else { pay = piPayment + extraPerPeriod; principal = pay - interest; }
+      balance = Math.max(0, balance - principal);
+      schedule.push({i, interest, principal, balance, pay});
+      if(balance<=0){ break; }
     }
+    const totalPaid = schedule.reduce((s,x)=>s+x.pay,0);
+    const totalInterest = schedule.reduce((s,x)=>s+x.interest,0);
+    return { schedule, totalPaid, totalInterest, perPayment: schedule.length?schedule[0].pay:0 };
   }
-  function initRepaymentEstimator(){
-    const form = document.getElementById('loan-form');
-    const resultDiv = document.getElementById('result');
-    const housePrice = document.getElementById('housePrice');
-    const housePriceInput = document.getElementById('housePriceInput');
-    const deposit = document.getElementById('deposit');
-    const depositInput = document.getElementById('depositInput');
-    const income = document.getElementById('income');
-    const incomeInput = document.getElementById('incomeInput');
-    const expenses = document.getElementById('expenses');
-    const expensesInput = document.getElementById('expensesInput');
-    const interestRate = document.getElementById('interestRate');
-    const interestRateInput = document.getElementById('interestRateInput');
-    const loanTerm = document.getElementById('loanTerm');
-    const loanTermInput = document.getElementById('loanTermInput');
-    const stateSelect = document.getElementById('state');
-    const chartCanvas = document.getElementById('estimatorChart');
-    const ctx = chartCanvas ? chartCanvas.getContext('2d') : null;
-    let chart;
-    if(!form) return;
-    const houseVal = () => Number(housePriceInput?.value || housePrice?.value || 0);
-    bindSync(housePrice, housePriceInput);
-    bindSync(deposit, depositInput, houseVal);
-    bindSync(income, incomeInput);
-    bindSync(expenses, expensesInput);
-    bindSync(interestRate, interestRateInput, null, true);
-    bindSync(loanTerm, loanTermInput);
-    function drawChart(repay, incomeAfter){
-      if (!ctx || typeof Chart === 'undefined') return;
-      if (chart) chart.destroy();
-      chart = new Chart(ctx, {
-        type: 'bar',
-        data: { labels: ['Repayment','Income After Expenses'], datasets: [{ label:'Monthly Amount (AUD)', data:[repay, incomeAfter] }] },
-        options: { responsive: true, plugins: { legend: { display:false } }, scales: { y: { beginAtZero: true } } }
-      });
+
+  function calculateAnnualTax(income, brackets){
+    let tax = 0;
+    for(const b of brackets){
+      const max = (b.max==null? Number.POSITIVE_INFINITY : b.max);
+      if(income > b.min){
+        const taxable = Math.min(income, max) - b.over;
+        if(taxable>0){ tax = b.base + (taxable * b.rate); }
+      }else{ break; }
     }
-    function recompute(e){
-      if(e) e.preventDefault();
-      const hp = Number(housePriceInput?.value||housePrice?.value||0);
-      const dp = Math.min(Number(depositInput?.value||deposit?.value||0), hp);
-      const inc = Number(incomeInput?.value||income?.value||0);
-      const exp = Number(expensesInput?.value||expenses?.value||0);
-      const rate = ensureInterestStep(Number(interestRateInput?.value||interestRate?.value||0));
-      const years = Number(loanTermInput?.value||loanTerm?.value||30);
-      const state = (stateSelect && stateSelect.value) || 'NSW';
-      const loanAmount = Math.max(0, hp - dp);
-      const stampDuty = typeof calcStampDuty==='function' ? calcStampDuty(hp, state) : 0;
-      const lvr = loanAmount / (hp||1);
-      const lmi = lvr > 0.8 ? loanAmount * 0.02 : 0;
-      const monthly = monthlyRepayment(loanAmount + lmi + stampDuty, rate, years);
-      const after = Math.max(0, (inc/12) - exp);
-      const affordability = monthly <= after;
-      if (resultDiv){
-        resultDiv.style.display = 'block';
-        resultDiv.innerHTML = `
-          <h2>Estimate Summary</h2>
-          <p><strong>Loan Amount:</strong> ${ (loanAmount).toLocaleString('en-AU', {style:'currency', currency:'AUD'}) }</p>
-          <p><strong>Stamp Duty (${state}):</strong> ${ (stampDuty).toLocaleString('en-AU', {style:'currency', currency:'AUD'}) }</p>
-          <p><strong>Loan Mortgage Insurance (LMI):</strong> ${ (lmi).toLocaleString('en-AU', {style:'currency', currency:'AUD'}) }</p>
-          <p><strong>Estimated Monthly Repayment:</strong> ${ (monthly).toLocaleString('en-AU', {minimumFractionDigits:2, maximumFractionDigits:2}) }</p>
-          <p><strong>Monthly Income after Expenses:</strong> ${ (after).toLocaleString('en-AU', {minimumFractionDigits:2, maximumFractionDigits:2}) }</p>
-          ${ affordability ? '<p style="color:green;"><strong>Looks affordable.</strong></p>' : '<p style="color:#b22;"><strong>Warning:</strong> Repayments exceed income after expenses.</p>' }
-        `;
+    return Math.max(0, tax);
+  }
+
+  function minMonthlyExpenseFor(dependants, table){
+    const key = String(Math.max(0, Math.min(6, dependants)));
+    return table.minimum_monthly_expense_floor[key] ?? 2000;
+  }
+  const cardMonthlyCommitment = limits => limits * 0.03;
+
+  function maxBorrowing({ netMonthlyIncome, monthlyExpenses, otherMonthlyDebts, creditCardLimits, annualRatePct, years, bufferPct = 3.0 }){
+    const periods = 12;
+    const testRate = (annualRatePct + bufferPct)/100/periods;
+    const nper = years*periods;
+    const capacity = Math.max(0, netMonthlyIncome - monthlyExpenses - otherMonthlyDebts - cardMonthlyCommitment(creditCardLimits));
+    if(capacity<=0) return 0;
+    if(testRate===0) return capacity * nper;
+    return capacity * (1 - Math.pow(1+testRate, -nper)) / testRate;
+  }
+  function monthlyPI(amount, annualRatePct, years){
+    const r = annualPctToMonthly(annualRatePct); const n = years*12; return -pmt(r, n, amount);
+  }
+  function monthlyIO(amount, annualRatePct){ return amount * ((annualRatePct/100)/12); }
+  function calcLVR({price, deposit, lmiCapitalised=0}){
+    const loan = Math.max(0, price - deposit) + lmiCapitalised;
+    const lvr = (loan<=0 || price<=0) ? 0 : (loan / price);
+    return { loan, lvr };
+  }
+  function estimateLMI({loan, lvr, lmiTable}){
+    if(lvr<=0.80) return 0;
+    for(const band of lmiTable.bands){
+      if(lvr>=band.min_lvr && lvr<band.max_lvr){
+        for(const r of band.rates){
+          const max = r.max_loan==null ? Number.POSITIVE_INFINITY : r.max_loan;
+          if(loan>=r.min_loan && loan<max){ return loan * r.rate; }
+        }
       }
-      if (typeof updateStickySummary==='function') updateStickySummary({ line1:`Monthly Repayment: $${monthly.toFixed(0)}`, line2:`Income after: $${after.toFixed(0)}` });
-      drawChart(monthly, after);
     }
-    form.addEventListener('submit', recompute);
-    ['input','change'].forEach(ev => form.addEventListener(ev, recompute));
-    const submitBtn = form.querySelector('button[type="submit"]');
-    if (submitBtn){
-      submitBtn.addEventListener('click', (e)=>{ e.preventDefault(); const evt=new Event('submit',{cancelable:true}); form.dispatchEvent(evt); });
+    return 0;
+  }
+  function getStampDuty({price, state}){
+    if(typeof window.calculateStampDuty === 'function'){
+      try { return Math.max(0, window.calculateStampDuty(price, state)); } catch(e){}
     }
-    recompute();
+    if(window.STAMP_DUTY_TABLES && window.STAMP_DUTY_TABLES[state]){
+      const bands = window.STAMP_DUTY_TABLES[state];
+      let duty = 0, lastMax = 0;
+      for(const b of bands){
+        const max = b.upTo ?? Number.POSITIVE_INFINITY;
+        if(price>lastMax){
+          const taxable = Math.min(price, max) - (b.over ?? lastMax);
+          if(taxable>0){ duty = (b.base ?? duty) + taxable * b.rate; }
+          lastMax = max;
+        }
+      }
+      return Math.max(0, duty);
+    }
+    return 0;
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initRepaymentEstimator);
-  } else {
-    initRepaymentEstimator();
-  }
-})();
 
-// Bootstraps for Borrowing Power
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', bindBorrowingPower);
-} else {
-  bindBorrowingPower();
-}
+  const qs = s => document.querySelector(s);
+  const qsa = s => Array.from(document.querySelectorAll(s));
+  function bindSliderPair(slider, input, min, max, step){
+    if(slider){ slider.min=min; slider.max=max; slider.step=step; slider.addEventListener('input',()=>{ input.value = slider.value; }); }
+    if(input){ input.addEventListener('input',()=>{ const v = Math.max(+min, Math.min(+max, +input.value||0)); input.value = v; if(slider) slider.value = v; }); }
+  }
+  function toggleTooltip(btn, panelId){
+    const panel = document.getElementById(panelId);
+    if(!panel) return;
+    btn.addEventListener('click',()=>{
+      const open = panel.getAttribute('data-open') === 'true';
+      panel.setAttribute('data-open', String(!open));
+      btn.setAttribute('aria-expanded', String(!open));
+    });
+  }
+  function fillYears(select){
+    if(!select) return;
+    select.innerHTML = '';
+    for(let i=1;i<=30;i++){ const o=document.createElement('option'); o.value=String(i); o.textContent=String(i); select.appendChild(o); }
+    select.value='30';
+  }
+  const LS_KEYS = { bp:'hlm_bp_inputs', rp:'hlm_rp_inputs' };
+  function saveIfOptIn(key, data, checkbox){ if(checkbox && checkbox.checked){ localStorage.setItem(key, JSON.stringify(data)); } }
+  function restoreIfExists(key, checkbox){
+    try{ const raw = localStorage.getItem(key); if(!raw) return null; const parsed = JSON.parse(raw); if(checkbox) checkbox.checked = true; return parsed; }catch{ return null; }
+  }
+
+  async function initBorrowingPower(){
+    const form = qs('#bp-form'); if(!form) return;
+    const incomeSlider = qs('#incomeSlider'), incomeInput = qs('#incomeInput');
+    const expensesSlider = qs('#expensesSlider'), expensesInput = qs('#expensesInput');
+    const dependants = qs('#dependants');
+    const otherDebtsSlider = qs('#otherDebtsSlider'), otherDebts = qs('#otherDebts');
+    const rateSlider = qs('#rateSlider'), rate = qs('#rate');
+    const term = qs('#term'); fillYears(term);
+    const propertyPrice = qs('#propertyPrice'), deposit = qs('#deposit');
+    const state = qs('#state');
+    const capitaliseLMI = qs('#capitaliseLMI');
+    const rememberInputs = qs('#rememberInputs');
+    const recalcBtn = qs('#recalculateBtn');
+    qsa('.info-btn').forEach(btn=>{ const id = btn.getAttribute('aria-controls'); if(id) toggleTooltip(btn, id); });
+    bindSliderPair(incomeSlider, incomeInput, 20000, 300000, 1000);
+    bindSliderPair(expensesSlider, expensesInput, 0, 20000, 50);
+    bindSliderPair(otherDebtsSlider, otherDebts, 0, 10000, 50);
+    bindSliderPair(rateSlider, rate, 1, 10, 0.01);
+    const [taxBands, depTable, lmiTable] = await Promise.all([
+      fetch('/assets/au_tax_bands_2025_2026.json').then(r=>r.json()),
+      fetch('/assets/dependants_cost_table.json').then(r=>r.json()),
+      fetch('/assets/lmi_table.json').then(r=>r.json())
+    ]);
+    capitaliseLMI.checked = !!lmiTable.capitalise_by_default;
+    const restored = restoreIfExists(LS_KEYS.bp, rememberInputs);
+    if(restored){
+      Object.entries(restored).forEach(([id,val])=>{ const el = qs('#'+id); if(el){ if(el.type==='checkbox') el.checked=!!val; else el.value = val; } });
+      if(incomeSlider) incomeSlider.value = incomeInput.value;
+      if(expensesSlider) expensesSlider.value = expensesInput.value;
+      if(otherDebtsSlider) otherDebtsSlider.value = otherDebts.value;
+      if(creditLimitsSlider) creditLimitsSlider.value = creditLimits.value;
+      if(rateSlider) rateSlider.value = rate.value;
+    }
+    const out = {
+      maxLoanBuffered: qs('#maxLoanBuffered'),
+      maxLoanActual: qs('#maxLoanActual'),
+      monthlyPI: qs('#monthlyPI'),
+      monthlyIO: qs('#monthlyIO'),
+      lvr: qs('#lvr'),
+      lmi: qs('#lmi'),
+      stampDuty: qs('#stampDuty')
+    };
+    function render(){
+      const grossAnnual = +incomeInput.value || 0;
+	  const annualTax = calculateAnnualTax(grossAnnual, taxBands.brackets);
+      const netAnnual = grossAnnual - annualTax;
+      const netMonthly = netAnnual / 12;
+      const depCount = parseInt(dependants.value||'0',10);
+      const minFloor = minMonthlyExpenseFor(depCount, depTable);
+      let monthlyExp = Math.max(minFloor, +expensesInput.value||0);
+      if(netMonthly>0 && monthlyExp > netMonthly){
+        monthlyExp = netMonthly;
+        expensesInput.value = String(Math.round(monthlyExp));
+        if(expensesSlider) expensesSlider.value = expensesInput.value;
+      }
+      const otherDebtsVal = +otherDebts.value||0;
+      const ccLimits = 0;
+      const annualRate = parseFloat(parseFloat(rate.value).toFixed(2));
+      const years = parseInt(term.value,10);
+      const BUFFER_PCT = 3.0;
+	  const price = +propertyPrice.value || 0;
+	  const dep   = +deposit.value || 0;
+
+		const maxBuffered = maxBorrowing({
+		  netMonthlyIncome: netMonthly,
+		  monthlyExpenses: monthlyExp,
+		  otherMonthlyDebts: otherDebtsVal,
+		  creditCardLimits: ccLimits,
+		  annualRatePct: annualRate,
+		  years,
+		  bufferPct: BUFFER_PCT
+		});
+      const maxActual = maxBorrowing({
+		  netMonthlyIncome: netMonthly,
+		  monthlyExpenses: monthlyExp,
+		  otherMonthlyDebts: otherDebtsVal,
+		  creditCardLimits: ccLimits,
+		  annualRatePct: annualRate,
+		  years,
+		  bufferPct: 0
+		});
+      const base = calcLVR({price, deposit: dep, lmiCapitalised: 0});
+      let lmiEstimate = estimateLMI({loan: base.loan, lvr: base.lvr, lmiTable});
+      if(capitaliseLMI.checked && lmiEstimate>0){
+        const withLMI = calcLVR({price, deposit: dep, lmiCapitalised: lmiEstimate});
+        const lvr2 = withLMI.lvr;
+        const lmi2 = estimateLMI({loan: withLMI.loan, lvr: lvr2, lmiTable});
+        lmiEstimate = lmi2;
+      }
+      const duty = getStampDuty({price, state: state.value});
+      const monthlyPiAmt = monthlyPI(maxActual, annualRate, years);
+      const monthlyIoAmt = monthlyIO(maxActual, annualRate);
+      out.maxLoanBuffered.textContent = maxBuffered? AUD.format(Math.round(maxBuffered)) : '—';
+      out.maxLoanActual.textContent   = maxActual?   AUD.format(Math.round(maxActual))   : '—';
+      out.monthlyPI.textContent       = monthlyPiAmt? AUD.format(Math.round(monthlyPiAmt)) : '—';
+      out.monthlyIO.textContent       = monthlyIoAmt? AUD.format(Math.round(monthlyIoAmt)) : '—';
+      out.lvr.textContent             = price>0 ? PCT(base.lvr) : '—';
+      out.lmi.textContent             = lmiEstimate>0 ? AUD.format(Math.round(lmiEstimate)) : '—';
+      out.stampDuty.textContent       = duty>0 ? AUD.format(Math.round(duty)) : '—';
+	saveIfOptIn(LS_KEYS.bp, {
+	  incomeInput: incomeInput.value,
+	  expensesInput: expensesInput.value,
+	  dependants: dependants.value,
+	  otherDebts: otherDebts.value,
+	  rate: rate.value,
+	  term: term.value,
+	  propertyPrice: propertyPrice.value,
+	  deposit: deposit.value,
+	  state: state.value,
+	  capitaliseLMI: capitaliseLMI.checked
+	}, rememberInputs);
+    }
+    form.addEventListener('input', render);
+    recalcBtn?.addEventListener('click', render);
+    render();
+  }
+
+  function lazyLoadChartJs(){
+    return new Promise((res, rej)=>{
+      if(window.Chart){ res(); return; }
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+      s.defer = true;
+      s.onload = ()=>res(); s.onerror = rej; document.head.appendChild(s);
+    });
+  }
+  async function initRepayments(){
+    const form = document.querySelector('#repay-form'); if(!form) return;
+    const loanAmount = document.querySelector('#loanAmount');
+    const rRate = document.querySelector('#rRate');
+    const rTerm = document.querySelector('#rTerm'); (function(){rTerm.innerHTML=''; for(let i=1;i<=30;i++){const o=document.createElement('option');o.value=String(i);o.textContent=String(i);rTerm.appendChild(o);} rTerm.value='30';})();
+    const frequency = document.querySelector('#frequency');
+    const loanType = document.querySelector('#loanType');
+    const ioYears = document.querySelector('#ioYears');
+    const extra = document.querySelector('#extra');
+    const remember = document.querySelector('#rememberRepay');
+    const perRepay = document.querySelector('#perRepay');
+    const totalInterest = document.querySelector('#totalInterest');
+    const totalPaid = document.querySelector('#totalPaid');
+    const compare = document.querySelector('#compare');
+    const calcBtn = document.querySelector('#calcRepayBtn');
+    const restored = (function(key, checkbox){ try{const raw=localStorage.getItem(key); if(!raw) return null; const parsed=JSON.parse(raw); if(checkbox) checkbox.checked=true; return parsed;}catch{return null;} })('hlm_rp_inputs', remember);
+    if(restored){ Object.entries(restored).forEach(([id,val])=>{ const el = document.querySelector('#'+id); if(el){ el.value = val; }}); }
+    let chart;
+    function render(){
+      const params = {
+        amount: +loanAmount.value||0, annualRatePct: parseFloat(parseFloat(rRate.value).toFixed(2)),
+        years: parseInt(rTerm.value,10), frequency: frequency.value, type: loanType.value,
+        ioYears: parseInt(ioYears.value,10), extraPerPeriod: +extra.value||0
+      };
+      const res = amortize(params);
+      perRepay.textContent = res.perPayment ? new Intl.NumberFormat('en-AU',{style:'currency', currency:'AUD'}).format(Math.round(res.perPayment)) : '—';
+      totalInterest.textContent = AUD.format(Math.round(res.totalInterest));
+      totalPaid.textContent = AUD.format(Math.round(res.totalPaid));
+      const pi = amortize({...params, type:'pi', ioYears:0, extraPerPeriod:0});
+      const io = amortize({...params, type:'io', ioYears: Math.min(params.ioYears, params.years), extraPerPeriod:0});
+      const delta = Math.round(io.totalInterest - pi.totalInterest);
+      compare.textContent = (delta>=0?'+':'') + AUD.format(Math.abs(delta)) + ' interest vs P&I';
+      const canvas = document.getElementById('balanceChart');
+      if(canvas){
+        const sample = res.schedule.filter((x,idx)=>idx%12===0 || idx===res.schedule.length-1);
+        const labels = sample.map(x=>x.i); const data = sample.map(x=>Math.round(x.balance));
+        lazyLoadChartJs().then(()=>{
+          if(chart){ chart.destroy(); }
+          chart = new Chart(canvas.getContext('2d'), {
+            type:'line', data:{ labels, datasets:[{ label:'Balance', data }] },
+            options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } },
+                      scales:{ y:{ ticks:{ callback:(v)=>AUD.format(v) } } } }
+          });
+        });
+      }
+      if(remember && remember.checked){
+        localStorage.setItem('hlm_rp_inputs', JSON.stringify({
+          loanAmount: loanAmount.value, rRate: rRate.value, rTerm: rTerm.value,
+          frequency: frequency.value, loanType: loanType.value, ioYears: ioYears.value, extra: extra.value
+        }));
+      }
+    }
+    form.addEventListener('input', render);
+    calcBtn?.addEventListener('click', render);
+    render();
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{ initBorrowingPower(); initRepayments(); initMenu()});
+  window.HLM = { pmt, amortize, calculateAnnualTax, minMonthlyExpenseFor, maxBorrowing, monthlyPI, monthlyIO, calcLVR, estimateLMI, getStampDuty, periodsPer };
+})();
