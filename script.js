@@ -147,7 +147,7 @@ function initMenu(){
   const qsa = s => Array.from(document.querySelectorAll(s));
   function bindSliderPair(slider, input, min, max, step){
     if(slider){ slider.min=min; slider.max=max; slider.step=step; slider.addEventListener('input',()=>{ input.value = slider.value; }); }
-    if(input){ input.addEventListener('input',()=>{ const v = Math.max(+min, Math.min(+max, +input.value||0)); input.value = v; if(slider) slider.value = v; }); }
+    if(input){ input.addEventListener('blur',()=>{ const v = Math.max(+min, Math.min(+max, +input.value||0)); input.value = v; if(slider) slider.value = v; }); }
   }
   function toggleTooltip(btn, panelId){
     const panel = document.getElementById(panelId);
@@ -169,7 +169,64 @@ function initMenu(){
   function restoreIfExists(key, checkbox){
     try{ const raw = localStorage.getItem(key); if(!raw) return null; const parsed = JSON.parse(raw); if(checkbox) checkbox.checked = true; return parsed; }catch{ return null; }
   }
+  
+  // --- Stamp duty JSON normaliser ---
+// Accepts multiple shapes and returns: { NSW:[{over,upTo,base,rate},...], VIC:[...], ... }
+function normaliseStampDutyTables(raw){
+  if (!raw) return {};
 
+  // 1) Pick the top-level map of states
+  //    - If your file is { jurisdictions: { NSW:{bands:[...]}, ... } }
+  //    - If your file is already { NSW:[...], VIC:[...], ... }
+  //    - If your file is { states: { NSW: {bands:[...]}, ... } }
+  const byState =
+    raw.jurisdictions || raw.states || raw || {};
+
+  const out = {};
+
+  for (const [state, entry] of Object.entries(byState)) {
+    // If entry is already an array of bands, use it as-is
+    const bandsRaw = Array.isArray(entry)
+      ? entry
+      // else prefer .bands, but gracefully fall back to other common keys
+      : (entry && (entry.bands || entry.non_ppr_bands || entry.ppr_bands || entry.rates || [])) || [];
+
+    // Map every band to a canonical shape:
+    //   over = lower bound, upTo = upper bound (null/∞ ok), base = base duty at lower bound, rate = marginal (0..1)
+    const bands = bandsRaw.map(b => {
+      // tolerate either {over/upTo} or {min/max}
+      const over = (b.over ?? b.min ?? 0);
+      let upTo = (b.upTo ?? b.max);
+      if (upTo == null) upTo = Number.POSITIVE_INFINITY;
+
+      // tolerate either {rate} (0..1), {percent} (0..100), or {per_100} (# per $100)
+      let rate = b.rate;
+      if (rate == null && typeof b.percent === 'number') rate = b.percent / 100;
+      if (rate == null && typeof b.per_100 === 'number') rate = b.per_100 / 100;
+
+      // base is the accumulated duty at the band start; default to 0 if not provided
+      const base = (typeof b.base === 'number') ? b.base : 0;
+
+      // Fixed duty band (e.g., TAS first bracket) — allow "duty" to override
+      if (typeof b.duty === 'number') {
+        // Encode fixed as base=duty, rate=0, over=0, upTo=over so loop sets duty to base
+        return { over, upTo, base: b.duty, rate: 0 };
+      }
+
+      return { over, upTo, base, rate: rate ?? 0 };
+    });
+
+    // Sort by lower bound just in case
+    bands.sort((a,b) => a.over - b.over);
+
+    out[state] = bands;
+  }
+
+  return out;
+}
+  
+  
+  
   async function initBorrowingPower(){
     const form = qs('#bp-form'); if(!form) return;
     const incomeSlider = qs('#incomeSlider'), incomeInput = qs('#incomeInput');
@@ -184,15 +241,20 @@ function initMenu(){
     const rememberInputs = qs('#rememberInputs');
     const recalcBtn = qs('#recalculateBtn');
     qsa('.info-btn').forEach(btn=>{ const id = btn.getAttribute('aria-controls'); if(id) toggleTooltip(btn, id); });
-    bindSliderPair(incomeSlider, incomeInput, 20000, 300000, 1000);
+    bindSliderPair(incomeSlider, incomeInput, 0, 300000, 1000);
     bindSliderPair(expensesSlider, expensesInput, 0, 20000, 50);
     bindSliderPair(otherDebtsSlider, otherDebts, 0, 10000, 50);
-    bindSliderPair(rateSlider, rate, 1, 10, 0.01);
-    const [taxBands, depTable, lmiTable] = await Promise.all([
+    bindSliderPair(rateSlider, rate, 0, 10, 0.01);
+    const [taxBands, depTable, lmiTable, stampDutyRaw] = await Promise.all([
       fetch('/assets/au_tax_bands_2025_2026.json').then(r=>r.json()),
       fetch('/assets/dependants_cost_table.json').then(r=>r.json()),
-      fetch('/assets/lmi_table.json').then(r=>r.json())
+      fetch('/assets/lmi_table.json').then(r=>r.json()),
+	  fetch('/assets/stampDuty.json').then(r=>r.json())
     ]);
+	
+	// 🔧 NEW: build canonical state -> [bands] map used by getStampDuty
+	window.STAMP_DUTY_TABLES = normaliseStampDutyTables(stampDutyRaw);
+	
     capitaliseLMI.checked = !!lmiTable.capitalise_by_default;
     const restored = restoreIfExists(LS_KEYS.bp, rememberInputs);
     if(restored){
@@ -200,7 +262,6 @@ function initMenu(){
       if(incomeSlider) incomeSlider.value = incomeInput.value;
       if(expensesSlider) expensesSlider.value = expensesInput.value;
       if(otherDebtsSlider) otherDebtsSlider.value = otherDebts.value;
-      if(creditLimitsSlider) creditLimitsSlider.value = creditLimits.value;
       if(rateSlider) rateSlider.value = rate.value;
     }
     const out = {

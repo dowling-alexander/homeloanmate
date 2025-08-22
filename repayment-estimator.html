@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Repayment Estimator – HomeLoanMate</title>
+  <title>Repayment Estimator – BorrowPower</title>
   <meta name="description" content="Estimate P&I or interest‑only repayments with extra payments and frequency options." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/styles.css" />
-  <meta property="og:title" content="Repayment Estimator – HomeLoanMate" />
+  <meta property="og:title" content="Repayment Estimator – BorrowPower" />
   <meta name="twitter:card" content="summary" />
   <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/chart.js" />
 </head>
@@ -66,16 +66,86 @@
   <main class="container">
     <section class="card" aria-labelledby="repay-heading">
       <h1 id="repay-heading">Repayment Estimator</h1>
-      <form id="repay-form" class="form-grid" novalidate>
-        <div class="field"><label for="loanAmount">Loan amount</label><div class="input-row"><input type="number" id="loanAmount" inputmode="decimal" value="500000" /></div></div>
-        <div class="field"><label for="rRate">Interest rate (%)</label><div class="input-row"><input type="number" id="rRate" step="0.05" value="5.60" /></div></div>
-        <div class="field"><label for="rTerm">Term (years)</label><select id="rTerm"></select></div>
-        <div class="field"><label for="frequency">Frequency</label><select id="frequency"><option value="monthly">Monthly</option><option value="fortnightly">Fortnightly</option><option value="weekly">Weekly</option></select></div>
-        <div class="field"><label for="loanType">Type</label><select id="loanType"><option value="pi">Principal & Interest</option><option value="io">Interest‑Only</option></select></div>
-        <div class="field"><label for="ioYears">Interest‑Only period (years)</label><select id="ioYears"><option value="0">0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><small class="helper">Applied only if Type = IO.</small></div>
-        <div class="field"><label for="extra">Extra repayments per frequency</label><div class="input-row"><input type="number" id="extra" inputmode="decimal" value="0" /></div></div>
-        <div class="field"><div class="toggle"><input type="checkbox" id="rememberRepay" /><label for="rememberRepay">Remember my inputs on this device</label></div></div>
-      </form>
+		<form id="repay-form" class="form-grid" novalidate>
+		  <div class="field">
+			<label for="loanAmountInput">Loan amount</label>
+			<div class="input-row">
+			  <input type="range" id="loanAmountSlider" min="0" max="10000000" step="1000" value="500000" />
+			  <input type="number" id="loanAmountInput" inputmode="decimal" value="500000" />
+			</div>
+		  </div>
+
+		  <div class="field">
+			<label for="rRateInput">Interest rate (%)</label>
+			<div class="input-row">
+			  <input type="range" id="rRateSlider" min="0" max="15" step="0.01" value="5.60" />
+			  <input type="number" id="rRateInput" step="0.01" value="5.60" />
+			</div>
+		  </div>
+
+		  <div class="field">
+			<label for="rTerm">Term (years)</label>
+			<div class="input-row">
+			  <input type="range" id="rTermSlider" min="1" max="40" step="1" value="30" />
+			  <select id="rTerm"></select>
+			</div>
+		  </div>
+
+		  <div class="field">
+			<label for="frequency">Frequency</label>
+			<select id="frequency">
+			  <option value="monthly">Monthly</option>
+			  <option value="fortnightly">Fortnightly</option>
+			  <option value="weekly">Weekly</option>
+			</select>
+		  </div>
+
+		  <div class="field">
+			<label for="loanType">Type</label>
+			<select id="loanType">
+			  <option value="pi">Principal &amp; Interest</option>
+			  <option value="io">Interest-Only</option>
+			</select>
+		  </div>
+
+		  <div class="field">
+			<label for="ioYears">Interest-Only period (years)</label>
+			<div class="input-row">
+			  <input type="range" id="ioYearsSlider" min="0" max="5" step="1" value="0" />
+			  <select id="ioYears">
+				<option value="0">0</option><option>1</option><option>2</option>
+				<option>3</option><option>4</option><option>5</option>
+			  </select>
+			</div>
+			<small class="helper">Applied only if Type = IO.</small>
+		  </div>
+
+		  <div class="field">
+			<label for="extraInput">Extra repayments per frequency</label>
+			<div class="input-row">
+			  <input type="range" id="extraSlider" min="0" max="5000" step="50" value="0" />
+			  <input type="number" id="extraInput" inputmode="decimal" value="0" />
+			</div>
+		  </div>
+
+		  <div class="field span-all">
+			<div class="toggle">
+			  <input type="checkbox" id="rememberRepay" />
+			  <label for="rememberRepay">Remember my inputs on this device</label>
+			</div>
+		  </div>
+		</form>
+
+<!-- Simple outputs (IDs referenced in JS below) -->
+<div id="repay-results" class="results">
+  <div><strong>Scheduled repayment per period:</strong> <span id="outScheduled">—</span></div>
+  <div id="outExtraRow" style="display:none;"><strong>With extra per period:</strong> <span id="outWithExtra">—</span></div>
+  <div id="ioBlock" style="display:none; margin-top:8px;">
+    <div><strong>IO phase payment:</strong> <span id="outIO">—</span></div>
+    <div><strong>After IO payment:</strong> <span id="outPostIO">—</span></div>
+  </div>
+</div>
+
       <section class="results" aria-live="polite">
         <div class="result-item"><span>Repayment per period</span><strong id="perRepay">—</strong></div>
         <div class="result-item"><span>Total interest</span><strong id="totalInterest">—</strong></div>
