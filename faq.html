@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>FAQ – HomeLoanMate</title>
-  <meta name="description" content="Frequently asked questions about HomeLoanMate calculators." />
+  <title>FAQ – BorrowPower</title>
+  <meta name="description" content="Frequently asked questions about BorrowPower calculators." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/styles.css" />
   <script type="application/ld+json">
@@ -14,7 +14,7 @@
       {"@type":"Question","name":"How are living expenses and dependants handled?","acceptedAnswer":{"@type":"Answer","text":"We enforce a conservative minimum monthly expense floor that scales with the number of dependants (0–6). You can enter higher expenses; the floor prevents unrealistically low costs of living."}},
       {"@type":"Question","name":"Do you include stamp duty and state costs?","acceptedAnswer":{"@type":"Answer","text":"Yes. We reference the state stamp duty tables already in the app’s script.js for indicative calculations. Check your state/territory revenue office or your lender for exact, current amounts."}},
       {"@type":"Question","name":"Why add a 3% serviceability buffer?","acceptedAnswer":{"@type":"Answer","text":"Lenders assess your ability to repay at a higher “buffered” rate to account for potential rate rises. We default to +3% on top of your entered rate; you can toggle this."}},
-      {"@type":"Question","name":"Is this financial advice?","acceptedAnswer":{"@type":"Answer","text":"No. HomeLoanMate is a general-information tool only. Speak to a licensed professional for advice tailored to you."}}
+      {"@type":"Question","name":"Is this financial advice?","acceptedAnswer":{"@type":"Answer","text":"No. BorrowPower is a general-information tool only. Speak to a licensed professional for advice tailored to you."}}
     ]
   }
   </script>
@@ -92,21 +92,13 @@
     <p>Lenders assess your ability to repay at a higher “buffered” rate to account for potential rate rises. We default to +3% on top of your entered rate; you can toggle this.</p>
 
     <h2>Is this financial advice?</h2>
-    <p>No. HomeLoanMate is a general-information tool only. Speak to a licensed professional for advice tailored to you.</p>
+    <p>No. BorrowPower is a general-information tool only. Speak to a licensed professional for advice tailored to you.</p>
+	
+	<div data-include="/partials/important-information.html"></div>
   </main>
   
-<footer class="footer" role="contentinfo">
-  <div class="footer-inner">
-    <strong>Important:</strong> General information only — not financial or credit advice.
-    <div>
-      <a href="/privacy.html">Privacy</a> ·
-      <a href="/terms.html">Terms</a> ·
-      <a href="#" aria-disabled="true">Contact (coming soon)</a>
-    </div>
-    <small>© <span id="y"></span> HomeLoanMate</small>
-  </div>
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
-</footer>
 
+  <script defer src="/assets/include.js"></script>
+  <script defer src="/script.js"></script>
 </body>
 </html>

@@ -46,7 +46,7 @@ input[type="range"]{width:100%}
 .ad-slot{display:block;width:100%;min-height:120px}
 @media (min-width:375px){.site-title{font-size:19px}}
 @media (min-width:430px){.input-row{grid-template-columns:1fr 160px}}
-@media (min-width:768px){.form-grid{grid-template-columns:1fr 1fr}.header-inner{padding:16px}.brand svg{height:32px}}
+@media (min-width:768px){.form-grid{grid-template-columns:1fr 1fr}.header-inner{padding:16px}.brand svg{height:45px}}
 @media (min-width:1200px){.container{padding:24px}.form-grid{grid-template-columns:repeat(3,1fr)}}
 
 /* --- Drawer Nav + Hamburger --- */
@@ -101,3 +101,4 @@ body.no-scroll { overflow: hidden; }
     flex-direction:row; gap:8px; padding:0; width:auto; height:auto;
   }
 }
+

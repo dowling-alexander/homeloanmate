@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>About – HomeLoanMate</title>
-  <meta name="description" content="About HomeLoanMate" />
+  <title>About – BorrowPower</title>
+  <meta name="description" content="About BorrowPower" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
@@ -61,23 +61,83 @@
 </header>
 
   <main class="container prose">
-    <!-- Keep your existing About blurb verbatim. Paste it below and remove this comment. -->
-    <h1>About HomeLoanMate</h1>
-    <p><!-- Your existing blurb from the repo goes here, unchanged. --></p>
-  </main>
-  
-<footer class="footer" role="contentinfo">
-  <div class="footer-inner">
-    <strong>Important:</strong> General information only — not financial or credit advice.
-    <div>
-      <a href="/privacy.html">Privacy</a> ·
-      <a href="/terms.html">Terms</a> ·
-      <a href="#" aria-disabled="true">Contact (coming soon)</a>
-    </div>
-    <small>© <span id="y"></span> HomeLoanMate</small>
-  </div>
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
-</footer>
 
+      <div class="kicker">About</div>
+      <h2>BorrowPower is built for quick, transparent home-loan maths in Australia.</h2>
+      <p class="sub">We help you sanity-check borrowing power and repayments—without forms, phone calls, or sales pressure. Use the tools to understand your numbers before talking to a lender or broker.</p>
+      <div class="cta">
+        <a class="btn" href="./index.html">Try Borrowing Power</a>
+        <a class="btn secondary" href="./repayment-estimator.html">Estimate Repayments</a>
+      </div>
+
+
+    <section class="content-grid" aria-label="About content">
+
+          <h2>Who’s behind this</h2>
+          <p>Hi, I’m <strong>Alexander</strong> (engineer &amp; spreadsheet tragic). I built BorrowPower to make the early steps of home-loan maths quick and transparent. This site is independent; we don’t recommend specific lenders or products.</p>
+
+          <h2>What BorrowPower does</h2>
+          <ul>
+            <li><strong>Borrowing Power:</strong> a first-pass estimate based on income, dependants and typical living-cost buffers.</li>
+            <li><strong>Repayment Estimator:</strong> Principal &amp; Interest and Interest-Only scenarios with weekly/fortnightly/monthly options.</li>
+            <li><strong>Up-front costs:</strong> Stamp duty by state and an indicative LMI estimate to help budget total costs.</li>
+          </ul>
+          <p class="muted">These are <em>estimates</em> for learning and planning. They’re not personal financial advice.</p>
+
+
+
+          <h2>How the calculators work</h2>
+          <ul>
+            <li><strong>Interest rate:</strong> default shown on each tool; you can change it.</li>
+            <li><strong>Buffering:</strong> borrowing power includes a prudent rate buffer to mimic lender stress-testing.</li>
+            <li><strong>Tax:</strong> uses <strong>2025–26</strong> Australian tax settings to convert gross → net where relevant.</li>
+            <li><strong>Living costs:</strong> dependants + a baseline living-cost table (not a lender’s HEM) for a realistic range.</li>
+            <li><strong>Repayments:</strong> standard amortisation for P&amp;I; IO shows interest-only during IO, then P&amp;I for the remaining term.</li>
+            <li><strong>LMI:</strong> indicative only—actual LMI varies by lender, product, LVR and profile.</li>
+          </ul>
+          <p class="muted">For full assumptions, see the <a href="./faq.html">FAQ</a> and <a href="./partials/important-information.html">Important Information</a>.</p>
+
+
+
+          <h2>What’s not included (yet)</h2>
+          <ul>
+            <li>Credit history, lender-specific policies, fees or special rates.</li>
+            <li>Detailed HEM test, bonus-income haircuts, or multi-debt scenarios.</li>
+            <li>Personal advice—BorrowPower is a calculator, not a credit provider or broker.</li>
+          </ul>
+
+
+          <h2>How we make money</h2>
+          <p>Right now: <strong>Google AdSense</strong>. Later: selected affiliate partnerships for tools or guides we genuinely recommend. If/when we use affiliate links, we’ll label them clearly so you know.</p>
+
+
+
+          <h2>Privacy &amp; data handling</h2>
+          <ul>
+            <li>No sign-in required.</li>
+            <li>If you switch on “Remember my inputs,” values are stored locally on <em>your device</em> (localStorage). They never leave your browser.</li>
+            <li>We don’t sell your personal data.</li>
+          </ul>
+          <p class="muted">See our <a href="./privacy.html">Privacy Policy</a> for details.</p>
+
+
+          <h2>Roadmap</h2>
+          <ul>
+            <li>Extra-repayment impact: time &amp; interest saved.</li>
+            <li>Offset &amp; redraw modelling.</li>
+            <li>Detailed expense categories and multi-income households.</li>
+            <li>CSV/PDF export of scenario runs.</li>
+            <li>Accessibility &amp; performance improvements.</li>
+          </ul>
+          <p class="muted">Have an idea? We’d love to hear it.</p>
+
+
+    </section>
+
+  <div data-include="/partials/important-information.html"></div>
+  </main>
+
+  <script defer src="/assets/include.js"></script>
+  <script defer src="/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,73 @@
+{
+  "NSW": [
+    { "over": 0,        "upTo": 17000,   "base": 0,     "rate": 0.0125 },
+    { "over": 17000,    "upTo": 37000,   "base": 212,   "rate": 0.015 },
+    { "over": 37000,    "upTo": 99000,   "base": 512,   "rate": 0.0175 },
+    { "over": 99000,    "upTo": 372000,  "base": 1597,  "rate": 0.035 },
+    { "over": 372000,   "upTo": 1240000, "base": 11152, "rate": 0.045 },
+    { "over": 1240000,  "upTo": 3721000, "base": 50212, "rate": 0.055 },
+    { "over": 3721000,  "upTo": null,    "base": 186667,"rate": 0.07 }
+  ],
+
+  "VIC": [
+    { "over": 0,        "upTo": 25000,   "base": 0,     "rate": 0.014 },
+    { "over": 25000,    "upTo": 130000,  "base": 350,   "rate": 0.024 },
+    { "over": 130000,   "upTo": 960000,  "base": 2870,  "rate": 0.06 },
+    { "over": 960000,   "upTo": 2000000, "base": 0,     "rate": 0.055 },
+    { "over": 2000000,  "upTo": null,    "base": 110000,"rate": 0.065 }
+  ],
+
+  "QLD": [
+    { "over": 0,        "upTo": 5000,    "base": 0,     "rate": 0.0 },
+    { "over": 5000,     "upTo": 75000,   "base": 0,     "rate": 0.015 },
+    { "over": 75000,    "upTo": 540000,  "base": 1050,  "rate": 0.035 },
+    { "over": 540000,   "upTo": 1000000, "base": 17325, "rate": 0.045 },
+    { "over": 1000000,  "upTo": null,    "base": 38025, "rate": 0.0575 }
+  ],
+
+  "SA": [
+    { "over": 0,        "upTo": 12000,   "base": 0,     "rate": 0.01 },
+    { "over": 12000,    "upTo": 30000,   "base": 120,   "rate": 0.02 },
+    { "over": 30000,    "upTo": 50000,   "base": 480,   "rate": 0.03 },
+    { "over": 50000,    "upTo": 100000,  "base": 1080,  "rate": 0.035 },
+    { "over": 100000,   "upTo": 200000,  "base": 2830,  "rate": 0.04 },
+    { "over": 200000,   "upTo": 250000,  "base": 6830,  "rate": 0.0425 },
+    { "over": 250000,   "upTo": 300000,  "base": 8955,  "rate": 0.0475 },
+    { "over": 300000,   "upTo": 500000,  "base": 11330, "rate": 0.05 },
+    { "over": 500000,   "upTo": null,    "base": 21330, "rate": 0.055 }
+  ],
+
+  "WA": [
+    { "over": 0,        "upTo": 120000,  "base": 0,     "rate": 0.019 },
+    { "over": 120000,   "upTo": 150000,  "base": 2280,  "rate": 0.0285 },
+    { "over": 150000,   "upTo": 360000,  "base": 3135,  "rate": 0.038 },
+    { "over": 360000,   "upTo": 725000,  "base": 11115, "rate": 0.0475 },
+    { "over": 725000,   "upTo": null,    "base": 28453, "rate": 0.0515 }
+  ],
+
+  "TAS": [
+    { "over": 0,        "upTo": 3000,    "base": 50,    "rate": 0.0 },
+    { "over": 3000,     "upTo": 25000,   "base": 50,    "rate": 0.0175 },
+    { "over": 25000,    "upTo": 75000,   "base": 435,   "rate": 0.0225 },
+    { "over": 75000,    "upTo": 200000,  "base": 1560,  "rate": 0.035 },
+    { "over": 200000,   "upTo": 375000,  "base": 5935,  "rate": 0.04 },
+    { "over": 375000,   "upTo": 725000,  "base": 12935, "rate": 0.0425 },
+    { "over": 725000,   "upTo": null,    "base": 27810, "rate": 0.045 }
+  ],
+
+  "ACT": [
+    { "over": 0,        "upTo": 200000,  "base": 0,     "rate": 0.012 },
+    { "over": 200000,   "upTo": 300000,  "base": 2400,  "rate": 0.022 },
+    { "over": 300000,   "upTo": 500000,  "base": 4600,  "rate": 0.034 },
+    { "over": 500000,   "upTo": 750000,  "base": 11400, "rate": 0.0432 },
+    { "over": 750000,   "upTo": 1000000, "base": 20040, "rate": 0.059 },
+    { "over": 1000000,  "upTo": 1455000, "base": 34790, "rate": 0.064 },
+    { "over": 1455000,  "upTo": null,    "base": 0,     "rate": 0.0454 }
+  ],
+
+  "NT": [
+    { "over": 525000,   "upTo": 3000000, "base": 25987.5, "rate": 0.0495 },
+    { "over": 3000000,  "upTo": 5000000, "base": 148500,  "rate": 0.0575 },
+    { "over": 5000000,  "upTo": null,    "base": 263500,  "rate": 0.0595 }
+  ]
+}
