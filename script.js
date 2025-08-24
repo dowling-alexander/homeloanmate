@@ -45,6 +45,9 @@ function initMenu(){
 }
 
 
+
+
+
   function pmt(rate, nper, pv){
     if(rate === 0) return -(pv / nper);
     const pow = Math.pow(1+rate, nper);
@@ -225,7 +228,7 @@ function normaliseStampDutyTables(raw){
   return out;
 }
   
-  
+
   
   async function initBorrowingPower(){
     const form = qs('#bp-form'); if(!form) return;
@@ -294,6 +297,8 @@ function normaliseStampDutyTables(raw){
 	  const price = +propertyPrice.value || 0;
 	  const dep   = +deposit.value || 0;
 
+
+
 		const maxBuffered = maxBorrowing({
 		  netMonthlyIncome: netMonthly,
 		  monthlyExpenses: monthlyExp,
@@ -359,19 +364,52 @@ function normaliseStampDutyTables(raw){
   }
   async function initRepayments(){
     const form = document.querySelector('#repay-form'); if(!form) return;
-    const loanAmount = document.querySelector('#loanAmount');
-    const rRate = document.querySelector('#rRate');
-    const rTerm = document.querySelector('#rTerm'); (function(){rTerm.innerHTML=''; for(let i=1;i<=30;i++){const o=document.createElement('option');o.value=String(i);o.textContent=String(i);rTerm.appendChild(o);} rTerm.value='30';})();
+    const loanAmount = document.querySelector('#loanAmountInput');
+    const rRate = document.querySelector('#rRateInput');
+    const rTerm = document.querySelector('#rTerm'); 
     const frequency = document.querySelector('#frequency');
     const loanType = document.querySelector('#loanType');
     const ioYears = document.querySelector('#ioYears');
-    const extra = document.querySelector('#extra');
+    const extra = document.querySelector('#extraInput');
+	
+	  // sliders (the “ranges”)
+	const loanAmountSlider = document.querySelector('#loanAmountSlider');
+	const rRateSlider      = document.querySelector('#rRateSlider');
+	const rTermSlider      = document.querySelector('#rTermSlider');
+	const ioYearsSlider    = document.querySelector('#ioYearsSlider');
+	const extraSlider      = document.querySelector('#extraSlider');
+	
     const remember = document.querySelector('#rememberRepay');
     const perRepay = document.querySelector('#perRepay');
     const totalInterest = document.querySelector('#totalInterest');
     const totalPaid = document.querySelector('#totalPaid');
     const compare = document.querySelector('#compare');
     const calcBtn = document.querySelector('#calcRepayBtn');
+	
+		  // ✅ now it's safe to touch rTermSlider
+(function(){
+		rTerm.innerHTML = '';
+		for (let i = 1; i <= 30; i++){
+		  const o = document.createElement('option');
+		  o.value = String(i);
+		  o.textContent = String(i);
+		  rTerm.appendChild(o);
+		}
+		rTerm.value = '30';
+		if (rTermSlider) rTermSlider.value = '30';
+	  })();
+
+	  // (bindings etc…)
+	
+	
+	
+	  // bind slider pairs for this page
+	bindSliderPair(loanAmountSlider, loanAmount, 0, 2000000, 1000);
+	bindSliderPair(rRateSlider,      rRate,      0,       15, 0.01);
+	bindSliderPair(extraSlider,      extra,      0,     5000,   50);
+	bindSliderPair(ioYearsSlider,    ioYears,    0,        5,    1);
+	
+	
     const restored = (function(key, checkbox){ try{const raw=localStorage.getItem(key); if(!raw) return null; const parsed=JSON.parse(raw); if(checkbox) checkbox.checked=true; return parsed;}catch{return null;} })('hlm_rp_inputs', remember);
     if(restored){ Object.entries(restored).forEach(([id,val])=>{ const el = document.querySelector('#'+id); if(el){ el.value = val; }}); }
     let chart;
@@ -402,12 +440,17 @@ function normaliseStampDutyTables(raw){
           });
         });
       }
-      if(remember && remember.checked){
-        localStorage.setItem('hlm_rp_inputs', JSON.stringify({
-          loanAmount: loanAmount.value, rRate: rRate.value, rTerm: rTerm.value,
-          frequency: frequency.value, loanType: loanType.value, ioYears: ioYears.value, extra: extra.value
-        }));
-      }
+		if (remember?.checked) {
+		  localStorage.setItem('hlm_rp_inputs', JSON.stringify({
+			loanAmount: loanAmount.value,
+			rRate:      rRate.value,
+			rTerm:      rTerm.value,
+			frequency:  frequency.value,
+			loanType:   loanType.value,
+			ioYears:    ioYears.value,
+			extra:      extra.value
+		  }));
+		}
     }
     form.addEventListener('input', render);
     calcBtn?.addEventListener('click', render);
