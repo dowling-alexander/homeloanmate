@@ -11,16 +11,8 @@
   <meta property="og:description" content="Mobile-first AU borrowing power estimate with tax→net, dependants floor, LMI and stamp duty." />
   <meta name="twitter:card" content="summary" />
   
-<script>
-  window.ADSENSE_CLIENT = window.ADSENSE_CLIENT || "";
-  if (window.ADSENSE_CLIENT) {
-    const s = document.createElement("script");
-    s.async = true;
-    s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" + encodeURIComponent(window.ADSENSE_CLIENT);
-    s.crossOrigin = "anonymous";
-    document.head.appendChild(s);
-  }
-</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6595597891926669"
+     crossorigin="anonymous"></script>
 
   <script type="application/ld+json">
   {
@@ -28,6 +20,8 @@
     "publisher":{"@type":"Organization","name":"BorrowPower"}
   }
   </script>
+  
+  
 </head>
 <body>
   
@@ -176,7 +170,6 @@
         <div class="result-item"><span>Estimated LMI</span><strong id="lmi">—</strong></div>
         <div class="result-item"><span>Stamp duty (indicative)</span><strong id="stampDuty">—</strong></div>
       </section>
-
       
 <div class="ad-slot" aria-label="Advertisement">
   <ins class="adsbygoogle"
@@ -200,6 +193,14 @@
   <div class="sticky-cta" role="region" aria-label="Quick actions">
     <button class="btn btn-primary" id="recalculateBtn">Recalculate</button>
     <button class="btn btn-outline" onclick="location.href='/repayment-estimator.html'">Estimate repayments</button>
+	  	 <div class="disclaimer">
+		  <p>
+			This calculator provides general estimates only and is 
+			<a href="/terms.html">not financial advice</a>. 
+			Please check with a licensed lender, broker, or financial adviser 
+			before making decisions.
+		  </p>
+		</div>
   </div>
 
   <script defer src="/assets/include.js"></script>

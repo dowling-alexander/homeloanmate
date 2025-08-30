@@ -102,3 +102,22 @@ body.no-scroll { overflow: hidden; }
   }
 }
 
+.disclaimer {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #555;
+  background: #f9f9f9;
+  border-left: 3px solid #009688; /* teal accent */
+  border-radius: 6px;
+}
+
+.disclaimer a {
+  color: #00796b; /* darker teal for link */
+  text-decoration: underline;
+}
+
+.disclaimer a:hover {
+  color: #004d40; /* even darker on hover */
+}

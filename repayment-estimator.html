@@ -8,7 +8,9 @@
   <link rel="stylesheet" href="/styles.css" />
   <meta property="og:title" content="Repayment Estimator – BorrowPower" />
   <meta name="twitter:card" content="summary" />
-  <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/chart.js" />
+  <!-- <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/chart.js" /> -->
+   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6595597891926669"
+     crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -114,7 +116,7 @@
 				<option>3</option><option>4</option><option>5</option>
 			  </select>
 			</div>
-			<small class="helper">Applied only if Type = IO.</small>
+			<!-- <small class="helper">Applied only if Type = IO.</small> -->
 		  </div>
 
 		  <div class="field">
@@ -149,12 +151,24 @@
         <div class="result-item"><span>Total paid</span><strong id="totalPaid">—</strong></div>
         <div class="result-item"><span>Comparison (P&I vs IO)</span><strong id="compare">—</strong></div>
       </section>
-      <div class="card" style="height:320px"><canvas id="balanceChart" width="600" height="300" aria-label="Balance over time"></canvas></div>
+      <!-- <div class="card" style="height:320px"><canvas id="balanceChart" width="600" height="300" aria-label="Balance over time"></canvas></div> -->
+	  
+
       <div class="ad-slot"></div>
     </section>
     <div data-include="/partials/important-information.html"></div>
   </main>
-  <div class="sticky-cta"><button class="btn btn-primary" id="calcRepayBtn">Recalculate</button><button class="btn btn-outline" onclick="location.href='/'">Borrowing Power</button></div>
+  <div class="sticky-cta"><button class="btn btn-primary" id="calcRepayBtn">Recalculate</button><button class="btn btn-outline" onclick="location.href='/'">Borrowing Power</button>
+  	  	<div class="disclaimer">
+		  <p>
+			This calculator provides general estimates only and is 
+			<a href="/terms.html">not financial advice</a>. 
+			Please check with a licensed lender, broker, or financial adviser 
+			before making decisions.
+		  </p>
+		</div>
+  
+  </div>
   <script defer src="/assets/include.js"></script>
   <script defer src="/script.js"></script>
 </body>
