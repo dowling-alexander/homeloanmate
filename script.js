@@ -427,8 +427,8 @@ function normaliseStampDutyTables(raw){
       const io = amortize({...params, type:'io', ioYears: Math.min(params.ioYears, params.years), extraPerPeriod:0});
       const delta = Math.round(io.totalInterest - pi.totalInterest);
       compare.textContent = (delta>=0?'+':'') + AUD.format(Math.abs(delta)) + ' interest vs P&I';
-      const canvas = document.getElementById('balanceChart');
-      if(canvas){
+      // const canvas = document.getElementById('balanceChart');
+/*       if(canvas){
         const sample = res.schedule.filter((x,idx)=>idx%12===0 || idx===res.schedule.length-1);
         const labels = sample.map(x=>x.i); const data = sample.map(x=>Math.round(x.balance));
         lazyLoadChartJs().then(()=>{
@@ -439,7 +439,7 @@ function normaliseStampDutyTables(raw){
                       scales:{ y:{ ticks:{ callback:(v)=>AUD.format(v) } } } }
           });
         });
-      }
+      } */
 		if (remember?.checked) {
 		  localStorage.setItem('hlm_rp_inputs', JSON.stringify({
 			loanAmount: loanAmount.value,
