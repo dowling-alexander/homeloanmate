@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GKLL8W3BP2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GKLL8W3BP2');
+</script>
   <meta charset="utf-8" />
   <title>Borrowing Power Calculator – BorrowPower</title>
   <meta name="description" content="Estimate your borrowing power using 2025/26 AU tax bands, dependants expense floor, LMI, and a 3% serviceability buffer." />
@@ -170,6 +179,15 @@
         <div class="result-item"><span>Estimated LMI</span><strong id="lmi">—</strong></div>
         <div class="result-item"><span>Stamp duty (indicative)</span><strong id="stampDuty">—</strong></div>
       </section>
+	  
+	<div class="disclaimer">
+	  <p>
+		This calculator provides general estimates only and is 
+		<a href="/terms.html">not financial advice</a>. 
+		Please check with a licensed lender, broker, or financial adviser 
+		before making decisions.
+	  </p>
+	</div>
       
 <div class="ad-slot" aria-label="Advertisement">
   <ins class="adsbygoogle"
@@ -193,14 +211,7 @@
   <div class="sticky-cta" role="region" aria-label="Quick actions">
     <button class="btn btn-primary" id="recalculateBtn">Recalculate</button>
     <button class="btn btn-outline" onclick="location.href='/repayment-estimator.html'">Estimate repayments</button>
-	  	 <div class="disclaimer">
-		  <p>
-			This calculator provides general estimates only and is 
-			<a href="/terms.html">not financial advice</a>. 
-			Please check with a licensed lender, broker, or financial adviser 
-			before making decisions.
-		  </p>
-		</div>
+
   </div>
 
   <script defer src="/assets/include.js"></script>
