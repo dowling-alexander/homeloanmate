@@ -1,3 +1,6 @@
+# Allow all crawlers to access everything
 User-agent: *
-Allow: /
-Sitemap: https://homeloanmate.com.au/sitemap.xml
+Disallow:
+
+# Point to your sitemap (important for Google indexing)
+Sitemap: https://borrowpower.com.au/sitemap.xml
