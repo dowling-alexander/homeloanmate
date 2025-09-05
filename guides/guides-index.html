@@ -46,34 +46,87 @@
   </header>
 
   <main class="container" id="main">
-    <section class="card">
-      <h1>Guides & Insights</h1>
-      <p class="helper">Explainers on borrowing power, repayments, LMI and more — written for Australians.</p>
-    </section>
+		<section class="card hero">
+		<div class="hero-media">
+		<img src="/assets/hero-guides.png" alt="Home loan insights" loading="eager" width="1200" height="480">
+		</div>
+		<div class="hero-body">
+		<h1>Guides & Insights</h1>
+		<p class="helper">Explainers on borrowing power, repayments, LMI and more — written for Australians.</p>
+		<div class="chip-row">
+		  <button class="chip" data-filter="all" aria-pressed="true">All</button>
+		  <button class="chip" data-filter="borrowing">Borrowing Power</button>
+		  <button class="chip" data-filter="repayments">Repayments</button>
+		  <button class="chip" data-filter="lmi">LMI</button>
+		  <button class="chip" data-filter="firsthome">First-Home</button>
+		</div>
+		</div>
+		</section>
 
-    <section class="card">
-      <h2><a href="/guides/how-much-can-i-borrow-100k.html">How Much Can I Borrow on $100k?</a></h2>
-      <p>Earning $100,000 a year? See typical ranges, lender rules and run your numbers.</p>
-      <button class="btn btn-outline" onclick="location.href='/guides/how-much-can-i-borrow-100k.html'">Read guide</button>
-    </section>
+		<section class="grid">
+		<!-- Card -->
+		<article class="card card-post" data-topic="firsthome">
+		<a class="thumb" href="/guides/first-home-buyer.html" aria-label="Open guide">
+		  <img src="/assets/thumb-first-home.png" alt="" loading="lazy" width="480" height="270">
+		  <span class="eyebrow">Borrowing Power</span>
+		</a>
+		<div class="body">
+		  <h2><a href="/guides/first-home-buyer.html">First Home Buyers: How Our Tools Can Help</a></h2>
+		  <p class="excerpt">Buying your first home is exciting — and a little daunting…</p>
+		  <p class="meta" data-words="820">Updated <time datetime="2025-09-01">5 Sep 2025</time> · <span class="read"></span></p>
+		</div>
+		</article>
+		
+		<article class="card card-post" data-topic="borrowing">
+		<a class="thumb" href="/guides/how-much-can-i-borrow-100k.html" aria-label="Open guide">
+		  <img src="/assets/thumb-borrow-100k.png" alt="" loading="lazy" width="480" height="270">
+		  <span class="eyebrow">Borrowing Power</span>
+		</a>
+		<div class="body">
+		  <h2><a href="/guides/how-much-can-i-borrow-100k.html">How Much Can I Borrow on $100k?</a></h2>
+		  <p class="excerpt">Earning $100,000 a year? See typical lender ranges and how to improve capacity…</p>
+		  <p class="meta" data-words="820">Updated <time datetime="2025-09-01">1 Sep 2025</time> · <span class="read"></span></p>
+		</div>
+		</article>
 
-    <section class="card">
-      <h2><a href="/guides/how-much-can-i-borrow-80k.html">How Much Can I Borrow on $80k?</a></h2>
-      <p>On an $80,000 income, here’s what banks may offer and how to improve capacity.</p>
-      <button class="btn btn-outline" onclick="location.href='/guides/how-much-can-i-borrow-80k.html'">Read guide</button>
-    </section>
+		<article class="card card-post" data-topic="borrowing">
+		<a class="thumb" href="/guides/how-much-can-i-borrow-80k.html" aria-label="Open guide">
+		  <img src="/assets/thumb-borrow-80k.png" alt="" loading="lazy" width="480" height="270">
+		  <span class="eyebrow">Borrowing Power</span>
+		</a>
+		<div class="body">
+		  <h2><a href="/guides/how-much-can-i-borrow-80k.html">How Much Can I Borrow on $80k?</a></h2>
+		  <p class="excerpt">On an $80,000 income, here’s what banks may offer and steps to lift borrowing power…</p>
+		  <p class="meta" data-words="760">Updated <time datetime="2025-08-30">30 Aug 2025</time> · <span class="read"></span></p>
+		</div>
+		</article>
 
-    <section class="card">
-      <h2><a href="/guides/mortgage-repayments-600k.html">Mortgage Repayments on a $600k Loan</a></h2>
-      <p>Worked repayment examples at current rates, plus tools to estimate your own.</p>
-      <button class="btn btn-outline" onclick="location.href='/guides/mortgage-repayments-600k.html'">Read guide</button>
-    </section>
+		<article class="card card-post" data-topic="repayments">
+		<a class="thumb" href="/guides/mortgage-repayments-600k.html" aria-label="Open guide">
+		  <img src="/assets/thumb-repayments-600k.png" alt="" loading="lazy" width="480" height="270">
+		  <span class="eyebrow">Repayments</span>
+		  <!-- tiny sparkline -->
+		  <svg viewBox="0 0 100 24" class="spark"><polyline points="0,18 20,16 40,12 60,10 80,8 100,6"/></svg>
+		</a>
+		<div class="body">
+		  <h2><a href="/guides/mortgage-repayments-600k.html">Mortgage Repayments on a $600k Loan</a></h2>
+		  <p class="excerpt">Worked examples at current rates, plus tools to estimate your own repayments…</p>
+		  <p class="meta" data-words="900">Updated <time datetime="2025-08-31">31 Aug 2025</time> · <span class="read"></span></p>
+		</div>
+		</article>
 
-    <section class="card">
-      <h2><a href="/guides/what-is-lmi.html">What Is Lenders Mortgage Insurance (LMI)?</a></h2>
-      <p>Understand when LMI applies, typical costs, and options to reduce or avoid it.</p>
-      <button class="btn btn-outline" onclick="location.href='/guides/what-is-lmi.html'">Read guide</button>
-    </section>
+		<article class="card card-post" data-topic="lmi">
+		<a class="thumb" href="/guides/what-is-lmi.html" aria-label="Open guide">
+		  <img src="/assets/thumb-lmi.png" alt="" loading="lazy" width="480" height="270">
+		  <span class="eyebrow">LMI</span>
+		</a>
+		<div class="body">
+		  <h2><a href="/guides/what-is-lmi.html">What Is Lenders Mortgage Insurance (LMI)?</a></h2>
+		  <p class="excerpt">Understand when LMI applies, typical costs, and ways to reduce or avoid it…</p>
+		  <p class="meta" data-words="780">Updated <time datetime="2025-08-28">28 Aug 2025</time> · <span class="read"></span></p>
+		</div>
+		</article>
+		</section>
 
     <div class="ad-slot" aria-label="Advertisement">
       <ins class="adsbygoogle" style="display:block;min-height:120px" data-ad-client="" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
@@ -83,6 +136,26 @@
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       }
     </script>
+	<script>
+	  // Read time (assumes ~200 wpm)
+	  document.querySelectorAll('.meta[data-words]').forEach(el => {
+		const words = parseInt(el.getAttribute('data-words'), 10) || 0;
+		const mins = Math.max(1, Math.round(words / 200));
+		el.querySelector('.read').textContent = `${mins} min read`;
+	  });
+
+	  // Topic filter chips
+	  const chips = document.querySelectorAll('.chip');
+	  const cards = document.querySelectorAll('.card-post');
+	  chips.forEach(chip => chip.addEventListener('click', () => {
+		chips.forEach(c => c.setAttribute('aria-pressed', 'false'));
+		chip.setAttribute('aria-pressed', 'true');
+		const topic = chip.dataset.filter;
+		cards.forEach(card => {
+		  card.style.display = (topic === 'all' || card.dataset.topic === topic) ? '' : 'none';
+		});
+	  }));
+	</script>
 
     <div data-include="/partials/important-information.html"></div>
 		<footer>
