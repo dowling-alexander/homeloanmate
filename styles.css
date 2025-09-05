@@ -121,3 +121,22 @@ body.no-scroll { overflow: hidden; }
 .disclaimer a:hover {
   color: #004d40; /* even darker on hover */
 }
+
+footer {
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #555;
+  border-top: 1px solid #eee;
+}
+
+footer a {
+  color: #0077cc;
+  text-decoration: none;
+  margin: 0 8px;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
