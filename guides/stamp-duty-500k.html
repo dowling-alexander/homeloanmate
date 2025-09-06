@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <title>Stamp Duty on a $500k Property (By State) – BorrowPower</title>
+  <meta name="description" content="Compare stamp duty on a $500,000 property across all Australian states and territories. See where it costs more, and use our tools to estimate your own duty and repayments." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="canonical" href="https://borrowpower.com.au/guides/stamp-duty-500k" />
+  <meta name="robots" content="index,follow" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" type="image/png" href="/borrowpower-favicon.png">
+</head>
+<body>
+  <header class="header" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <!-- Inline SVG logo -->
+        <svg viewBox="0 0 1300 320" class="logo" aria-hidden="true">
+          <g transform="translate(0,32)">
+            <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+              fill="none" stroke="var(--logo-stroke, #167d83)" stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+            <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z" fill="var(--logo-fill, #167d83)"/>
+            <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0  0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z" fill="var(--logo-fill, #167d83)"/>
+            <path d="M145.55,81.92h5.85a7.31,7.31 0  0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z" fill="var(--logo-fill, #167d83)"/>
+          </g>
+          <text x="296" y="210" font-size="148" font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-weight="800" fill="currentColor">BorrowPower</text>
+        </svg>
+      </a>
+      <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary">
+        <a href="/">Borrowing Power</a>
+        <a href="/repayment-estimator.html">Repayments</a>
+        <a href="/guides/guides-index.html">Guides</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="main">
+    <article class="card prose" itemscope itemtype="https://schema.org/Article">
+      <h1 itemprop="headline">Stamp Duty on a $500,000 Property in Australia</h1>
+      <p class="helper">Updated 7 Sep 2025 · 4–6 min read</p>
+
+      <div class="card" aria-label="At a glance">
+        <p><strong>At a glance:</strong> Buying a $500k home, stamp duty ranges from <strong>$8,800</strong> in QLD up to <strong>$25,070</strong> in VIC.</p>
+        <p class="helper">These estimates assume a standard residential property, no concessions or first-home exemptions.</p>
+      </div>
+
+      <h2>Stamp Duty Comparison – $500k Purchase Price</h2>
+      <div class="card" role="region" aria-label="Stamp duty table">
+        <table>
+          <thead>
+            <tr>
+              <th>State/Territory</th>
+              <th>Duty on $500,000</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>NSW</td><td>$17,230</td></tr>
+            <tr><td>VIC</td><td>$25,070</td></tr>
+            <tr><td>QLD</td><td>$8,750</td></tr>
+            <tr><td>SA</td><td>$21,330</td></tr>
+            <tr><td>WA</td><td>$17,765</td></tr>
+            <tr><td>TAS</td><td>$19,060</td></tr>
+            <tr><td>ACT</td><td>$17,600</td></tr>
+            <tr><td>NT</td><td>–</td></tr>
+          </tbody>
+        </table>
+        <p class="helper">NT duty only applies above $525k – so $500k incurs no duty under current thresholds. Table excludes registration fees, lender costs, LMI and conveyancing.</p>
+      </div>
+
+      <h2>Visual Comparison</h2>
+      <div class="card">
+        <canvas id="stampDutyChart" aria-label="Stamp duty by state" role="img"></canvas>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        const ctx = document.getElementById('stampDutyChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['NSW','VIC','QLD','SA','WA','TAS','ACT','NT'],
+            datasets: [{
+              label: 'Stamp Duty on $500k',
+              data: [17230, 25070, 8750, 21330, 17765, 19060, 17600, 0],
+              backgroundColor: 'rgba(22,125,131,0.7)',
+              borderColor: 'rgba(22,125,131,1)',
+              borderWidth: 1,
+              borderRadius: 6
+            }]
+          },
+          options: {
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { callback: val => '$' + val.toLocaleString() } } }
+          }
+        });
+      </script>
+
+      <h2>Next Steps</h2>
+      <div class="card">
+        <p>Use our <a href="/repayment-estimator.html">home loan repayments</a> to see the full cost of buying.</p>
+      </div>
+
+      
+      <h2>State Notes & Extra Costs to Watch</h2>
+      <div class="card">
+        <p>Headline duty can make one state look cheaper than another at $500k — but the <em>total</em> to settle can shift once you include other levies and fees. Here are practical notes for each state/territory (general guidance only):</p>
+        <ul>
+          <li><strong>NSW:</strong> Standard ad valorem duty at $500k. Add <em>transfer (title) registration</em> and <em>mortgage registration</em> fees. First‑home schemes and thresholds change periodically; check current eligibility before relying on a past threshold.</li>
+          <li><strong>VIC:</strong> Highest headline duty at this price point in our table. Concessions can apply for eligible first‑home buyers and off‑the‑plan purchases. Expect <em>land transfer</em> and <em>mortgage registration</em> fees on top.</li>
+          <li><strong>QLD:</strong> Lowest headline duty here at $500k for a home (no FHOG assumed). Registration fees are weight‑based on mortgage size; budget for <em>transfer</em> and <em>mortgage</em> fees plus search charges.</li>
+          <li><strong>SA:</strong> Mid‑to‑high duty at $500k. South Australia has separate <em>transfer</em> and <em>mortgage</em> registration fees and typical conveyancing costs.</li>
+          <li><strong>WA:</strong> Duty sits mid‑range at $500k. Add <em>transfer</em> and <em>mortgage</em> registration fees; buyer‑pays settlement agent is common practice.</li>
+          <li><strong>TAS:</strong> Duty slightly below SA. Include <em>transfer</em> and <em>mortgage</em> registration fees and standard conveyancing & searches (council, water, land tax clearance where applicable).</li>
+          <li><strong>ACT:</strong> Duty applies on a progressive scale; ACT also relies on higher ongoing <em>rates</em> compared to some states, so consider yearly holding costs as well as upfront duty.</li>
+          <li><strong>NT:</strong> Our table shows no duty at $500k because the current NT scales start above $525k for residential conveyances; you’ll still pay <em>registration</em> and <em>conveyancing</em> costs.</li>
+        </ul>
+        <p><strong>Foreign buyer surcharges:</strong> Several jurisdictions impose additional <em>foreign purchaser duty</em>/<em>surcharge land tax</em>. If any buyer is a foreign person for state/territory purposes, the total can increase materially.</p>
+        <p><strong>Other common upfront costs (not in our table):</strong> title transfer and mortgage registration fees, lender application fees, lender’s mortgage insurance (if deposit &lt; 20%), conveyancer/solicitor, building &amp; pest, strata/body‑corp report (units), and settlement adjustments (rates/water).</p>
+      </div>
+
+
+      <section class="disclaimer">
+        <p>General information only — not financial advice. Figures are approximate based on state calculators as at September 2025. Concessions, exemptions, and policy changes may apply. Always confirm with your state revenue office.</p>
+      </section>
+
+      <div class="ad-slot" aria-label="Advertisement">
+        <ins class="adsbygoogle" style="display:block;min-height:120px" data-ad-client="" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
+      <script>
+        if (window.ADSENSE_CLIENT && window.adsbygoogle) {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        }
+      </script>
+    </article>
+
+    <aside class="card">
+      <h2>More Guides</h2>
+      <ul>
+        <li><a href="/guides/mortgage-repayments-600k">Mortgage Repayments on $600k</a></li>
+        <li><a href="/guides/how-much-can-i-borrow-100k">How Much Can I Borrow on $100k?</a></li>
+        <li><a href="/guides/what-is-lmi">What Is LMI?</a></li>
+      </ul>
+    </aside>
+
+    <footer>
+      <p>
+        <a href="/about.html">About</a> | 
+        <a href="/contact.html">Contact</a> | 
+        <a href="/privacy.html">Privacy Policy</a> | 
+        <a href="/disclaimer.html">Disclaimer</a>
+      </p>
+      <p>&copy; 2025 BorrowPower. All rights reserved.</p>
+    </footer>
+  </main>
+
+  <script defer src="/assets/include.js"></script>
+  <script defer src="/script.js"></script>
+</body>
+</html>
