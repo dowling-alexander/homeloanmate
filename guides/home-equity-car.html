@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <title>Using Home Equity to Buy a Car – BorrowPower</title>
+  <meta name="description" content="Should you use home equity to buy a car? Compare the pros and cons, and see how costs differ between a separate car loan and adding $40k to your mortgage." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="canonical" href="https://borrowpower.com.au/guides/home-equity-car" />
+  <meta name="robots" content="index,follow" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" type="image/png" href="/borrowpower-favicon.png">
+</head>
+<body>
+  <header class="header" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <!-- same logo as index -->
+        <svg viewBox="0 0 1300 320" class="logo" aria-hidden="true">
+          <g transform="translate(0,32)">
+            <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+              fill="none" stroke="var(--logo-stroke, #167d83)" stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+            <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z" fill="var(--logo-fill, #167d83)"/>
+            <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z" fill="var(--logo-fill, #167d83)"/>
+            <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0  0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z" fill="var(--logo-fill, #167d83)"/>
+          </g>
+          <text x="296" y="210" font-size="148" font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-weight="800" fill="currentColor">BorrowPower</text>
+        </svg>
+      </a>
+      <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary">
+        <a href="/">Borrowing Power</a>
+        <a href="/repayment-estimator.html">Repayments</a>
+        <a href="/guides/guides-index.html">Guides</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="main">
+    <article class="card prose" itemscope itemtype="https://schema.org/Article">
+      <h1 itemprop="headline">Using Home Equity to Buy a Car</h1>
+      <p class="helper">Updated 12 Sep 2025 · 4–6 min read</p>
+
+      <div class="card" aria-label="At a glance">
+        <p><strong>At a glance:</strong> Instead of taking a separate car loan, many homeowners draw on home equity. This can mean lower interest rates but spreads the car cost over decades of repayments.</p>
+      </div>
+
+      <h2>What Does It Mean?</h2>
+      <p>Home equity is the difference between your property’s value and the balance of your mortgage. Lenders may allow you to access this equity through a loan increase or line of credit. That money can then be used for a car purchase.</p>
+
+      <h2>Advantages</h2>
+      <ul>
+        <li><strong>Lower interest rate:</strong> Mortgage rates are usually lower than unsecured car loans.</li>
+        <li><strong>Simplified repayments:</strong> One loan, one repayment rather than juggling multiple loans.</li>
+        <li><strong>Larger borrowing power:</strong> Equity can unlock more funds than typical car loan limits.</li>
+      </ul>
+
+      <h2>Disadvantages</h2>
+      <ul>
+        <li><strong>Longer repayment horizon:</strong> Spreading $40k over a 25–30 year loan means much higher total interest cost.</li>
+        <li><strong>Secured against your home:</strong> If you can’t repay, your property is at risk — unlike a car loan that is only tied to the car.</li>
+        <li><strong>Depreciating asset:</strong> Cars lose value quickly; paying them off over decades can mean still paying interest long after the car is gone.</li>
+      </ul>
+
+      <h2>Worked Example</h2>
+      <div class="card" role="region" aria-label="Loan comparison table">
+        <table>
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>Loan Amount</th>
+              <th>Interest Rate</th>
+              <th>Term</th>
+              <th>Monthly Repayment</th>
+              <th>Total Interest Paid</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Separate Car Loan</td>
+              <td>$40,000</td>
+              <td>8% p.a.</td>
+              <td>5 years</td>
+              <td>≈ $811</td>
+              <td>≈ $8,660</td>
+            </tr>
+            <tr>
+              <td>Add to Mortgage</td>
+              <td>$40,000 (on top of $400k)</td>
+              <td>6% p.a.</td>
+              <td>30 years</td>
+              <td>≈ $240</td>
+              <td>≈ $46,000</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="helper">Figures are approximate, rounded, and assume principal & interest repayments. The mortgage example shows much lower monthly cost, but a far higher lifetime interest bill.</p>
+      </div>
+
+      <h2>Visual Comparison</h2>
+      <div class="card">
+        <canvas id="equityCarChart" aria-label="Loan comparison chart" role="img"></canvas>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        const ctx = document.getElementById('equityCarChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Car Loan (5 yrs)', 'Mortgage Top-Up (30 yrs)'],
+            datasets: [
+              {
+                label: 'Total Interest Paid',
+                data: [8660, 46000],
+                backgroundColor: 'rgba(22,125,131,0.7)',
+                borderColor: 'rgba(22,125,131,1)',
+                borderWidth: 1,
+                borderRadius: 6
+              }
+            ]
+          },
+          options: {
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { callback: val => '$' + val.toLocaleString() } } }
+          }
+        });
+      </script>
+
+      <h2>Key Takeaway</h2>
+      <p>Using home equity for a car can reduce short-term strain on cash flow but comes at the cost of much higher long-term interest. For some households, the peace of mind of one low repayment is worth it; for others, the discipline of a shorter car loan saves money overall.</p>
+
+      <section class="disclaimer">
+        <p>General information only — not financial advice. Figures are approximate, based on standard loan calculators as at September 2025. Actual loan terms, rates and fees vary by lender. Consider professional advice before making borrowing decisions.</p>
+      </section>
+
+      <div class="ad-slot" aria-label="Advertisement">
+        <ins class="adsbygoogle" style="display:block;min-height:120px" data-ad-client="" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
+      <script>
+        if (window.ADSENSE_CLIENT && window.adsbygoogle) {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        }
+      </script>
+    </article>
+
+    <aside class="card">
+      <h2>More Guides</h2>
+      <ul>
+        <li><a href="/guides/stamp-duty-500k">Stamp Duty on a $500k Property</a></li>
+        <li><a href="/guides/mortgage-repayments-600k">Mortgage Repayments on $600k</a></li>
+        <li><a href="/guides/how-much-can-i-borrow-100k">How Much Can I Borrow on $100k?</a></li>
+      </ul>
+    </aside>
+
+    <footer>
+      <p>
+        <a href="/about.html">About</a> | 
+        <a href="/contact.html">Contact</a> | 
+        <a href="/privacy.html">Privacy Policy</a> | 
+        <a href="/disclaimer.html">Disclaimer</a>
+      </p>
+      <p>&copy; 2025 BorrowPower. All rights reserved.</p>
+    </footer>
+  </main>
+
+  <script defer src="/assets/include.js"></script>
+  <script defer src="/script.js"></script>
+</body>
+</html>
