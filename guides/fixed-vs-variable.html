@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <title>Fixed vs Variable Home Loans: Which Wins in 2025? – BorrowPower</title>
+  <meta name="description" content="Unsure whether to fix your home loan in 2025 or stay variable? Learn the pros, cons and see how repayments differ using our calculator tools." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="canonical" href="https://borrowpower.com.au/guides/fixed-vs-variable.html" />
+  <meta name="robots" content="index,follow" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta property="og:title" content="Fixed vs Variable Home Loans: Which Wins in 2025?" />
+  <meta property="og:description" content="Compare fixed and variable loans in 2025. Learn how each impacts your repayments and flexibility using BorrowPower’s repayment estimator." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://borrowpower.com.au/guides/fixed-vs-variable.html" />
+  <meta property="og:site_name" content="BorrowPower" />
+  <link rel="icon" type="image/png" href="/borrowpower-favicon.png">
+</head>
+<body>
+  <header class="header" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Home">
+		<svg viewBox="0 0 1300 320" class="logo" aria-hidden="true">
+          <g transform="translate(0,32)">
+            <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+              fill="none" stroke="var(--logo-stroke, #167d83)" stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+            <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z" fill="var(--logo-fill, #167d83)"/>
+            <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z" fill="var(--logo-fill, #167d83)"/>
+            <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z" fill="var(--logo-fill, #167d83)"/>
+          </g>
+          <text x="296" y="210" font-size="148" font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-weight="800" fill="currentColor">BorrowPower</text>
+        </svg>
+      </a>
+      <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary">
+        <a href="/">Borrowing Power</a>
+        <a href="/repayment-estimator.html">Repayments</a>
+        <a href="/guides/">Guides</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="main">
+    <article class="card prose" itemscope itemtype="https://schema.org/Article">
+      <h1 itemprop="headline">Fixed vs Variable: Which Loan Type Wins in 2025?</h1>
+      <p class="helper">Updated 13 October 2025 · 5 min read</p>
+
+      <div itemprop="articleBody">
+        <p>After several years of rate volatility, many borrowers are again asking whether to <strong>fix their rate</strong> or stay on a <strong>variable loan</strong> in 2025. Each option has benefits — it depends on your goals and risk comfort.</p>
+
+        <h2>Fixed rate loans explained</h2>
+        <p>A fixed loan locks your rate for a set period (often 1–5 years). Your repayments don’t change, making budgeting easier. The trade-off is flexibility — you can’t usually make unlimited extra repayments or refinance without break fees.</p>
+
+        <h2>Variable rate loans explained</h2>
+        <p>A variable rate moves with the market. If the RBA cuts rates, your repayments may fall. But if rates rise, they increase too. Variable loans often come with <a href="/guides/offset-account-redraw.html">offset accounts</a> and extra repayment features, helping reduce interest faster.</p>
+
+        <h2>Quick repayment comparison</h2>
+        <p>Use this simple tool to compare monthly repayments between a fixed and variable rate for the same loan amount. Results update instantly.</p>
+
+        <form id="compareForm" onsubmit="return false;">
+          <label for="loan">Loan amount ($):</label>
+          <input type="number" id="loan" value="500000" step="1000" min="0" />
+          <br><br>
+          <label for="term">Loan term (years):</label>
+          <input type="number" id="term" value="25" step="1" min="1" max="35" />
+          <br><br>
+          <label for="fixed">Fixed rate (%):</label>
+          <input type="number" id="fixed" value="6.10" step="0.05" min="0" />
+          <br><br>
+          <label for="variable">Variable rate (%):</label>
+          <input type="number" id="variable" value="6.60" step="0.05" min="0" />
+        </form>
+
+        <div id="compareResult" class="highlight"></div>
+
+        <script>
+          const loanEl = document.getElementById('loan');
+          const termEl = document.getElementById('term');
+          const fixedEl = document.getElementById('fixed');
+          const varEl = document.getElementById('variable');
+          const resEl = document.getElementById('compareResult');
+
+          function pmt(principal, rate, years){
+            const r = (rate/100)/12;
+            const n = years * 12;
+            return r === 0 ? principal/n : principal * r / (1 - Math.pow(1 + r, -n));
+          }
+
+          function update(){
+            const loan = parseFloat(loanEl.value);
+            const term = parseFloat(termEl.value);
+            const fixed = parseFloat(fixedEl.value);
+            const variable = parseFloat(varEl.value);
+
+            if (![loan, term, fixed, variable].every(Number.isFinite)) return;
+
+            const fixedRepay = pmt(loan, fixed, term);
+            const varRepay = pmt(loan, variable, term);
+            const diff = varRepay - fixedRepay;
+
+            const sign = diff > 0 ? 'more' : 'less';
+            resEl.textContent = `Monthly repayment: Fixed $${fixedRepay.toFixed(2)} · Variable $${varRepay.toFixed(2)} (${Math.abs(diff).toFixed(2)} ${sign} per month).`;
+          }
+
+          [loanEl, termEl, fixedEl, varEl].forEach(e => e.addEventListener('input', update));
+          document.addEventListener('DOMContentLoaded', update);
+        </script>
+
+        <h2>Example: Emma’s choice in 2025</h2>
+        <p>Emma has a $500,000 home loan with 25 years remaining. Her lender offers her a 6.10% fixed rate for three years, or a 6.60% variable. If she stays variable and rates rise another 0.25%, her repayments climb by around $80 a month. By fixing, she trades flexibility for certainty — knowing her payments won’t move until 2028.</p>
+
+        <h2>How to decide</h2>
+        <ul>
+          <li><strong>Choose fixed</strong> if stability matters and you expect rates to rise.</li>
+          <li><strong>Choose variable</strong> if flexibility, offset features, or paying off faster are priorities.</li>
+          <li>Some borrowers split their loan — half fixed, half variable — for balance.</li>
+        </ul>
+
+        <p>Want to explore further? Use our full <a href="/repayment-estimator.html">Repayment Estimator</a> or see how <a href="/guides/rba-rate-decisions.html">RBA rate changes</a> could shift your repayments before deciding.</p>
+      </div>
+
+      <section class="disclaimer">
+        <p>General information only — not financial advice. Consider seeking independent advice for your circumstances.</p>
+      </section>
+    </article>
+
+    <aside class="card">
+      <h2>More Guides</h2>
+      <ul>
+        <li><a href="/guides/refinancing-2025.html">Refinancing in 2025</a></li>
+        <li><a href="/guides/debt-to-income-dti.html">Debt-to-Income (DTI) Explained</a></li>
+        <li><a href="/repayment-estimator.html">Repayment Estimator</a></li>
+      </ul>
+    </aside>
+
+    <footer>
+      <p>
+        <a href="/about.html">About</a> |
+        <a href="/contact.html">Contact</a> |
+        <a href="/privacy.html">Privacy Policy</a> |
+        <a href="/disclaimer.html">Disclaimer</a>
+      </p>
+      <p>&copy; 2025 BorrowPower. All rights reserved.</p>
+    </footer>
+  </main>
+</body>
+</html>
