@@ -76,6 +76,7 @@
     <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary" data-open="false">
       <a href="/"              >Borrowing Power</a>
       <a href="/repayment-estimator.html">Repayments</a>
+	  <a href="/negative-gearing-Calculator.html">Negative Gearing</a>
 	  <a href="/guides/guides-index.html">Guides</a>
       <a href="/faq.html"      >FAQ</a>
       <a href="/about.html"    >About</a>
@@ -181,6 +182,16 @@
         <div class="result-item"><span>Stamp duty (indicative)</span><strong id="stampDuty">—</strong></div>
       </section>
 	  
+	  <!-- Share / Save -->
+		<section class="share card" aria-labelledby="share-heading">
+		  <h2 id="share-heading">Share or save this estimate</h2>
+		  <div class="input-row">
+			<button id="copyLinkBtn" class="btn">Copy shareable link</button>
+			<!-- <a id="openLinkBtn" class="btn btn-outline" href="#" rel="nofollow">Open link</a> -->
+			<span id="copyStatus" class="helper" aria-live="polite"></span>
+		  </div>
+		</section>
+
 	<div class="disclaimer">
 	  <p>
 		This calculator provides general estimates only and is 
@@ -228,5 +239,105 @@
 
   <script defer src="/assets/include.js"></script>
   <script defer src="/script.js"></script>
+  <script>
+(function () {
+  // Map URL keys to your element IDs
+  const map = {
+    income:       { number: 'incomeInput',  slider: 'incomeSlider' },
+    expenses:     { number: 'expensesInput', slider: 'expensesSlider' },
+    otherDebts:   { number: 'otherDebts',    slider: 'otherDebtsSlider' },
+    rate:         { number: 'rate',          slider: 'rateSlider' },
+    term:         { select: 'term' },
+    propertyPrice:{ number: 'propertyPrice' },
+    deposit:      { number: 'deposit' },
+    dependants:   { select: 'dependants' },
+    state:        { select: 'state' },
+    capitaliseLMI:{ checkbox: 'capitaliseLMI' }
+  };
+
+  // Helpers
+  const $ = (id) => document.getElementById(id);
+
+  function setPair(pair, value) {
+    if (pair.number && $(pair.number)) $(pair.number).value = value;
+    if (pair.slider && $(pair.slider)) $(pair.slider).value = value;
+  }
+
+  function getPairValue(pair) {
+    if (pair.number && $(pair.number)) return $(pair.number).value;
+    if (pair.slider && $(pair.slider)) return $(pair.slider).value;
+    if (pair.select && $(pair.select)) return $(pair.select).value;
+    if (pair.checkbox && $(pair.checkbox)) return $(pair.checkbox).checked ? '1' : '0';
+    return '';
+  }
+
+  function applyParamsFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    let touched = false;
+
+    Object.entries(map).forEach(([key, pair]) => {
+      if (!params.has(key)) return;
+      const raw = params.get(key);
+      touched = true;
+
+      if (pair.checkbox) {
+        const checked = raw === '1' || raw === 'true';
+        if ($(pair.checkbox)) $(pair.checkbox).checked = checked;
+      } else if (pair.select) {
+        if ($(pair.select)) $(pair.select).value = raw;
+      } else {
+        setPair(pair, raw);
+      }
+    });
+
+    // If we changed fields, you may want to trigger your existing recalc button
+    // (Only if your calculator relies on events rather than reading values live.)
+    const recalc = document.getElementById('recalculateBtn');
+    if (touched && recalc) {
+      // Allow any dynamic <select> population (term) to finish first
+      setTimeout(() => recalc.click(), 50);
+    }
+  }
+
+  function buildShareURL() {
+    const params = new URLSearchParams();
+    Object.entries(map).forEach(([key, pair]) => {
+      const val = getPairValue(pair);
+      if (val !== '' && val != null) params.set(key, String(val));
+    });
+    return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+  }
+
+  async function copyLink() {
+    const link = buildShareURL();
+    try {
+      await navigator.clipboard.writeText(link);
+      $('copyStatus').textContent = '✅ Link copied';
+    } catch {
+      $('copyStatus').textContent = '❌ Copy failed';
+    }
+  }
+
+  function openLink() {
+    const link = buildShareURL();
+    $('openLinkBtn').href = link;
+  }
+
+  // Wire up UI
+  window.addEventListener('load', applyParamsFromURL);
+  document.addEventListener('DOMContentLoaded', () => {
+    const copyBtn = $('copyLinkBtn');
+    const openBtn = $('openLinkBtn');
+    if (copyBtn) copyBtn.addEventListener('click', copyLink);
+    if (openBtn) {
+      // Keep href fresh so right-click → copy link always uses current values
+      openBtn.addEventListener('mouseenter', openLink);
+      openBtn.addEventListener('focus', openLink);
+      openBtn.addEventListener('click', (e) => { openLink(); /* allow default nav */ });
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
