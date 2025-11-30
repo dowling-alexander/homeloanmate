@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GKLL8W3BP2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GKLL8W3BP2');
+  </script>
+
+  <meta charset="utf-8" />
+  <title>Negative Gearing Calculator – BorrowPower</title>
+  <meta name="description" content="Estimate the after-tax cost or profit of a negatively geared investment property using Australian tax rates." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Negative Gearing Calculator – BorrowPower" />
+  <meta property="og:description" content="See how negative gearing affects your cashflow per year and per week after tax." />
+  <meta name="twitter:card" content="summary" />
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js?client=ca-pub-6595597891926669"
+          crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"BorrowPower",
+    "url":"https://BorrowPower.com.au/",
+    "publisher":{"@type":"Organization","name":"BorrowPower"}
+  }
+  </script>
+
+  <link rel="icon" type="image/png" href="/borrowpower-favicon.png">
+</head>
+<body>
+
+<header class="header" role="banner">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Home">
+      <!-- same SVG logo as your main page -->
+      <svg viewBox="0 0 1300 320" class="logo">
+        <g transform="translate(0,32)">
+          <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+                fill="none"
+                stroke="var(--logo-stroke, #167d83)"
+                stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+          <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+          <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+        </g>
+        <text x="296" y="210" font-size="148"
+              font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+              font-weight="800" fill="currentColor">BorrowPower</text>
+      </svg>
+    </a>
+
+    <button id="menuToggle"
+            class="menu-toggle"
+            aria-label="Open menu"
+            aria-controls="primaryNav"
+            aria-expanded="false">
+      <span class="menu-box" aria-hidden="true">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </span>
+    </button>
+
+    <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary" data-open="false">
+      <a href="/">Borrowing Power</a>
+      <a href="/repayment-estimator.html">Repayments</a>
+	  <a href="/negative-gearing-calculator.html">Negative Gearing</a>
+      <a href="/guides/guides-index.html">Guides</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/about.html">About</a>
+      <!-- Optional: add this page in nav later -->
+    </nav>
+  </div>
+  <div id="backdrop" class="backdrop" hidden></div>
+</header>
+
+<main class="container" id="main">
+  <section class="card" aria-labelledby="ng-heading">
+    <h1 id="ng-heading">Negative Gearing Calculator</h1>
+    <p class="helper">
+      Estimate the before and after-tax cashflow from a negatively geared investment property.
+      All figures are indicative and for general information only.
+    </p>
+
+    <form id="ng-form" class="form-grid" novalidate>
+      <!-- Column 1: Income -->
+      <div class="field">
+        <label for="ng-annual-rent">Annual rent ($)</label>
+        <div class="input-row">
+          <input type="range" id="ng-annual-rent-slider" min="0" max="150000" step="500" value="30000" />
+          <input type="number" id="ng-annual-rent" inputmode="numeric" value="30000" />
+        </div>
+        <small class="helper">If you think in weekly rent, multiply by 52 to estimate.</small>
+      </div>
+
+      <div class="field">
+        <label for="ng-vacancy-rate">Vacancy rate (%)</label>
+        <div class="input-row">
+          <input type="range" id="ng-vacancy-rate-slider" min="0" max="20" step="0.5" value="5" />
+          <input type="number" id="ng-vacancy-rate" inputmode="decimal" value="5" />
+        </div>
+        <small class="helper">We reduce rent by this percentage to allow for vacancies.</small>
+      </div>
+
+      <div class="field">
+        <label for="ng-other-income">Other annual income ($)</label>
+        <div class="input-row">
+          <input type="number" id="ng-other-income" inputmode="numeric" value="0" />
+        </div>
+        <small class="helper">E.g. parking, storage, laundry.</small>
+      </div>
+
+      <!-- Column 2: Loan & expenses -->
+      <div class="field">
+        <label for="ng-loan-amount">Loan amount ($)</label>
+        <div class="input-row">
+          <input type="range" id="ng-loan-amount-slider" min="0" max="2000000" step="5000" value="600000" />
+          <input type="number" id="ng-loan-amount" inputmode="numeric" value="600000" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="ng-interest-rate">Interest rate (% p.a.)</label>
+        <div class="input-row">
+          <input type="range" id="ng-interest-rate-slider" min="0" max="15" step="0.1" value="6" />
+          <input type="number" id="ng-interest-rate" inputmode="decimal" step="0.1" value="6" />
+        </div>
+        <small class="helper">Assumes interest-only repayments for simplicity.</small>
+      </div>
+
+      <div class="field">
+        <label for="ng-other-expenses">Other annual expenses ($)</label>
+        <div class="input-row">
+          <input type="number" id="ng-other-expenses" inputmode="numeric" value="8000" />
+        </div>
+        <small class="helper">
+          Include management, rates, insurance, strata, repairs, and other property costs.
+        </small>
+      </div>
+
+      <!-- Column 3: Tax settings -->
+      <div class="field">
+        <label for="ng-tax-rate">Marginal tax rate</label>
+        <select id="ng-tax-rate">
+          <option value="0">0% (no tax)</option>
+          <option value="16">16% (approx. low effective rate)</option>
+          <option value="19">19%</option>
+          <option value="30">30% (approx. blended)</option>
+          <option value="32.5" selected>32.5%</option>
+          <option value="37">37%</option>
+          <option value="45">45%</option>
+        </select>
+        <small class="helper">
+          Rough marginal rate; talk to your tax adviser for your actual rate.
+        </small>
+      </div>
+
+<!--       <div class="field">
+        <button id="ngRecalculateBtn" type="button" class="btn">Recalculate</button>
+      </div> -->
+    </form>
+
+    <section class="results" aria-live="polite">
+      <div class="result-item">
+        <span>Gross rental income (after vacancy)</span>
+        <strong id="ng-gross-rent">—</strong>
+      </div>
+      <div class="result-item">
+        <span>Total annual expenses</span>
+        <strong id="ng-total-expenses">—</strong>
+      </div>
+      <div class="result-item">
+        <span>Net position before tax (per year)</span>
+        <strong id="ng-before-tax">—</strong>
+      </div>
+      <div class="result-item">
+        <span>Estimated tax effect (per year)</span>
+        <strong id="ng-tax-refund">—</strong>
+      </div>
+      <div class="result-item">
+        <span>Net position after tax (per year)</span>
+        <strong id="ng-after-tax">—</strong>
+      </div>
+      <div class="result-item">
+        <span>Net position after tax (per week)</span>
+        <strong id="ng-weekly">—</strong>
+      </div>
+    </section>
+
+    <!-- Share / Save -->
+    <section class="share card" aria-labelledby="ng-share-heading">
+      <h2 id="ng-share-heading">Share or save this estimate</h2>
+      <div class="input-row">
+        <button id="ngCopyLinkBtn" class="btn" type="button">Copy shareable link</button>
+        <span id="ngCopyStatus" class="helper" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <div class="disclaimer">
+      <p>
+        This calculator provides general estimates only and is
+        <a href="/terms.html">not financial or tax advice</a>.
+        Actual tax outcomes depend on your full situation. Please check with a licensed
+        tax adviser, lender, or financial adviser before making decisions.
+      </p>
+    </div>
+
+    <div class="ad-slot" aria-label="Advertisement">
+      <ins class="adsbygoogle"
+           style="display:block;min-height:120px"
+           data-ad-client=""
+           data-ad-slot="auto"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+    <script>
+      if (window.ADSENSE_CLIENT && window.adsbygoogle) {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
+    </script>
+  </section>
+
+  <div data-include="/partials/important-information.html"></div>
+
+  <footer>
+    <p>
+      <a href="/about.html">About</a> |
+      <a href="/contact.html">Contact</a> |
+      <a href="/privacy.html">Privacy Policy</a> |
+      <a href="/disclaimer.html">Disclaimer</a>
+    </p>
+    <p>&copy; 2025 BorrowPower. All rights reserved.</p>
+  </footer>
+</main>
+
+<div class="sticky-cta" role="region" aria-label="Quick actions">
+  <button class="btn btn-primary" id="ngStickyRecalcBtn">Recalculate</button>
+  <button class="btn btn-outline" onclick="location.href='/'">Borrowing power</button>
+</div>
+
+<script defer src="/assets/include.js"></script>
+<script defer src="/script.js"></script>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+
+  function getNumber(id) {
+    const el = $(id);
+    if (!el) return 0;
+    const v = parseFloat(el.value);
+    return isNaN(v) ? 0 : v;
+  }
+
+  function syncPair(sliderId, inputId) {
+    const slider = $(sliderId);
+    const input  = $(inputId);
+    if (!slider || !input) return;
+    slider.addEventListener('input', () => {
+      input.value = slider.value;
+      calculate();
+    });
+    input.addEventListener('input', () => {
+      slider.value = input.value || 0;
+      calculate();
+    });
+  }
+
+  function formatCurrency(amount, decimals) {
+    const sign = amount < 0 ? "-" : "";
+    const abs = Math.abs(amount);
+    return sign + "$" + abs.toLocaleString("en-AU", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+  }
+
+  function calculate() {
+    const annualRent   = getNumber("ng-annual-rent");
+    const vacancyRate  = getNumber("ng-vacancy-rate") / 100;
+    const otherIncome  = getNumber("ng-other-income");
+
+    const loanAmount   = getNumber("ng-loan-amount");
+    const interestRate = getNumber("ng-interest-rate") / 100;
+    const otherExp     = getNumber("ng-other-expenses");
+
+    const taxRate      = parseFloat(($("ng-tax-rate")?.value || "0")) / 100;
+
+    // Income
+    const grossRent = annualRent * (1 - vacancyRate);
+    const totalIncome = grossRent + otherIncome;
+
+    // Expenses (interest-only)
+    const interestCost = loanAmount * interestRate;
+    const totalExpenses = interestCost + otherExp;
+
+    // Net before tax
+    const netBeforeTax = totalIncome - totalExpenses;
+
+    // Tax effect: if negative, it's a deduction; if positive, you may pay tax
+    let taxEffect = 0;
+    if (netBeforeTax < 0) {
+      taxEffect = -netBeforeTax * taxRate; // refund
+    } else {
+      taxEffect = -netBeforeTax * taxRate; // simplified additional tax
+    }
+
+    const netAfterTax = netBeforeTax + taxEffect;
+    const weeklyAfterTax = netAfterTax / 52;
+
+    // Update UI
+    const grossRentEl = $("ng-gross-rent");
+    const totalExpEl  = $("ng-total-expenses");
+    const beforeTaxEl = $("ng-before-tax");
+    const taxRefundEl = $("ng-tax-refund");
+    const afterTaxEl  = $("ng-after-tax");
+    const weeklyEl    = $("ng-weekly");
+
+    if (grossRentEl) grossRentEl.textContent = formatCurrency(grossRent, 0) + " per year";
+    if (totalExpEl)  totalExpEl.textContent  = formatCurrency(totalExpenses, 0) + " per year";
+
+    if (beforeTaxEl) {
+      beforeTaxEl.textContent = formatCurrency(netBeforeTax, 0) + " per year";
+    }
+
+    if (taxRefundEl) {
+      if (netBeforeTax < 0) {
+        taxRefundEl.textContent =
+          "Tax refund / saving: " + formatCurrency(taxEffect, 0) +
+          " per year at " + (taxRate * 100).toFixed(1) + "%.";
+      } else if (netBeforeTax > 0 && taxRate > 0) {
+        taxRefundEl.textContent =
+          "Extra tax on profit: " + formatCurrency(-taxEffect, 0) +
+          " per year at " + (taxRate * 100).toFixed(1) + "%.";
+      } else {
+        taxRefundEl.textContent = "No tax impact at the selected rate.";
+      }
+    }
+
+    if (afterTaxEl) {
+      afterTaxEl.textContent = formatCurrency(netAfterTax, 0) + " per year";
+    }
+
+    if (weeklyEl) {
+      weeklyEl.textContent = formatCurrency(weeklyAfterTax, 2) + " per week";
+    }
+  }
+
+  function buildShareURL() {
+    const params = new URLSearchParams();
+
+    function setParam(key, id) {
+      const el = $(id);
+      if (!el) return;
+      const val = el.value;
+      if (val !== "" && val != null) params.set(key, String(val));
+    }
+
+    setParam("rent",          "ng-annual-rent");
+    setParam("vacancy",       "ng-vacancy-rate");
+    setParam("otherIncome",   "ng-other-income");
+    setParam("loan",          "ng-loan-amount");
+    setParam("rate",          "ng-interest-rate");
+    setParam("expenses",      "ng-other-expenses");
+    setParam("taxRate",       "ng-tax-rate");
+
+    const base = window.location.origin + window.location.pathname;
+    const query = params.toString();
+    return query ? `${base}?${query}` : base;
+  }
+
+  async function copyShareLink() {
+    const status = $("ngCopyStatus");
+    try {
+      const link = buildShareURL();
+      await navigator.clipboard.writeText(link);
+      if (status) status.textContent = "✅ Link copied";
+    } catch (e) {
+      if (status) status.textContent = "❌ Copy failed";
+    }
+  }
+
+  function applyParamsFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    function applyParam(key, id) {
+      if (!params.has(key)) return;
+      const el = $(id);
+      if (el) el.value = params.get(key);
+    }
+
+    applyParam("rent",        "ng-annual-rent");
+    applyParam("rent",        "ng-annual-rent-slider");
+    applyParam("vacancy",     "ng-vacancy-rate");
+    applyParam("vacancy",     "ng-vacancy-rate-slider");
+    applyParam("otherIncome", "ng-other-income");
+    applyParam("loan",        "ng-loan-amount");
+    applyParam("loan",        "ng-loan-amount-slider");
+    applyParam("rate",        "ng-interest-rate");
+    applyParam("rate",        "ng-interest-rate-slider");
+    applyParam("expenses",    "ng-other-expenses");
+    applyParam("taxRate",     "ng-tax-rate");
+
+    calculate();
+  }
+
+  function init() {
+    // Slider ↔ number sync (these already call calculate())
+    syncPair("ng-annual-rent-slider", "ng-annual-rent");
+    syncPair("ng-vacancy-rate-slider", "ng-vacancy-rate");
+    syncPair("ng-loan-amount-slider", "ng-loan-amount");
+    syncPair("ng-interest-rate-slider", "ng-interest-rate");
+
+    // Live update for everything in the form (including other income/expenses)
+    const form = $("ng-form");
+    if (form) {
+      form.addEventListener("input", calculate);
+      form.addEventListener("change", calculate);
+    }
+
+    const taxSelect = $("ng-tax-rate");
+    if (taxSelect) {
+      ["change", "input"].forEach(ev =>
+        taxSelect.addEventListener(ev, calculate)
+      );
+    }
+
+    // Buttons still work, but no longer necessary
+    const recalcBtn = $("ngRecalculateBtn");
+    if (recalcBtn) recalcBtn.addEventListener("click", calculate);
+
+    const stickyBtn = $("ngStickyRecalcBtn");
+    if (stickyBtn) stickyBtn.addEventListener("click", calculate);
+
+    const copyBtn = $("ngCopyLinkBtn");
+    if (copyBtn) copyBtn.addEventListener("click", copyShareLink);
+
+    applyParamsFromURL();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+
+</body>
+</html>
