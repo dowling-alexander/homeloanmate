@@ -1,19 +1,19 @@
 {
   "NSW": [
-    { "over": 0,        "upTo": 17000,   "base": 0,     "rate": 0.0125 },
-    { "over": 17000,    "upTo": 37000,   "base": 212,   "rate": 0.015 },
-    { "over": 37000,    "upTo": 99000,   "base": 512,   "rate": 0.0175 },
-    { "over": 99000,    "upTo": 372000,  "base": 1597,  "rate": 0.035 },
-    { "over": 372000,   "upTo": 1240000, "base": 11152, "rate": 0.045 },
-    { "over": 1240000,  "upTo": 3721000, "base": 50212, "rate": 0.055 },
-    { "over": 3721000,  "upTo": null,    "base": 186667,"rate": 0.07 }
+    { "over": 0,        "upTo": 18000,   "base": 0,     "rate": 0.0125 },
+    { "over": 18000,    "upTo": 38000,   "base": 225,   "rate": 0.015 },
+    { "over": 38000,    "upTo": 103000,  "base": 525,   "rate": 0.0175 },
+    { "over": 103000,   "upTo": 387000,  "base": 1662,  "rate": 0.035 },
+    { "over": 387000,   "upTo": 1290000, "base": 11602, "rate": 0.045 },
+    { "over": 1290000,  "upTo": 3870000, "base": 52237, "rate": 0.055 },
+    { "over": 3870000,  "upTo": null,    "base": 194137, "rate": 0.07 }
   ],
 
   "VIC": [
     { "over": 0,        "upTo": 25000,   "base": 0,     "rate": 0.014 },
     { "over": 25000,    "upTo": 130000,  "base": 350,   "rate": 0.024 },
     { "over": 130000,   "upTo": 960000,  "base": 2870,  "rate": 0.06 },
-    { "over": 960000,   "upTo": 2000000, "base": 0,     "rate": 0.055 },
+    { "over": 960000,   "upTo": 2000000, "base": 0,     "rate": 0.055, "wholeValue": true },
     { "over": 2000000,  "upTo": null,    "base": 110000,"rate": 0.065 }
   ],
 
@@ -60,14 +60,15 @@
     { "over": 200000,   "upTo": 300000,  "base": 2400,  "rate": 0.022 },
     { "over": 300000,   "upTo": 500000,  "base": 4600,  "rate": 0.034 },
     { "over": 500000,   "upTo": 750000,  "base": 11400, "rate": 0.0432 },
-    { "over": 750000,   "upTo": 1000000, "base": 20040, "rate": 0.059 },
-    { "over": 1000000,  "upTo": 1455000, "base": 34790, "rate": 0.064 },
-    { "over": 1455000,  "upTo": null,    "base": 0,     "rate": 0.0454 }
+    { "over": 750000,   "upTo": 1000000, "base": 22200, "rate": 0.059 },
+    { "over": 1000000,  "upTo": 1455000, "base": 36950, "rate": 0.064 },
+    { "over": 1455000,  "upTo": null,    "base": 0,     "rate": 0.0454, "wholeValue": true }
   ],
 
   "NT": [
-    { "over": 525000,   "upTo": 3000000, "base": 25987.5, "rate": 0.0495 },
-    { "over": 3000000,  "upTo": 5000000, "base": 148500,  "rate": 0.0575 },
-    { "over": 5000000,  "upTo": null,    "base": 263500,  "rate": 0.0595 }
+    { "over": 0,        "upTo": 525000,  "base": 0, "rate": 0,      "formula": "nt_under_525k" },
+    { "over": 525000,   "upTo": 3000000, "base": 0, "rate": 0.0495, "wholeValue": true },
+    { "over": 3000000,  "upTo": 5000000, "base": 0, "rate": 0.0575, "wholeValue": true },
+    { "over": 5000000,  "upTo": null,    "base": 0, "rate": 0.0595, "wholeValue": true }
   ]
 }

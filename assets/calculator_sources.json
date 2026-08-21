@@ -1,0 +1,43 @@
+{
+  "last_checked": "2026-08-21",
+  "currency": "AUD",
+  "tax": {
+    "financial_year": "2026-2027",
+    "source": "Income Tax Rates Act 1986 Schedule 7 and Australian Government 2026-27 Budget tax cuts",
+    "urls": [
+      "https://www.legislation.gov.au/C2004A03348/2026-07-01/2026-07-01/text/original/epub/OEBPS/document_1/document_1.html",
+      "https://budget.gov.au/content/02-cost-of-living.htm"
+    ],
+    "notes": "Resident rates only. Medicare levy is modelled separately as a simple 2% estimate when enabled."
+  },
+  "stamp_duty": {
+    "assumption": "General/non-concession transfer duty unless noted. Buyer-type selections model the main current state/territory rules that fit the available inputs: first-home concessions or exemptions, owner-occupier/home rates where available, and foreign purchaser surcharges where applicable. Conditional schemes are labelled in the calculator note rather than treated as universal.",
+    "sources": {
+      "NSW": "https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty/understanding-transfer-duty/calculate-transfer-duty",
+      "VIC": "https://www.sro.vic.gov.au/about-us/rates-and-statistics/current-rates/land-transfer-duty-non-principal-place-residence-current-rates",
+      "QLD": "https://qro.qld.gov.au/duties/transfer-duty/calculate/rates/",
+      "QLD_concessions": "https://qro.qld.gov.au/duties/transfer-duty/calculate/concession-rates/",
+      "SA": "https://revenuesa.sa.gov.au/stamp-duty-land/rate-of-stamp-duty",
+      "SA_first_home": "https://www.revenuesa.sa.gov.au/stamp-duty/first-home-buyer-relief/relief-available",
+      "SA_foreign": "https://revenuesa.sa.gov.au/stamp-duty/foreign-ownership-surcharge",
+      "WA": "https://www.wa.gov.au/organisation/department-of-treasury-and-finance/transfer-duty-assessment",
+      "TAS": "https://www.sro.tas.gov.au/property-transfer-duties/rates-of-duty",
+      "TAS_first_home": "https://www.sro.tas.gov.au/property-transfer-duties/concessions-exemptions/first-home-buyers-of-established-homes-duty-relief",
+      "TAS_foreign": "https://www.tro.tas.gov.au/Calculator/Fids",
+      "ACT": "https://www.revenue.act.gov.au/rates-and-property-charges/conveyance-duty-stamp-duty/conveyance-duty-for-non-commercial-property",
+      "ACT_home_buyer": "https://www.revenue.act.gov.au/home-buyer-assistance/home-buyer-concession-scheme/about-the-home-buyer-concession-scheme",
+      "NT": "https://classic.austlii.edu.au/au/legis/nt/consol_act/sda1978151/sch1.html",
+      "NT_home_owner_assistance": "https://nt.gov.au/property/home-owner-assistance",
+      "NT_stamp_duty": "https://treasury.nt.gov.au/dtf/territory-revenue-office/stamp-duty"
+    }
+  },
+  "serviceability": {
+    "buffer_percent": 3,
+    "credit_card_commitment_percent_per_month": 3,
+    "notes": "Simplified lender-style estimate only. Each lender has its own assessment rates, expense benchmarks, shading rules, and policy limits."
+  },
+  "lmi": {
+    "source": "Local approximate LMI rate bands in assets/lmi_table.json",
+    "notes": "Indicative only. Actual LMI depends on lender, insurer, borrower profile, loan purpose, and product."
+  }
+}
