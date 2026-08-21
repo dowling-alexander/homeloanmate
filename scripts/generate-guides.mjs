@@ -43,7 +43,7 @@ function renderInline(value) {
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
     .replace(/\*([^*]+)\*/g, "<em>$1</em>")
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]+)\)/g, '<a href="$2">$1</a>');
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]*)\)/g, '<a href="$2">$1</a>');
 }
 
 function renderMarkdown(markdown) {
@@ -207,6 +207,7 @@ function replaceGeneratedBlock(source, start, end, content, label) {
 }
 
 async function writeIfNeeded(file, content) {
+  content = content.replaceAll("\r\n", "\n");
   let current = "";
   try { current = await readFile(file, "utf8"); } catch { /* New generated guide. */ }
   if (current === content) return false;
