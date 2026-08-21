@@ -1,0 +1,29 @@
+name: Website checks
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build shared assets and generated guides
+        run: node scripts/build.mjs
+      - name: Check JavaScript syntax
+        run: node --check script_not_minified.js && node --check script.js && node --check assets/include.js
+      - name: Run calculator and site checks
+        run: node tests/calculator.test.mjs && node tests/site.test.mjs
+      - name: Check local links
+        run: node scripts/link-check.mjs
+      - name: Verify generated guides are current
+        run: node scripts/generate-guides.mjs --check
