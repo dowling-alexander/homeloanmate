@@ -26,44 +26,74 @@
   },{
     "@type": "Question",
     "name": "When are the next RBA meetings?",
-    "acceptedAnswer": {"@type": "Answer","text": "The Monetary Policy Board meets eight times a year over two days. See our 2025–2026 dates list on this page."}
+    "acceptedAnswer": {"@type": "Answer","text": "The Monetary Policy Board meets eight times a year. Check the Reserve Bank's current decision calendar because meeting dates can change."}
   }]
 }
 </script>
 
 </head>
 <body>
-  <header class="header" role="banner">
-    <div class="header-inner">
-      <a class="brand" href="/" aria-label="Home">
-        <svg viewBox="0 0 1300 320" class="logo" aria-hidden="true">
-          <g transform="translate(0,32)">
-            <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
-              fill="none" stroke="var(--logo-stroke, #167d83)" stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
-            <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z" fill="var(--logo-fill, #167d83)"/>
-            <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z" fill="var(--logo-fill, #167d83)"/>
-            <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z" fill="var(--logo-fill, #167d83)"/>
-          </g>
-          <text x="296" y="210" font-size="148" font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-weight="800" fill="currentColor">BorrowPower</text>
-        </svg>
-      </a>
-      <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary">
-        <a href="/">Borrowing Power</a>
-        <a href="/repayment-estimator.html">Repayments</a>
-        <a href="/guides/">Guides</a>
-        <a href="/faq.html">FAQ</a>
-        <a href="/about.html">About</a>
-      </nav>
-    </div>
-  </header>
+  <!-- shared-header:start -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GKLL8W3BP2"></script>
+<script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6595597891926669"
+        crossorigin="anonymous"></script>
+
+<header class="header" role="banner">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Home">
+      <svg viewBox="0 0 1300 320" class="logo">
+        <g transform="translate(0,32)">
+          <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+                fill="none"
+                stroke="var(--logo-stroke, #167d83)"
+                stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+          <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+          <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+        </g>
+        <text x="296" y="210" font-size="148"
+              font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+              font-weight="800" fill="currentColor">BorrowPower</text>
+      </svg>
+    </a>
+
+    <button id="menuToggle"
+            class="menu-toggle"
+            aria-label="Open menu"
+            aria-controls="primaryNav"
+            aria-expanded="false">
+      <span class="menu-box" aria-hidden="true">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </span>
+    </button>
+
+    <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary" data-open="false">
+      <a href="/">Borrowing Power</a>
+      <a href="/repayment-estimator.html">Repayments</a>
+      <a href="/negative-gearing-calculator.html">Negative Gearing</a>
+      <a href="/guides/guides-index.html">Guides</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+  <div id="backdrop" class="backdrop" hidden></div>
+</header>
+<!-- shared-header:end -->
 
   <main class="container" id="main">
     <article class="card prose">
       <h1>RBA Interest Rate Decisions: What It Means for You</h1>
-      <p class="helper">Updated 14 September 2025 · 4 min read</p>
+      <p class="helper">Updated 21 August 2026 · 4 min read</p>
 
       <div>
-        <p>Every month, the Reserve Bank of Australia (RBA) decides the official cash rate. Even a small move — like <strong>0.25%</strong> — can shift your mortgage by hundreds per year.</p>
+        <p>The Reserve Bank of Australia (RBA) sets the cash rate target at scheduled Monetary Policy Board meetings. On 11 August 2026, the Board left the cash rate target unchanged at <strong>4.35%</strong>. Even a small change — such as <strong>0.25%</strong> — can materially shift a mortgage budget.</p>
 
         <h2>Instant impact calculator</h2>
         <p>Enter your loan and choose a rate change. The impact updates instantly. Default is 0.25% (you can type any numeric value).</p>
@@ -99,31 +129,9 @@
           document.addEventListener('DOMContentLoaded', updateImpact);
         </script>
 
-        
-        <h2>Upcoming RBA meeting dates</h2>
-        <p>The RBA Monetary Policy Board meets eight times a year. Key upcoming dates:</p>
-        <h3>2025</h3>
-        <ul>
-          <li>17–18 February 2025</li>
-          <li>31 March–1 April 2025</li>
-          <li>19–20 May 2025</li>
-          <li>7–8 July 2025</li>
-          <li>11–12 August 2025</li>
-          <li>29–30 September 2025</li>
-          <li>3–4 November 2025</li>
-          <li>8–9 December 2025</li>
-        </ul>
-        <h3>2026</h3>
-        <ul>
-          <li>2–3 February 2026</li>
-          <li>16–17 March 2026</li>
-          <li>4–5 May 2026</li>
-          <li>15–16 June 2026</li>
-          <li>10–11 August 2026</li>
-          <li>28–29 September 2026</li>
-          <li>2–3 November 2026</li>
-          <li>7–8 December 2026</li>
-        </ul>
+
+        <h2>How to follow the next decision</h2>
+        <p>The Board meets eight times each year. For the current meeting calendar, decision and statement, use the <a href="https://www.rba.gov.au/monetary-policy/int-rate-decisions/">RBA Monetary Policy Decisions page</a>. Your lender may change its own variable rates on a different timetable, and need not move by the same amount as the cash rate.</p>
 
         <h2>Want to go deeper?</h2>
         <p>Use our full <a href="/repayment-estimator.html">Repayment Estimator</a> to compare scenarios across different rates, loan terms and offsets.</p>
@@ -139,19 +147,21 @@
       <ul>
         <li><a href="/guides/how-much-can-i-borrow-80k.html">How Much Can I Borrow on $80k?</a></li>
         <li><a href="/guides/how-much-can-i-borrow-100k.html">How Much Can I Borrow on $100k?</a></li>
-        <li><a href="/guides/first-home-buyers.html">First Home Buyers</a></li>
+        <li><a href="/guides/first-home-buyer.html">First Home Buyers</a></li>
       </ul>
     </aside>
 
-    <footer>
-      <p>
-        <a href="/about.html">About</a> | 
-        <a href="/contact.html">Contact</a> | 
-        <a href="/privacy.html">Privacy Policy</a> | 
-        <a href="/disclaimer.html">Disclaimer</a>
-      </p>
-      <p>&copy; 2025 BorrowPower. All rights reserved.</p>
-    </footer>
+    <!-- shared-footer:start -->
+<footer>
+  <p>
+    <a href="/about.html">About</a> |
+    <a href="/contact.html">Contact</a> |
+    <a href="/privacy.html">Privacy Policy</a> |
+    <a href="/disclaimer.html">Disclaimer</a>
+  </p>
+  <p>&copy; 2026 BorrowPower. All rights reserved.</p>
+</footer>
+<!-- shared-footer:end -->
   </main>
 </body>
 </html>
