@@ -1,8 +1,17 @@
 (function(){
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function gtag(){ window.dataLayer.push(arguments); };
+  window.gtag('js', new Date());
+  window.gtag('config', 'G-GKLL8W3BP2');
+  window.trackBorrowPowerEvent = function(name, params) {
+    window.gtag('event', name, params || {});
+  };
+
   const AUD = new Intl.NumberFormat('en-AU',{style:'currency', currency:'AUD', maximumFractionDigits:0});
   const PCT = n => (n*100).toFixed(2)+'%';
   const clamp = (v,min,max)=>Math.max(min, Math.min(max, v));
   const toNumber = v => isNaN(+v) ? 0 : +v;
+  const trackEvent = (name, params={}) => window.trackBorrowPowerEvent?.(name, params);
 
   /* Accessible slide-in mobile menu */
 function initMenu(){
@@ -90,6 +99,13 @@ function initMenu(){
     return Math.max(0, tax);
   }
 
+  function estimateNetAnnualIncome(income, brackets, includeMedicare=false){
+    const gross = Math.max(0, +income || 0);
+    const tax = calculateAnnualTax(gross, brackets);
+    const medicare = includeMedicare ? gross * 0.02 : 0;
+    return Math.max(0, gross - tax - medicare);
+  }
+
   function minMonthlyExpenseFor(dependants, table){
     const key = String(Math.max(0, Math.min(6, dependants)));
     return table.minimum_monthly_expense_floor[key] ?? 2000;
@@ -136,7 +152,11 @@ function initMenu(){
       for(const b of bands){
         const max = b.upTo ?? Number.POSITIVE_INFINITY;
         if(price>lastMax){
-          const taxable = Math.min(price, max) - (b.over ?? lastMax);
+          if(b.formula === 'nt_under_525k' && price <= max){
+            const v = price / 1000;
+            return Math.max(0, (0.06571441 * v * v) + (15 * v));
+          }
+          const taxable = b.wholeValue ? price : Math.min(price, max) - (b.over ?? lastMax);
           if(taxable>0){ duty = (b.base ?? duty) + taxable * b.rate; }
           lastMax = max;
         }
@@ -144,6 +164,100 @@ function initMenu(){
       return Math.max(0, duty);
     }
     return 0;
+  }
+
+  function getStampDutyEstimate({
+    price,
+    state,
+    buyerType='general',
+    propertyType='established',
+    eligibilityConfirmed=true,
+    foreignOwnershipShare=100
+  }){
+    const duty = getStampDuty({price, state});
+    const p = Math.max(0, +price || 0);
+    const foreignShare = clamp(+foreignOwnershipShare || 0, 0, 100) / 100;
+    const qldHomeDuty = value => {
+      if(value <= 350000) return value * 0.01;
+      if(value <= 540000) return 3500 + ((value - 350000) * 0.035);
+      if(value <= 1000000) return 10150 + ((value - 540000) * 0.045);
+      return 30850 + ((value - 1000000) * 0.0575);
+    };
+    const qldFirstHomeConcession = value => {
+      const concessions = [
+        [710000, 17350], [720000, 15615], [730000, 13880], [740000, 12145],
+        [750000, 10410], [760000, 8675], [770000, 6940], [780000, 5205],
+        [790000, 3470], [800000, 1735]
+      ];
+      const match = concessions.find(([limit]) => value < limit);
+      return match ? match[1] : 0;
+    };
+    const actOwnerOccupierDuty = value => {
+      if(value <= 260000) return value * 0.0028;
+      if(value <= 300000) return 728 + ((value - 260000) * 0.022);
+      if(value <= 500000) return 1608 + ((value - 300000) * 0.034);
+      if(value <= 750000) return 8408 + ((value - 500000) * 0.0432);
+      if(value <= 1000000) return 19208 + ((value - 750000) * 0.059);
+      if(value <= 1455000) return 33958 + ((value - 1000000) * 0.064);
+      return value * 0.0454;
+    };
+    if(buyerType === 'first_home'){
+      if(!eligibilityConfirmed) return { duty, note: 'General duty shown until you confirm that you meet the relevant first-home buyer eligibility and occupancy rules.' };
+      if(propertyType === 'vacant_land' || propertyType === 'house_and_land') {
+        return { duty, note: 'General duty shown. This estimate does not model vacant-land or house-and-land first-home concessions.' };
+      }
+      if(state === 'NSW'){
+        if(p <= 800000) return { duty: 0, note: 'NSW first-home buyer estimate: full exemption applied for eligible homes up to $800,000.' };
+        if(p < 1000000) return { duty: (p - 800000) * 0.195935, note: 'NSW first-home buyer estimate: concessional transfer duty applied for eligible homes under $1 million.' };
+        return { duty, note: 'NSW first-home buyer threshold exceeded; general duty shown.' };
+      }
+      if(state === 'VIC'){
+        if(p <= 600000) return { duty: 0, note: 'VIC first-home buyer estimate: full exemption applied for eligible homes up to $600,000.' };
+        if(p <= 750000) return { duty: duty * ((p - 600000) / 150000), note: 'VIC first-home buyer estimate: sliding concession applied for eligible homes up to $750,000.' };
+        return { duty, note: 'VIC first-home buyer threshold exceeded; general duty shown.' };
+      }
+      if(state === 'QLD'){
+        const adjusted = Math.max(0, qldHomeDuty(p) - qldFirstHomeConcession(p));
+        return { duty: adjusted, note: 'QLD first-home buyer estimate: home concession rate plus first-home concession applied where eligible.' };
+      }
+      if(state === 'SA') {
+        if(propertyType !== 'new' && propertyType !== 'off_the_plan') return { duty, note: 'General duty shown. SA first-home relief is modelled only for an eligible new home or off-the-plan apartment.' };
+        return { duty: 0, note: 'SA first-home buyer estimate: full stamp duty relief applied for an eligible new home or off-the-plan apartment.' };
+      }
+      if(state === 'WA'){
+        if(p <= 600000) return { duty: 0, note: 'WA first-home owner rate estimate: no duty applied for eligible homes up to $600,000.' };
+        if(p <= 800000) return { duty: (p - 600000) * 0.1615, note: 'WA first-home owner rate estimate: concessional rate applied for eligible homes up to $800,000.' };
+        return { duty, note: 'WA first-home owner rate threshold exceeded; general duty shown.' };
+      }
+      if(state === 'TAS') return { duty, note: 'General duty shown. TAS first-home established-home duty exemption ended for settlements after 30 June 2026.' };
+      if(state === 'ACT') return { duty: 0, note: 'ACT Home Buyer Concession estimate: no conveyance duty applied assuming eligibility from 1 July 2026.' };
+      if(state === 'NT') return { duty, note: 'General duty shown. NT has HomeGrown grants and house-and-land exemptions, but no broad first-home stamp duty concession is modelled.' };
+      return { duty, note: 'General duty shown. First-home buyer concessions for this state are not modelled yet.' };
+    }
+    if(buyerType === 'owner_occupier'){
+      if(!eligibilityConfirmed) return { duty, note: 'General duty shown until you confirm that you meet the relevant owner-occupier eligibility and residency rules.' };
+      if(state === 'QLD') return { duty: qldHomeDuty(p), note: 'QLD home concession estimate applied for eligible owner-occupier purchases.' };
+      if(state === 'VIC'){
+        let adjusted = duty;
+        if(p >= 130000 && p <= 440000) adjusted = Math.max(0, duty - (p * 0.01));
+        else if(p > 440000 && p < 550000) adjusted = Math.max(0, duty - 3100);
+        return { duty: adjusted, note: 'VIC principal-place-of-residence concession estimate applied where eligible.' };
+      }
+      if(state === 'ACT') return { duty: actOwnerOccupierDuty(p), note: 'ACT eligible owner-occupier conveyance duty rate applied.' };
+      return { duty, note: 'General duty shown. Owner-occupier concessions for this state are not modelled yet.' };
+    }
+    if(buyerType === 'foreign'){
+      if(state === 'NSW') return { duty: duty + (p * foreignShare * 0.09), note: `NSW foreign purchaser estimate: 9% surcharge purchaser duty applied to the entered ${Math.round(foreignShare * 100)}% foreign ownership share.` };
+      if(state === 'VIC') return { duty: duty + (p * foreignShare * 0.08), note: `VIC foreign purchaser estimate: 8% additional duty applied to the entered ${Math.round(foreignShare * 100)}% foreign ownership share.` };
+      if(state === 'QLD') return { duty: duty + (p * foreignShare * 0.08), note: `QLD foreign purchaser estimate: 8% additional foreign acquirer duty applied to the entered ${Math.round(foreignShare * 100)}% foreign ownership share.` };
+      if(state === 'SA') return { duty: duty + (p * foreignShare * 0.07), note: `SA foreign purchaser estimate: 7% foreign ownership surcharge applied to the entered ${Math.round(foreignShare * 100)}% foreign ownership share.` };
+      if(state === 'WA') return { duty: duty + (p * foreignShare * 0.07), note: `WA foreign purchaser estimate: 7% foreign transfer duty applied to the entered ${Math.round(foreignShare * 100)}% foreign ownership share.` };
+      if(state === 'TAS') return { duty: duty + (p * foreignShare * 0.08), note: `TAS foreign purchaser estimate: 8% foreign investor duty surcharge applied to the entered ${Math.round(foreignShare * 100)}% foreign ownership share.` };
+      if(state === 'ACT') return { duty, note: 'General duty shown. ACT does not currently apply a one-off foreign purchaser stamp duty surcharge.' };
+      if(state === 'NT') return { duty, note: 'General duty shown. NT does not currently apply a foreign purchaser stamp duty surcharge.' };
+      return { duty, note: 'General duty shown. Foreign purchaser surcharges for this state are not modelled yet.' };
+    }
+    return { duty, note: 'General/non-concession transfer duty estimate.' };
   }
 
   const qs = s => document.querySelector(s);
@@ -216,7 +330,14 @@ function normaliseStampDutyTables(raw){
         return { over, upTo, base: b.duty, rate: 0 };
       }
 
-      return { over, upTo, base, rate: rate ?? 0 };
+      return {
+        over,
+        upTo,
+        base,
+        rate: rate ?? 0,
+        formula: b.formula,
+        wholeValue: !!(b.wholeValue ?? b.whole_value)
+      };
     });
 
     // Sort by lower bound just in case
@@ -233,20 +354,31 @@ function normaliseStampDutyTables(raw){
   async function initBorrowingPower(){
     const form = qs('#bp-form'); if(!form) return;
     const incomeSlider = qs('#incomeSlider'), incomeInput = qs('#incomeInput');
+    const partnerIncomeSlider = qs('#partnerIncomeSlider'), partnerIncomeInput = qs('#partnerIncomeInput');
+    const includeMedicare = qs('#includeMedicare');
     const expensesSlider = qs('#expensesSlider'), expensesInput = qs('#expensesInput');
     const dependants = qs('#dependants');
     const otherDebtsSlider = qs('#otherDebtsSlider'), otherDebts = qs('#otherDebts');
+    const creditCardLimitsSlider = qs('#creditCardLimitsSlider'), creditCardLimits = qs('#creditCardLimits');
+    const helpDebtMonthlySlider = qs('#helpDebtMonthlySlider'), helpDebtMonthly = qs('#helpDebtMonthly');
     const rateSlider = qs('#rateSlider'), rate = qs('#rate');
     const term = qs('#term'); fillYears(term);
     const propertyPrice = qs('#propertyPrice'), deposit = qs('#deposit');
     const state = qs('#state');
+    const buyerType = qs('#buyerType');
+    const propertyType = qs('#propertyType');
+    const foreignOwnershipShare = qs('#foreignOwnershipShare');
+    const eligibilityConfirmed = qs('#eligibilityConfirmed');
     const capitaliseLMI = qs('#capitaliseLMI');
     const rememberInputs = qs('#rememberInputs');
     const recalcBtn = qs('#recalculateBtn');
     qsa('.info-btn').forEach(btn=>{ const id = btn.getAttribute('aria-controls'); if(id) toggleTooltip(btn, id); });
     bindSliderPair(incomeSlider, incomeInput, 0, 300000, 1000);
+    bindSliderPair(partnerIncomeSlider, partnerIncomeInput, 0, 300000, 1000);
     bindSliderPair(expensesSlider, expensesInput, 0, 20000, 50);
     bindSliderPair(otherDebtsSlider, otherDebts, 0, 10000, 50);
+    bindSliderPair(creditCardLimitsSlider, creditCardLimits, 0, 100000, 500);
+    bindSliderPair(helpDebtMonthlySlider, helpDebtMonthly, 0, 3000, 25);
     bindSliderPair(rateSlider, rate, 0, 10, 0.01);
     const [taxBands, depTable, lmiTable, stampDutyRaw] = await Promise.all([
       fetch('/assets/au_tax_bands_2025_2026.json').then(r=>r.json()),
@@ -263,23 +395,32 @@ function normaliseStampDutyTables(raw){
     if(restored){
       Object.entries(restored).forEach(([id,val])=>{ const el = qs('#'+id); if(el){ if(el.type==='checkbox') el.checked=!!val; else el.value = val; } });
       if(incomeSlider) incomeSlider.value = incomeInput.value;
+      if(partnerIncomeSlider) partnerIncomeSlider.value = partnerIncomeInput.value;
       if(expensesSlider) expensesSlider.value = expensesInput.value;
       if(otherDebtsSlider) otherDebtsSlider.value = otherDebts.value;
+      if(creditCardLimitsSlider) creditCardLimitsSlider.value = creditCardLimits.value;
+      if(helpDebtMonthlySlider) helpDebtMonthlySlider.value = helpDebtMonthly.value;
       if(rateSlider) rateSlider.value = rate.value;
     }
     const out = {
       maxLoanBuffered: qs('#maxLoanBuffered'),
       maxLoanActual: qs('#maxLoanActual'),
+      netMonthlyIncome: qs('#netMonthlyIncome'),
+      assessedCommitments: qs('#assessedCommitments'),
       monthlyPI: qs('#monthlyPI'),
       monthlyIO: qs('#monthlyIO'),
       lvr: qs('#lvr'),
       lmi: qs('#lmi'),
-      stampDuty: qs('#stampDuty')
+      stampDuty: qs('#stampDuty'),
+      stampDutyNote: qs('#stampDutyNote')
     };
     function render(){
       const grossAnnual = +incomeInput.value || 0;
-	  const annualTax = calculateAnnualTax(grossAnnual, taxBands.brackets);
-      const netAnnual = grossAnnual - annualTax;
+      const partnerGrossAnnual = +partnerIncomeInput.value || 0;
+      const includeMedicareVal = !!includeMedicare?.checked;
+      const netAnnual =
+        estimateNetAnnualIncome(grossAnnual, taxBands.brackets, includeMedicareVal) +
+        estimateNetAnnualIncome(partnerGrossAnnual, taxBands.brackets, includeMedicareVal);
       const netMonthly = netAnnual / 12;
       const depCount = parseInt(dependants.value||'0',10);
       const minFloor = minMonthlyExpenseFor(depCount, depTable);
@@ -290,7 +431,10 @@ function normaliseStampDutyTables(raw){
         if(expensesSlider) expensesSlider.value = expensesInput.value;
       }
       const otherDebtsVal = +otherDebts.value||0;
-      const ccLimits = 0;
+      const helpDebtMonthlyVal = +helpDebtMonthly.value || 0;
+      const ccLimits = +creditCardLimits.value || 0;
+      const totalOtherDebts = otherDebtsVal + helpDebtMonthlyVal;
+      const monthlyCommitments = monthlyExp + totalOtherDebts + cardMonthlyCommitment(ccLimits);
       const annualRate = parseFloat(parseFloat(rate.value).toFixed(2));
       const years = parseInt(term.value,10);
       const BUFFER_PCT = 3.0;
@@ -302,7 +446,7 @@ function normaliseStampDutyTables(raw){
 		const maxBuffered = maxBorrowing({
 		  netMonthlyIncome: netMonthly,
 		  monthlyExpenses: monthlyExp,
-		  otherMonthlyDebts: otherDebtsVal,
+		  otherMonthlyDebts: totalOtherDebts,
 		  creditCardLimits: ccLimits,
 		  annualRatePct: annualRate,
 		  years,
@@ -311,7 +455,7 @@ function normaliseStampDutyTables(raw){
       const maxActual = maxBorrowing({
 		  netMonthlyIncome: netMonthly,
 		  monthlyExpenses: monthlyExp,
-		  otherMonthlyDebts: otherDebtsVal,
+		  otherMonthlyDebts: totalOtherDebts,
 		  creditCardLimits: ccLimits,
 		  annualRatePct: annualRate,
 		  years,
@@ -325,31 +469,53 @@ function normaliseStampDutyTables(raw){
         const lmi2 = estimateLMI({loan: withLMI.loan, lvr: lvr2, lmiTable});
         lmiEstimate = lmi2;
       }
-      const duty = getStampDuty({price, state: state.value});
+      const dutyEstimate = getStampDutyEstimate({
+        price,
+        state: state.value,
+        buyerType: buyerType.value,
+        propertyType: propertyType.value,
+        eligibilityConfirmed: eligibilityConfirmed.checked,
+        foreignOwnershipShare: foreignOwnershipShare.value
+      });
+      const duty = dutyEstimate.duty;
       const monthlyPiAmt = monthlyPI(maxActual, annualRate, years);
       const monthlyIoAmt = monthlyIO(maxActual, annualRate);
       out.maxLoanBuffered.textContent = maxBuffered? AUD.format(Math.round(maxBuffered)) : '—';
       out.maxLoanActual.textContent   = maxActual?   AUD.format(Math.round(maxActual))   : '—';
+      out.netMonthlyIncome.textContent = netMonthly? AUD.format(Math.round(netMonthly)) : '?';
+      out.assessedCommitments.textContent = monthlyCommitments? AUD.format(Math.round(monthlyCommitments)) : '?';
       out.monthlyPI.textContent       = monthlyPiAmt? AUD.format(Math.round(monthlyPiAmt)) : '—';
       out.monthlyIO.textContent       = monthlyIoAmt? AUD.format(Math.round(monthlyIoAmt)) : '—';
       out.lvr.textContent             = price>0 ? PCT(base.lvr) : '—';
       out.lmi.textContent             = lmiEstimate>0 ? AUD.format(Math.round(lmiEstimate)) : '—';
-      out.stampDuty.textContent       = duty>0 ? AUD.format(Math.round(duty)) : '—';
+      out.stampDuty.textContent       = price>0 ? AUD.format(Math.round(duty)) : '—';
+      out.stampDutyNote.textContent   = price>0 ? dutyEstimate.note : '';
 	saveIfOptIn(LS_KEYS.bp, {
 	  incomeInput: incomeInput.value,
+	  partnerIncomeInput: partnerIncomeInput.value,
+	  includeMedicare: includeMedicareVal,
 	  expensesInput: expensesInput.value,
 	  dependants: dependants.value,
 	  otherDebts: otherDebts.value,
+	  creditCardLimits: creditCardLimits.value,
+	  helpDebtMonthly: helpDebtMonthly.value,
 	  rate: rate.value,
 	  term: term.value,
 	  propertyPrice: propertyPrice.value,
 	  deposit: deposit.value,
 	  state: state.value,
+	  buyerType: buyerType.value,
+	  propertyType: propertyType.value,
+	  foreignOwnershipShare: foreignOwnershipShare.value,
+	  eligibilityConfirmed: eligibilityConfirmed.checked,
 	  capitaliseLMI: capitaliseLMI.checked
 	}, rememberInputs);
     }
     form.addEventListener('input', render);
-    recalcBtn?.addEventListener('click', render);
+    recalcBtn?.addEventListener('click', () => {
+      render();
+      trackEvent('calculator_recalculated', { calculator_name: 'borrowing_power' });
+    });
     render();
   }
 
@@ -453,10 +619,13 @@ function normaliseStampDutyTables(raw){
 		}
     }
     form.addEventListener('input', render);
-    calcBtn?.addEventListener('click', render);
+    calcBtn?.addEventListener('click', () => {
+      render();
+      trackEvent('calculator_recalculated', { calculator_name: 'repayment_estimator' });
+    });
     render();
   }
 
   window.addEventListener('DOMContentLoaded', ()=>{ initBorrowingPower(); initRepayments(); initMenu()});
-  window.HLM = { pmt, amortize, calculateAnnualTax, minMonthlyExpenseFor, maxBorrowing, monthlyPI, monthlyIO, calcLVR, estimateLMI, getStampDuty, periodsPer };
+  window.HLM = { pmt, amortize, calculateAnnualTax, estimateNetAnnualIncome, minMonthlyExpenseFor, maxBorrowing, monthlyPI, monthlyIO, calcLVR, estimateLMI, getStampDuty, getStampDutyEstimate, periodsPer };
 })();

@@ -1,0 +1,16 @@
+{
+  "name": "borrowpower",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:partials": "node scripts/sync-partials.mjs",
+    "build:guides": "node scripts/generate-guides.mjs",
+    "new:guide": "node scripts/new-guide.mjs",
+    "test": "node tests/calculator.test.mjs && node tests/site.test.mjs",
+    "check:js": "node --check script_not_minified.js && node --check script.js && node --check assets/include.js",
+    "check:links": "node scripts/link-check.mjs",
+    "check": "npm run build && npm run check:js && npm test && npm run check:links"
+  }
+}

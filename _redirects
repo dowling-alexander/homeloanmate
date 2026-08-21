@@ -1,2 +1,19 @@
 # Force all HTTP requests to HTTPS
 http://*   https://:splat   301!
+
+# Legacy/friendly guide URLs
+/guides/ /guides/guides-index.html 200
+/guides /guides/guides-index.html 301
+/guides/how-much-can-i-borrow-80k /guides/how-much-can-i-borrow-80k.html 301
+/guides/how-much-can-i-borrow-100k /guides/how-much-can-i-borrow-100k.html 301
+/guides/what-is-lmi /guides/what-is-lmi.html 301
+/guides/stamp-duty-500k /guides/stamp-duty-500k.html 301
+/guides/mortgage-repayments-600k /guides/mortgage-repayments-600k.html 301
+/guides/debt-to-income-dti /guides/debt-to-income-dti.html 301
+/guides/home-equity-car /guides/home-equity-car.html 301
+/guides/increase-borrowing-power-extra-income /guides/increase-borrowing-power-extra-income.html 301
+/guides/negative-gearing /guides/negative-gearing.html 301
+/guides/offset-vs-redraw.html /guides/offset-account-redraw.html 301
+/guides/first-home-buyers.html /guides/first-home-buyer.html 301
+/guides/borrowing-power-2025.html /guides/guides-index.html 301
+/guides/how-much-can-i-borrow-600k.html /guides/mortgage-repayments-600k.html 301

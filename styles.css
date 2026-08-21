@@ -28,6 +28,10 @@ input[type="range"]{width:100%}
 .toggle input{width:20px;height:20px}
 .results{display:grid;gap:12px}
 .result-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#fbfdff;border:1px dashed var(--border);border-radius:12px}
+.assumptions{margin-top:12px;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fbfdff}
+.assumptions summary{cursor:pointer;font-weight:700}
+.assumptions ul{margin:10px 0 0;padding-left:20px}
+.assumptions code{font-size:.9em}
 .sticky-cta{position:sticky;bottom:0;background:rgba(255,255,255,.95);backdrop-filter:blur(6px);border-top:1px solid var(--border);padding:8px 12px;display:flex;gap:8px;z-index:9}
 .btn{appearance:none;border:0;border-radius:12px;padding:12px 14px;font-weight:700;cursor:pointer}
 .btn-primary{background:var(--primary);color:var(--primary-ink)}

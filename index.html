@@ -1,27 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GKLL8W3BP2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-GKLL8W3BP2');
-</script>
   <meta charset="utf-8" />
   <title>Borrowing Power Calculator – BorrowPower</title>
-  <meta name="description" content="Estimate your borrowing power using 2025/26 AU tax bands, dependants expense floor, LMI, and a 3% serviceability buffer." />
+  <meta name="description" content="Estimate your borrowing power using 2026/27 AU tax bands, dependants expense floor, LMI, and a 3% serviceability buffer." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="canonical" href="https://borrowpower.com.au/" />
   <link rel="stylesheet" href="/styles.css" />
   <meta name="robots" content="index,follow" />
   <meta property="og:title" content="Borrowing Power Calculator – BorrowPower" />
   <meta property="og:description" content="Mobile-first AU borrowing power estimate with tax→net, dependants floor, LMI and stamp duty." />
   <meta name="twitter:card" content="summary" />
-  
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6595597891926669"
-     crossorigin="anonymous"></script>
+
 
   <script type="application/ld+json">
   {
@@ -30,36 +21,39 @@
   }
   </script>
   <link rel="icon" type="image/png" href="/borrowpower-favicon.png">
-  
+
 </head>
 <body>
-  
+
+<!-- shared-header:start -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GKLL8W3BP2"></script>
+<script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6595597891926669"
+        crossorigin="anonymous"></script>
+
 <header class="header" role="banner">
   <div class="header-inner">
     <a class="brand" href="/" aria-label="Home">
-	  <svg viewBox="0 0 1300 320" class="logo">
-		<!-- icon -->
-		<g transform="translate(0,32)">
-		  <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
-				fill="none"
-				stroke="var(--logo-stroke, #167d83)"
-				stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
-		  <!-- bars -->
-		  <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
-				fill="var(--logo-fill, #167d83)"/>
-		  <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
-				fill="var(--logo-fill, #167d83)"/>
-		  <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
-				fill="var(--logo-fill, #167d83)"/>
-		</g>
-		<!-- wordmark uses currentColor so we can flip it easily -->
-		<text x="296" y="210" font-size="148"
-			  font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
-			  font-weight="800" fill="currentColor">BorrowPower</text>
-	  </svg>
+      <svg viewBox="0 0 1300 320" class="logo">
+        <g transform="translate(0,32)">
+          <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+                fill="none"
+                stroke="var(--logo-stroke, #167d83)"
+                stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+          <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+          <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+        </g>
+        <text x="296" y="210" font-size="148"
+              font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+              font-weight="800" fill="currentColor">BorrowPower</text>
+      </svg>
     </a>
 
-    <!-- Mobile menu button -->
     <button id="menuToggle"
             class="menu-toggle"
             aria-label="Open menu"
@@ -72,20 +66,18 @@
       </span>
     </button>
 
-    <!-- Primary nav -->
     <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary" data-open="false">
-      <a href="/"              >Borrowing Power</a>
+      <a href="/">Borrowing Power</a>
       <a href="/repayment-estimator.html">Repayments</a>
-	  <a href="/negative-gearing-Calculator.html">Negative Gearing</a>
-	  <a href="/guides/guides-index.html">Guides</a>
-      <a href="/faq.html"      >FAQ</a>
-      <a href="/about.html"    >About</a>
+      <a href="/negative-gearing-calculator.html">Negative Gearing</a>
+      <a href="/guides/guides-index.html">Guides</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/about.html">About</a>
     </nav>
   </div>
-
-  <!-- Backdrop for slide-in drawer -->
   <div id="backdrop" class="backdrop" hidden></div>
 </header>
+<!-- shared-header:end -->
 
   <main class="container" id="main">
     <section class="card" aria-labelledby="bp-heading">
@@ -100,8 +92,24 @@
           </div>
 
           <div id="tt-income" class="tooltip" role="region" aria-live="polite">
-            We convert gross to net using 2025/26 resident tax bands (excludes 2% Medicare levy).
+            We convert gross to net using 2026/27 resident tax bands. The Medicare levy toggle applies a simple 2% estimate.
           </div>
+        </div>
+
+        <div class="field">
+          <label for="partnerIncomeInput">Partner annual gross income</label>
+          <div class="input-row">
+            <input type="range" id="partnerIncomeSlider" min="0" max="300000" step="1000" value="0" />
+            <input type="number" id="partnerIncomeInput" inputmode="numeric" value="0" />
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="toggle">
+            <input type="checkbox" id="includeMedicare" checked />
+            <label for="includeMedicare">Include 2% Medicare levy estimate</label>
+          </div>
+          <small class="helper">Simple estimate only; Medicare reductions, exemptions, and MLS are not modelled.</small>
         </div>
 
         <div class="field">
@@ -125,6 +133,23 @@
           <div class="input-row">
             <input type="range" id="otherDebtsSlider" min="0" max="10000" step="50" value="0" />
             <input type="number" id="otherDebts" inputmode="decimal" value="0" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="creditCardLimits">Total credit card limits</label>
+          <div class="input-row">
+            <input type="range" id="creditCardLimitsSlider" min="0" max="100000" step="500" value="0" />
+            <input type="number" id="creditCardLimits" inputmode="decimal" value="0" />
+          </div>
+          <small class="helper">Estimated at 3% of limits as a monthly commitment.</small>
+        </div>
+
+        <div class="field">
+          <label for="helpDebtMonthly">HELP/HECS monthly repayment</label>
+          <div class="input-row">
+            <input type="range" id="helpDebtMonthlySlider" min="0" max="3000" step="25" value="0" />
+            <input type="number" id="helpDebtMonthly" inputmode="decimal" value="0" />
           </div>
         </div>
 
@@ -158,6 +183,38 @@
           </select>
         </div>
         <div class="field">
+          <label for="buyerType">Buyer type for stamp duty</label>
+          <select id="buyerType">
+            <option value="general" selected>General / investor</option>
+            <option value="first_home">First-home buyer</option>
+            <option value="owner_occupier">Owner occupier</option>
+            <option value="foreign">Foreign purchaser</option>
+          </select>
+          <small class="helper">Concessions and surcharges vary by state and are flagged separately.</small>
+        </div>
+        <div class="field">
+          <label for="propertyType">Property type for concession checks</label>
+          <select id="propertyType">
+            <option value="established" selected>Established home</option>
+            <option value="new">New home</option>
+            <option value="off_the_plan">Off-the-plan home</option>
+            <option value="vacant_land">Vacant land</option>
+            <option value="house_and_land">House and land package</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="foreignOwnershipShare">Foreign ownership share (%)</label>
+          <input type="number" id="foreignOwnershipShare" inputmode="decimal" min="0" max="100" step="1" value="100" />
+          <small class="helper">Used only for the foreign-purchaser surcharge estimate.</small>
+        </div>
+        <div class="field">
+          <div class="toggle">
+            <input type="checkbox" id="eligibilityConfirmed" />
+            <label for="eligibilityConfirmed">I meet the relevant first-home or owner-occupier eligibility rules</label>
+          </div>
+          <small class="helper">The calculator otherwise shows general duty for conditional concessions.</small>
+        </div>
+        <div class="field">
           <div class="toggle">
             <input type="checkbox" id="capitaliseLMI" />
             <label for="capitaliseLMI">Capitalise LMI into the loan</label>
@@ -175,13 +232,27 @@
       <section class="results" aria-live="polite">
         <div class="result-item"><span>Max loan (buffered)</span><strong id="maxLoanBuffered">—</strong></div>
         <div class="result-item"><span>Max loan (at your rate)</span><strong id="maxLoanActual">—</strong></div>
+        <div class="result-item"><span>Estimated net monthly income</span><strong id="netMonthlyIncome">—</strong></div>
+        <div class="result-item"><span>Assessed monthly commitments</span><strong id="assessedCommitments">—</strong></div>
         <div class="result-item"><span>Indicative monthly P&I @ your rate</span><strong id="monthlyPI">—</strong></div>
         <div class="result-item"><span>Interest‑only monthly @ your rate</span><strong id="monthlyIO">—</strong></div>
         <div class="result-item"><span>LVR</span><strong id="lvr">—</strong></div>
         <div class="result-item"><span>Estimated LMI</span><strong id="lmi">—</strong></div>
         <div class="result-item"><span>Stamp duty (indicative)</span><strong id="stampDuty">—</strong></div>
       </section>
-	  
+      <p id="stampDutyNote" class="helper" aria-live="polite"></p>
+
+      <details class="assumptions">
+        <summary>Calculation assumptions and data sources</summary>
+        <ul>
+          <li>Tax uses 2026/27 Australian resident rates. Medicare levy is optional and estimated at 2% when enabled.</li>
+          <li>Borrowing power subtracts expenses, debts, HELP/HECS repayment, and 3% of credit card limits, then applies a 3% rate buffer.</li>
+          <li>Stamp duty uses state/territory rates with buyer-type estimates where the available inputs support them. Conditional schemes are noted in the result message.</li>
+          <li>LMI is an approximate owner-occupied full-doc estimate. Actual lender and insurer premiums vary.</li>
+        </ul>
+        <p class="helper">Source metadata lives in <code>/assets/calculator_sources.json</code>.</p>
+      </details>
+
 	  <!-- Share / Save -->
 		<section class="share card" aria-labelledby="share-heading">
 		  <h2 id="share-heading">Share or save this estimate</h2>
@@ -194,41 +265,30 @@
 
 	<div class="disclaimer">
 	  <p>
-		This calculator provides general estimates only and is 
-		<a href="/terms.html">not financial advice</a>. 
-		Please check with a licensed lender, broker, or financial adviser 
+		This calculator provides general estimates only and is
+		<a href="/terms.html">not financial advice</a>.
+		Please check with a licensed lender, broker, or financial adviser
 		before making decisions.
 	  </p>
 	</div>
-      
-<div class="ad-slot" aria-label="Advertisement">
-  <ins class="adsbygoogle"
-       style="display:block;min-height:120px"
-       data-ad-client=""
-       data-ad-slot="auto"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-</div>
-<script>
-  if (window.ADSENSE_CLIENT && window.adsbygoogle) {
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
-  }
-</script>
+
 
     </section>
 
     <div data-include="/partials/important-information.html"></div>
-	<footer>
-	<p>
-	<a href="/about.html">About</a> | 
-	<a href="/contact.html">Contact</a> | 
-	<a href="/privacy.html">Privacy Policy</a> | 
-	<a href="/disclaimer.html">Disclaimer</a>
-	</p>
-	<p>&copy; 2025 BorrowPower. All rights reserved.</p>
-	</footer>
-	
-	
+	<!-- shared-footer:start -->
+<footer>
+  <p>
+    <a href="/about.html">About</a> |
+    <a href="/contact.html">Contact</a> |
+    <a href="/privacy.html">Privacy Policy</a> |
+    <a href="/disclaimer.html">Disclaimer</a>
+  </p>
+  <p>&copy; 2026 BorrowPower. All rights reserved.</p>
+</footer>
+<!-- shared-footer:end -->
+
+
   </main>
 
   <div class="sticky-cta" role="region" aria-label="Quick actions">
@@ -244,14 +304,22 @@
   // Map URL keys to your element IDs
   const map = {
     income:       { number: 'incomeInput',  slider: 'incomeSlider' },
+    partnerIncome:{ number: 'partnerIncomeInput', slider: 'partnerIncomeSlider' },
+    medicare:     { checkbox: 'includeMedicare' },
     expenses:     { number: 'expensesInput', slider: 'expensesSlider' },
     otherDebts:   { number: 'otherDebts',    slider: 'otherDebtsSlider' },
+    creditCards:  { number: 'creditCardLimits', slider: 'creditCardLimitsSlider' },
+    helpDebt:     { number: 'helpDebtMonthly', slider: 'helpDebtMonthlySlider' },
     rate:         { number: 'rate',          slider: 'rateSlider' },
     term:         { select: 'term' },
     propertyPrice:{ number: 'propertyPrice' },
     deposit:      { number: 'deposit' },
     dependants:   { select: 'dependants' },
     state:        { select: 'state' },
+    buyerType:    { select: 'buyerType' },
+    propertyType: { select: 'propertyType' },
+    foreignOwnershipShare: { number: 'foreignOwnershipShare' },
+    eligibilityConfirmed: { checkbox: 'eligibilityConfirmed' },
     capitaliseLMI:{ checkbox: 'capitaliseLMI' }
   };
 
@@ -312,6 +380,7 @@
     const link = buildShareURL();
     try {
       await navigator.clipboard.writeText(link);
+      window.trackBorrowPowerEvent?.('calculator_link_copied', { calculator_name: 'borrowing_power' });
       $('copyStatus').textContent = '✅ Link copied';
     } catch {
       $('copyStatus').textContent = '❌ Copy failed';
