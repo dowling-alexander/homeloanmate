@@ -31,4 +31,8 @@ for (const eventName of ["calculator_started", "calculator_result_viewed", "cont
 const negativeGearingCalculator = await readFile(path.join(root, "negative-gearing-calculator.html"), "utf8");
 assert.ok(negativeGearingCalculator.includes("calculator_result_viewed"), "Negative gearing calculator must track a viewed result");
 
+const refinanceCalculator = await readFile(path.join(root, "refinance-break-even-calculator.html"), "utf8");
+assert.ok(refinanceCalculator.includes("RefinanceBreakEven.compare"), "Refinance calculator must use the shared comparison model");
+assert.ok(refinanceCalculator.includes('calculator_name: "refinance_break_even"'), "Refinance calculator must track result views");
+
 console.log(`Site configuration checks passed for ${pages.length} pages`);
