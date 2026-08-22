@@ -45,7 +45,7 @@
   function currentContentType(){
     const path = window.location.pathname;
     if(path.startsWith('/guides/')) return 'guide';
-    if(['/', '/repayment-estimator.html', '/negative-gearing-calculator.html'].includes(path)) return 'calculator';
+    if(['/', '/repayment-estimator.html', '/negative-gearing-calculator.html', '/refinance-break-even-calculator.html'].includes(path)) return 'calculator';
     return 'site_page';
   }
 
@@ -54,6 +54,7 @@
       '/': { name: 'borrowing_power', type: 'calculator' },
       '/repayment-estimator.html': { name: 'repayment_estimator', type: 'calculator' },
       '/negative-gearing-calculator.html': { name: 'negative_gearing', type: 'calculator' },
+      '/refinance-break-even-calculator.html': { name: 'refinance_break_even', type: 'calculator' },
       '/guides/first-home-buyer.html': { name: 'first_home_buyer', type: 'hub' },
       '/guides/refinance-home-loan.html': { name: 'refinancing', type: 'hub' },
       '/guides/property-investor-hub.html': { name: 'property_investor', type: 'hub' },

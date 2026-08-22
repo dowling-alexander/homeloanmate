@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <title>Refinance Break-Even Calculator | BorrowPower</title>
+  <meta name="description" content="Estimate whether a lower home-loan rate covers refinancing costs by comparing repayments, fees, debt position and break-even time.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://borrowpower.com.au/refinance-break-even-calculator.html">
+  <meta name="robots" content="index,follow">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" type="image/png" href="/borrowpower-favicon.png">
+  <meta property="og:title" content="Refinance Break-Even Calculator | BorrowPower">
+  <meta property="og:description" content="Compare loan payments, fees and switching costs before refinancing a home loan.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://borrowpower.com.au/refinance-break-even-calculator.html">
+  <meta property="og:image" content="https://borrowpower.com.au/assets/thumb-refinancing-2025.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Refinance Break-Even Calculator","applicationCategory":"FinanceApplication","operatingSystem":"Any","url":"https://borrowpower.com.au/refinance-break-even-calculator.html","description":"Compare current and proposed home-loan payments, fees and switching costs."}</script>
+</head>
+<body>
+  <!-- shared-header:start -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GKLL8W3BP2"></script>
+<script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6595597891926669"
+        crossorigin="anonymous"></script>
+
+<header class="header" role="banner">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Home">
+      <svg viewBox="0 0 1300 320" class="logo">
+        <g transform="translate(0,32)">
+          <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+                fill="none"
+                stroke="var(--logo-stroke, #167d83)"
+                stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+          <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+          <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+        </g>
+        <text x="296" y="210" font-size="148"
+              font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+              font-weight="800" fill="currentColor">BorrowPower</text>
+      </svg>
+    </a>
+
+    <button id="menuToggle"
+            class="menu-toggle"
+            aria-label="Open menu"
+            aria-controls="primaryNav"
+            aria-expanded="false">
+      <span class="menu-box" aria-hidden="true">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </span>
+    </button>
+
+    <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary" data-open="false">
+      <a href="/">Borrowing Power</a>
+      <a href="/repayment-estimator.html">Repayments</a>
+      <a href="/guides/refinance-home-loan.html">Refinancing</a>
+      <a href="/negative-gearing-calculator.html">Negative Gearing</a>
+      <a href="/guides/first-home-buyer.html">First Home Buyers</a>
+      <a href="/guides/guides-index.html">Guides</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+  <div id="backdrop" class="backdrop" hidden></div>
+</header>
+<!-- shared-header:end -->
+
+  <main class="container" id="main">
+    <section class="card calculator-intro" aria-labelledby="refinance-calculator-heading">
+      <p class="eyebrow-static">Refinancing</p>
+      <h1 id="refinance-calculator-heading">Refinance Break-Even Calculator</h1>
+      <p>Compare your current home loan with a new offer. The result includes repayments, annual fees, one-off switching costs and the remaining debt position, so a longer new loan term does not make a refinance look better than it is.</p>
+    </section>
+
+    <section class="calculator-layout" aria-label="Refinance calculation">
+      <form id="refinance-form" class="card form-grid" novalidate>
+        <fieldset class="form-section">
+          <legend>Your current loan</legend>
+          <div class="field">
+            <label for="current-balance">Loan balance</label>
+            <input id="current-balance" name="balance" type="number" inputmode="decimal" min="0" step="1000" value="500000">
+          </div>
+          <div class="field">
+            <label for="current-rate">Current interest rate (% p.a.)</label>
+            <input id="current-rate" name="current-rate" type="number" inputmode="decimal" min="0" max="20" step="0.01" value="6.60">
+          </div>
+          <div class="field">
+            <label for="current-term">Years remaining</label>
+            <input id="current-term" name="current-term" type="number" inputmode="numeric" min="1" max="40" step="1" value="25">
+          </div>
+          <div class="field">
+            <label for="current-fee">Current annual loan fee</label>
+            <input id="current-fee" name="current-fee" type="number" inputmode="decimal" min="0" step="10" value="0">
+          </div>
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend>New loan offer</legend>
+          <div class="field">
+            <label for="new-rate">New interest rate (% p.a.)</label>
+            <input id="new-rate" name="new-rate" type="number" inputmode="decimal" min="0" max="20" step="0.01" value="6.10">
+          </div>
+          <div class="field">
+            <label for="new-term">New loan term (years)</label>
+            <input id="new-term" name="new-term" type="number" inputmode="numeric" min="1" max="40" step="1" value="25">
+            <small class="helper">Keep this the same as years remaining to compare like for like.</small>
+          </div>
+          <div class="field">
+            <label for="new-fee">New annual loan fee</label>
+            <input id="new-fee" name="new-fee" type="number" inputmode="decimal" min="0" step="10" value="0">
+          </div>
+          <div class="field">
+            <label for="switching-costs">Total switching costs</label>
+            <input id="switching-costs" name="switching-costs" type="number" inputmode="decimal" min="0" step="50" value="1200">
+            <small class="helper">For example: discharge, application, valuation, settlement and fixed-loan break costs.</small>
+          </div>
+          <div class="field">
+            <label for="cashback">Cashback or loan credit</label>
+            <input id="cashback" name="cashback" type="number" inputmode="decimal" min="0" step="50" value="0">
+            <small class="helper">Enter only a confirmed amount and check its conditions.</small>
+          </div>
+        </fieldset>
+      </form>
+
+      <section class="card refinance-results" aria-live="polite" aria-labelledby="refinance-results-heading">
+        <div class="results-heading">
+          <p class="eyebrow-static">Your estimate</p>
+          <h2 id="refinance-results-heading">Does the switch cover its costs?</h2>
+        </div>
+        <div class="comparison-grid">
+          <div class="comparison-stat">
+            <span>Current monthly repayment</span>
+            <strong id="current-payment">$0</strong>
+          </div>
+          <div class="comparison-stat">
+            <span>New monthly repayment</span>
+            <strong id="new-payment">$0</strong>
+          </div>
+          <div class="comparison-stat comparison-stat-primary">
+            <span>Monthly cash-flow change</span>
+            <strong id="monthly-change">$0</strong>
+          </div>
+          <div class="comparison-stat">
+            <span>Net upfront cost</span>
+            <strong id="net-upfront-cost">$0</strong>
+          </div>
+        </div>
+
+        <div class="break-even-callout" id="break-even-summary">
+          <span>Estimated break-even</span>
+          <strong id="break-even">Not calculated</strong>
+          <p id="break-even-note"></p>
+        </div>
+
+        <h3>Estimated position after switching costs</h3>
+        <div class="results">
+          <div class="result-item"><span>After 1 year</span><strong id="one-year">$0</strong></div>
+          <div class="result-item"><span>After 2 years</span><strong id="two-year">$0</strong></div>
+          <div class="result-item"><span>After 5 years</span><strong id="five-year">$0</strong></div>
+          <div class="result-item"><span>Lifetime loan-cost difference</span><strong id="lifetime-difference">$0</strong></div>
+        </div>
+        <p class="helper" id="term-note"></p>
+      </section>
+    </section>
+
+    <section class="card prose" aria-labelledby="how-it-works-heading">
+      <h2 id="how-it-works-heading">How this calculator treats a refinance</h2>
+      <p>The break-even estimate is the first month where the lower interest and fee cost has recovered the net switching cost. The 1, 2 and 5 year figures compare payments made, fees paid and the balance still owing on each loan.</p>
+      <p>A lower repayment can be caused by extending the loan term. That can help cash flow, but it does not by itself make the loan cheaper. Compare the lifetime loan-cost difference and the remaining balance before deciding.</p>
+      <p><a class="btn btn-outline" href="/guides/refinance-home-loan.html">Return to the Refinancing Hub</a></p>
+    </section>
+
+    <section class="disclaimer">
+      <p>General information only, not financial or credit advice. This estimate assumes principal-and-interest repayments, a stable interest rate and fees paid evenly over the loan. It does not include taxes, offset balances, redraw, lender policy, refinancing approval or all loan features. Check written lender terms and consider independent advice before refinancing.</p>
+    </section>
+    <div data-include="/partials/important-information.html"></div>
+    <!-- shared-footer:start -->
+<footer>
+  <p>
+    <a href="/about.html">About</a> |
+    <a href="/contact.html">Contact</a> |
+    <a href="/privacy.html">Privacy Policy</a> |
+    <a href="/disclaimer.html">Disclaimer</a>
+  </p>
+  <p>&copy; 2026 BorrowPower. All rights reserved.</p>
+</footer>
+<!-- shared-footer:end -->
+  </main>
+
+  <div class="sticky-cta" role="region" aria-label="Calculator actions">
+    <button class="btn btn-primary" id="refinance-recalculate" type="button">Recalculate</button>
+    <a class="btn btn-outline" href="/guides/refinance-home-loan.html">Refinancing Hub</a>
+  </div>
+  <script defer src="/assets/include.js"></script>
+  <script defer src="/script.js"></script>
+  <script defer src="/assets/refinance-break-even.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("refinance-form");
+      const calculateButton = document.getElementById("refinance-recalculate");
+      const currency = new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
+      let started = false;
+      let resultViewed = false;
+      let resultTimer;
+
+      function value(id) {
+        const input = document.getElementById(id);
+        return input ? Number(input.value) : 0;
+      }
+
+      function signedCurrency(amount, label) {
+        const prefix = amount >= 0 ? "Save " : "Costs ";
+        return `${prefix}${currency.format(Math.abs(amount))}${label ? ` ${label}` : ""}`;
+      }
+
+      function render() {
+        const result = window.RefinanceBreakEven.compare({
+          balance: value("current-balance"),
+          currentRate: value("current-rate"),
+          currentTerm: value("current-term"),
+          currentAnnualFee: value("current-fee"),
+          newRate: value("new-rate"),
+          newTerm: value("new-term"),
+          newAnnualFee: value("new-fee"),
+          switchingCosts: value("switching-costs"),
+          cashback: value("cashback")
+        });
+
+        document.getElementById("current-payment").textContent = currency.format(result.currentPayment);
+        document.getElementById("new-payment").textContent = currency.format(result.proposedPayment);
+        document.getElementById("monthly-change").textContent = signedCurrency(result.monthlyCashflowChange, "per month");
+        document.getElementById("net-upfront-cost").textContent = currency.format(result.netSwitchingCost);
+        document.getElementById("one-year").textContent = signedCurrency(result.oneYear.saving, "after 1 year");
+        document.getElementById("two-year").textContent = signedCurrency(result.twoYear.saving, "after 2 years");
+        document.getElementById("five-year").textContent = signedCurrency(result.fiveYear.saving, "after 5 years");
+        document.getElementById("lifetime-difference").textContent = signedCurrency(result.lifetimeSaving, "over the loan");
+
+        const breakEven = document.getElementById("break-even");
+        const breakEvenNote = document.getElementById("break-even-note");
+        if (result.breakEvenMonths === 0) {
+          breakEven.textContent = "No net upfront cost";
+          breakEvenNote.textContent = "The cashback or loan credit is at least as large as the entered switching costs.";
+        } else if (result.breakEvenMonths !== null) {
+          const years = Math.floor(result.breakEvenMonths / 12);
+          const months = result.breakEvenMonths % 12;
+          breakEven.textContent = years ? `${years} years ${months} months` : `${months} months`;
+          breakEvenNote.textContent = "This is based on interest, annual fees and the remaining loan balance, after your net upfront cost.";
+        } else {
+          breakEven.textContent = "Not reached in the selected loan terms";
+          breakEvenNote.textContent = "At these inputs, the new loan does not recover its net upfront cost before the selected loans end.";
+        }
+
+        const currentTerm = value("current-term");
+        const newTerm = value("new-term");
+        document.getElementById("term-note").textContent = currentTerm === newTerm
+          ? "Both loans use the same remaining term, so the repayment comparison is like for like."
+          : "The new loan term differs from the remaining term. The repayment figure is a cash-flow comparison; the position figures include the balance still owing to keep the comparison fair.";
+      }
+
+      function trackStarted() {
+        if (started) return;
+        started = true;
+        window.trackBorrowPowerEvent?.("calculator_started", { calculator_name: "refinance_break_even" });
+      }
+
+      function trackResultViewed() {
+        if (resultViewed) return;
+        resultViewed = true;
+        window.trackBorrowPowerEvent?.("calculator_result_viewed", { calculator_name: "refinance_break_even" });
+      }
+
+      function scheduleResultViewed() {
+        trackStarted();
+        window.clearTimeout(resultTimer);
+        resultTimer = window.setTimeout(trackResultViewed, 600);
+      }
+
+      form.addEventListener("input", function () {
+        render();
+        scheduleResultViewed();
+      });
+      form.addEventListener("change", function () {
+        render();
+        scheduleResultViewed();
+      });
+      calculateButton.addEventListener("click", function () {
+        render();
+        trackResultViewed();
+        window.trackBorrowPowerEvent?.("calculator_recalculated", { calculator_name: "refinance_break_even" });
+      });
+      render();
+    });
+  </script>
+</body>
+</html>

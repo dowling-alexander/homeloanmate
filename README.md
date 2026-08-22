@@ -6,6 +6,7 @@ Static website for [borrowpower.com.au](https://borrowpower.com.au), an Australi
 
 - `index.html` - borrowing power calculator.
 - `repayment-estimator.html` - repayment estimator for P&I, interest-only, payment frequency, and extra repayments.
+- `refinance-break-even-calculator.html` - refinance comparison for repayments, fees, upfront switching costs and break-even time.
 - `negative-gearing-calculator.html` - simplified investment property cashflow and tax-effect calculator.
 - `guides/` - SEO guide articles and the guide index page.
 - `content/guides/` - Markdown source files for new guides. The build creates the page, guide card, and sitemap entry.
@@ -60,7 +61,7 @@ The older `guides/blog-template.html` is retained for reference but is marked `n
 ## Analytics And Ads
 
 - Google Analytics and the AdSense loader now come from `partials/header.html`, so they are applied once to every page during the build.
-- GA4 records only high-level activity. Calculator pages record `calculator_started`, `calculator_result_viewed`, and `calculator_recalculated`; the negative gearing calculator also records `calculator_link_copied`. Key in-page routes between a calculator, hub, and guide index record `content_navigation`. No income, debt, property-price, tax-rate, or other calculator inputs are sent.
+- GA4 records only high-level activity. Calculator pages record `calculator_started`, `calculator_result_viewed`, and `calculator_recalculated`; the negative gearing calculator also records `calculator_link_copied`. Key in-page routes between a calculator, hub, and guide index record `content_navigation`. No income, debt, property-price, tax-rate, rate quote, or other calculator inputs are sent.
 - In GA4, mark `calculator_result_viewed` as a key event. Create custom dimensions for the low-cardinality event parameters `calculator_name`, `destination_name`, `destination_type`, and `source_type` when you are ready to report on them.
 - `ads.txt` contains publisher `pub-6595597891926669` with Google's standard direct-seller record.
 - The previous manual ad placeholders were removed because they had no numeric AdSense unit ID and therefore could not reliably serve ads. Use Auto ads in AdSense for site-wide placement, or create a real display unit in AdSense and add its numeric `data-ad-slot` only where you want a fixed ad position.
@@ -75,6 +76,7 @@ The calculators are indicative only and are not financial, legal, or tax advice.
 - LMI uses approximate bands from `assets/lmi_table.json`.
 - Stamp duty uses general/non-concession state/territory bands from `assets/stampDuty.json`. Buyer-type selections model the main current state/territory rules that fit the available inputs: first-home concessions or exemptions, owner-occupier/home rates where available, and foreign purchaser surcharges where applicable. Conditional schemes, such as SA new-home relief and NT house-and-land exemptions, are labelled in the calculator note rather than treated as universal.
 - Negative gearing uses a simplified interest-only expense model and a user-selected marginal tax rate.
+- Refinance break-even compares principal-and-interest repayments at stable entered rates. Its position figures include paid repayments, annual fees and the balance still owing; they do not model offset accounts, redraw, lender policy, tax, loan approval or all loan features.
 
 ## Data Sources Checked
 

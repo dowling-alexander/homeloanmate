@@ -162,3 +162,24 @@ footer a:hover {
 .card-post .body h2 { margin:.5rem 0 .25rem; font-size:1.05rem; line-height:1.3; }
 .card-post .excerpt { color:#4b5563; margin:.25rem 0 .25rem; }
 .card-post .meta { color:#6b7280; font-size:.85rem; }
+
+/* Refinance break-even calculator */
+.calculator-layout{display:grid;gap:16px}
+.calculator-layout .form-grid{grid-template-columns:1fr}
+.calculator-intro p:last-child{max-width:760px;margin-bottom:0}
+.form-section{display:grid;gap:12px;margin:0;padding:14px;border:1px solid var(--border);border-radius:8px;min-width:0}
+.form-section legend{font-weight:700;padding:0 4px}
+.form-section input[type="number"]{width:100%;max-width:none}
+.refinance-results h2,.refinance-results h3{margin-top:0}
+.results-heading{margin-bottom:14px}
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.comparison-stat{display:grid;gap:4px;min-height:92px;padding:12px;border:1px solid var(--border);border-radius:8px;background:#fbfdff}
+.comparison-stat span{font-size:.85rem;color:var(--ink-muted)}
+.comparison-stat strong{font-size:1.05rem}
+.comparison-stat-primary{background:#e8fbfd;border-color:#a5e7ea}
+.break-even-callout{display:grid;gap:4px;padding:14px;margin:0 0 16px;border-left:4px solid var(--primary);background:#f0fdfa}
+.break-even-callout span{font-size:.85rem;color:var(--ink-muted)}
+.break-even-callout strong{font-size:1.25rem}
+.break-even-callout p{margin:0;color:var(--ink-muted);font-size:.9rem}
+@media (min-width:768px){.calculator-layout{grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);align-items:start}.calculator-layout .form-grid{grid-template-columns:1fr}.refinance-results{position:sticky;top:16px}.form-section{grid-template-columns:1fr 1fr}.form-section legend{grid-column:1/-1}}
+@media (max-width:374px){.comparison-grid{grid-template-columns:1fr}.sticky-cta .btn{padding-inline:10px;font-size:.9rem}}
