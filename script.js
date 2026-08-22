@@ -13,6 +13,71 @@
   const toNumber = v => isNaN(+v) ? 0 : +v;
   const trackEvent = (name, params={}) => window.trackBorrowPowerEvent?.(name, params);
 
+  // Record meaningful calculator use without sending any financial inputs to GA4.
+  function createCalculatorTracking(form, calculatorName){
+    let started = false;
+    let resultViewed = false;
+    let resultTimer;
+
+    function trackStarted(){
+      if(started) return;
+      started = true;
+      trackEvent('calculator_started', { calculator_name: calculatorName });
+    }
+
+    function trackResultViewed(){
+      if(resultViewed) return;
+      resultViewed = true;
+      trackEvent('calculator_result_viewed', { calculator_name: calculatorName });
+    }
+
+    function scheduleResultViewed(){
+      trackStarted();
+      window.clearTimeout(resultTimer);
+      resultTimer = window.setTimeout(trackResultViewed, 600);
+    }
+
+    form.addEventListener('input', scheduleResultViewed);
+    form.addEventListener('change', scheduleResultViewed);
+    return { trackResultViewed };
+  }
+
+  function currentContentType(){
+    const path = window.location.pathname;
+    if(path.startsWith('/guides/')) return 'guide';
+    if(['/', '/repayment-estimator.html', '/negative-gearing-calculator.html'].includes(path)) return 'calculator';
+    return 'site_page';
+  }
+
+  function initContentNavigationTracking(){
+    const destinations = {
+      '/': { name: 'borrowing_power', type: 'calculator' },
+      '/repayment-estimator.html': { name: 'repayment_estimator', type: 'calculator' },
+      '/negative-gearing-calculator.html': { name: 'negative_gearing', type: 'calculator' },
+      '/guides/first-home-buyer.html': { name: 'first_home_buyer', type: 'hub' },
+      '/guides/refinance-home-loan.html': { name: 'refinancing', type: 'hub' },
+      '/guides/property-investor-hub.html': { name: 'property_investor', type: 'hub' },
+      '/guides/guides-index.html': { name: 'guides_index', type: 'guide_index' }
+    };
+
+    document.addEventListener('click', (event) => {
+      if(event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target.closest('main a[href]');
+      if(!link) return;
+
+      const target = new URL(link.href, window.location.href);
+      if(target.origin !== window.location.origin) return;
+      const destination = destinations[target.pathname];
+      if(!destination || target.pathname === window.location.pathname) return;
+
+      trackEvent('content_navigation', {
+        destination_name: destination.name,
+        destination_type: destination.type,
+        source_type: currentContentType()
+      });
+    });
+  }
+
   /* Accessible slide-in mobile menu */
 function initMenu(){
   const btn = document.getElementById('menuToggle');
@@ -512,8 +577,10 @@ function normaliseStampDutyTables(raw){
 	}, rememberInputs);
     }
     form.addEventListener('input', render);
+    const calculatorTracking = createCalculatorTracking(form, 'borrowing_power');
     recalcBtn?.addEventListener('click', () => {
       render();
+      calculatorTracking.trackResultViewed();
       trackEvent('calculator_recalculated', { calculator_name: 'borrowing_power' });
     });
     render();
@@ -619,13 +686,15 @@ function normaliseStampDutyTables(raw){
 		}
     }
     form.addEventListener('input', render);
+    const calculatorTracking = createCalculatorTracking(form, 'repayment_estimator');
     calcBtn?.addEventListener('click', () => {
       render();
+      calculatorTracking.trackResultViewed();
       trackEvent('calculator_recalculated', { calculator_name: 'repayment_estimator' });
     });
     render();
   }
 
-  window.addEventListener('DOMContentLoaded', ()=>{ initBorrowingPower(); initRepayments(); initMenu()});
+  window.addEventListener('DOMContentLoaded', ()=>{ initBorrowingPower(); initRepayments(); initMenu(); initContentNavigationTracking()});
   window.HLM = { pmt, amortize, calculateAnnualTax, estimateNetAnnualIncome, minMonthlyExpenseFor, maxBorrowing, monthlyPI, monthlyIO, calcLVR, estimateLMI, getStampDuty, getStampDutyEstimate, periodsPer };
 })();
