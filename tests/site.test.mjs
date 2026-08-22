@@ -23,4 +23,12 @@ for (const page of pages) {
   assert.ok(!html.includes('data-ad-slot="auto"'), `${label} contains a placeholder ad slot`);
 }
 
+const analyticsScript = await readFile(path.join(root, "script_not_minified.js"), "utf8");
+for (const eventName of ["calculator_started", "calculator_result_viewed", "content_navigation"]) {
+  assert.ok(analyticsScript.includes(eventName), `Analytics source must track ${eventName}`);
+}
+
+const negativeGearingCalculator = await readFile(path.join(root, "negative-gearing-calculator.html"), "utf8");
+assert.ok(negativeGearingCalculator.includes("calculator_result_viewed"), "Negative gearing calculator must track a viewed result");
+
 console.log(`Site configuration checks passed for ${pages.length} pages`);
