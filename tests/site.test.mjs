@@ -35,4 +35,8 @@ const refinanceCalculator = await readFile(path.join(root, "refinance-break-even
 assert.ok(refinanceCalculator.includes("RefinanceBreakEven.compare"), "Refinance calculator must use the shared comparison model");
 assert.ok(refinanceCalculator.includes('calculator_name: "refinance_break_even"'), "Refinance calculator must track result views");
 
+const styles = await readFile(path.join(root, "styles.css"), "utf8");
+assert.match(styles, /img\{display:block;max-width:100%;height:auto\}/, "Images must not overflow narrow screens");
+assert.match(styles, /\.prose table\{display:block;overflow-x:auto;white-space:nowrap\}/, "Wide guide tables must scroll on narrow screens");
+
 console.log(`Site configuration checks passed for ${pages.length} pages`);
