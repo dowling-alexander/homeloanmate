@@ -444,6 +444,28 @@
     }
   }
 
+  let calculatorStarted = false;
+  let calculatorResultViewed = false;
+  let calculatorResultTimer;
+
+  function trackCalculatorStarted() {
+    if (calculatorStarted) return;
+    calculatorStarted = true;
+    window.trackBorrowPowerEvent?.("calculator_started", { calculator_name: "negative_gearing" });
+  }
+
+  function trackCalculatorResultViewed() {
+    if (calculatorResultViewed) return;
+    calculatorResultViewed = true;
+    window.trackBorrowPowerEvent?.("calculator_result_viewed", { calculator_name: "negative_gearing" });
+  }
+
+  function scheduleCalculatorResultViewed() {
+    trackCalculatorStarted();
+    window.clearTimeout(calculatorResultTimer);
+    calculatorResultTimer = window.setTimeout(trackCalculatorResultViewed, 600);
+  }
+
   function buildShareURL() {
     const params = new URLSearchParams();
 
@@ -532,6 +554,8 @@
     if (form) {
       form.addEventListener("input", calculate);
       form.addEventListener("change", calculate);
+      form.addEventListener("input", scheduleCalculatorResultViewed);
+      form.addEventListener("change", scheduleCalculatorResultViewed);
     }
 
     const taxSelect = $("ng-tax-rate");
@@ -545,12 +569,14 @@
     const recalcBtn = $("ngRecalculateBtn");
     if (recalcBtn) recalcBtn.addEventListener("click", () => {
       calculate();
+      trackCalculatorResultViewed();
       window.trackBorrowPowerEvent?.("calculator_recalculated", { calculator_name: "negative_gearing" });
     });
 
     const stickyBtn = $("ngStickyRecalcBtn");
     if (stickyBtn) stickyBtn.addEventListener("click", () => {
       calculate();
+      trackCalculatorResultViewed();
       window.trackBorrowPowerEvent?.("calculator_recalculated", { calculator_name: "negative_gearing" });
     });
 
