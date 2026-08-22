@@ -60,7 +60,8 @@ The older `guides/blog-template.html` is retained for reference but is marked `n
 ## Analytics And Ads
 
 - Google Analytics and the AdSense loader now come from `partials/header.html`, so they are applied once to every page during the build.
-- GA4 records only high-level calculator actions (`calculator_recalculated` and `calculator_link_copied`); it does not send income, debt, property-price, or other calculator inputs.
+- GA4 records only high-level activity. Calculator pages record `calculator_started`, `calculator_result_viewed`, and `calculator_recalculated`; the negative gearing calculator also records `calculator_link_copied`. Key in-page routes between a calculator, hub, and guide index record `content_navigation`. No income, debt, property-price, tax-rate, or other calculator inputs are sent.
+- In GA4, mark `calculator_result_viewed` as a key event. Create custom dimensions for the low-cardinality event parameters `calculator_name`, `destination_name`, `destination_type`, and `source_type` when you are ready to report on them.
 - `ads.txt` contains publisher `pub-6595597891926669` with Google's standard direct-seller record.
 - The previous manual ad placeholders were removed because they had no numeric AdSense unit ID and therefore could not reliably serve ads. Use Auto ads in AdSense for site-wide placement, or create a real display unit in AdSense and add its numeric `data-ad-slot` only where you want a fixed ad position.
 
