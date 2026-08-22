@@ -28,7 +28,7 @@ Compare:
 - Extra repayment limits and fixed-loan flexibility.
 - Any cashback conditions and clawback periods.
 
-The [refinance comparison tool](/guides/refinancing-2025.html) gives you a quick repayment and break-even estimate.
+The [Refinance Break-Even Calculator](/refinance-break-even-calculator.html) compares repayments, fees, upfront costs and the balance still owing.
 
 ## 3. Gather documents before you apply
 

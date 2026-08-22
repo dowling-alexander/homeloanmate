@@ -41,4 +41,4 @@ Compare the features you actually use: offset account access, redraw rules, extr
 
 ## A sensible next step
 
-Run two or three realistic rate scenarios in the [Refinancing Hub](/guides/refinance-home-loan.html), then take the figures to your current lender and at least one competing lender or broker. Ask whether your existing lender can match the rate before paying to move.
+Run two or three realistic rate scenarios in the [Refinance Break-Even Calculator](/refinance-break-even-calculator.html), then take the figures to your current lender and at least one competing lender or broker. Ask whether your existing lender can match the rate before paying to move.
