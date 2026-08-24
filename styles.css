@@ -20,16 +20,23 @@ canvas{display:block;max-width:100%;height:auto}
 .nav a[aria-current="page"]{background:rgba(255,255,255,.12)}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06);padding:16px;margin-bottom:16px}
 .form-grid{display:grid;grid-template-columns:1fr;gap:12px}
-.field{display:grid;gap:6px}
-label{font-weight:600}
+.field{display:grid;gap:6px;min-width:0}
+label{font-weight:650;color:var(--ink)}
 .input-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
-input[type="number"],select{width:140px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;font:inherit;background:#fff;color:var(--ink)}
+input[type="number"],select{width:140px;min-height:44px;padding:10px 12px;border:1px solid #cbd2dd;border-radius:12px;font:inherit;font-size:16px;font-weight:600;line-height:1.25;background:#fff;color:var(--ink)}
+input[type="number"]:focus,select:focus{outline:var(--focus);outline-offset:1px;border-color:#0ea5e9}
 input[type="range"]{width:100%}
 .helper{color:var(--ink-muted);font-size:13px}
 .toggle{display:flex;align-items:center;gap:8px}
 .toggle input{width:20px;height:20px}
 .results{display:grid;gap:12px}
-.result-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#fbfdff;border:1px dashed var(--border);border-radius:12px}
+.result-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px;background:#fbfdff;border:1px solid #cfd8e6;border-radius:12px;color:var(--ink)}
+.result-item span{min-width:0}
+.result-item strong{color:#0f172a;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.advanced-options{grid-column:1/-1;border:1px solid #cfd8e6;border-radius:12px;background:#f8fafc}
+.advanced-options summary{padding:12px 14px;cursor:pointer;font-weight:700;color:var(--ink)}
+.advanced-options[open] summary{border-bottom:1px solid var(--border)}
+.advanced-fields{display:grid;gap:12px;padding:14px}
 .assumptions{margin-top:12px;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fbfdff}
 .assumptions summary{cursor:pointer;font-weight:700}
 .assumptions ul{margin:10px 0 0;padding-left:20px}
@@ -56,7 +63,10 @@ input[type="range"]{width:100%}
 @media (min-width:430px){.input-row{grid-template-columns:1fr 160px}}
 @media (min-width:768px){.form-grid{grid-template-columns:1fr 1fr}.header-inner{padding:16px}.brand svg{height:45px}}
 @media (min-width:1200px){.container{padding:24px}.form-grid{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:768px){.advanced-fields{grid-template-columns:1fr 1fr}}
+@media (min-width:1200px){.advanced-fields{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:767px){.prose table{display:block;overflow-x:auto;white-space:nowrap}}
+@media (max-width:430px){.result-item{grid-template-columns:1fr;gap:4px;align-items:start}.result-item strong{text-align:left}}
 
 /* --- Drawer Nav + Hamburger --- */
 body.no-scroll { overflow: hidden; }

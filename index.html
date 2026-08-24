@@ -85,7 +85,7 @@
     <section class="card" aria-labelledby="bp-heading">
       <h1 id="bp-heading">Borrowing Power</h1>
       <p class="helper">Enter your details. All figures are indicative and for general information only.</p>
-      <form id="bp-form" class="form-grid" novalidate>
+      <form id="bp-form" class="form-grid borrowing-form" novalidate>
         <div class="field">
           <label for="incomeSlider">Annual gross income</label>
           <div class="input-row">
@@ -104,14 +104,6 @@
             <input type="range" id="partnerIncomeSlider" min="0" max="300000" step="1000" value="0" />
             <input type="number" id="partnerIncomeInput" inputmode="numeric" value="0" />
           </div>
-        </div>
-
-        <div class="field">
-          <div class="toggle">
-            <input type="checkbox" id="includeMedicare" checked />
-            <label for="includeMedicare">Include 2% Medicare levy estimate</label>
-          </div>
-          <small class="helper">Simple estimate only; Medicare reductions, exemptions, and MLS are not modelled.</small>
         </div>
 
         <div class="field">
@@ -139,23 +131,6 @@
         </div>
 
         <div class="field">
-          <label for="creditCardLimits">Total credit card limits</label>
-          <div class="input-row">
-            <input type="range" id="creditCardLimitsSlider" min="0" max="100000" step="500" value="0" />
-            <input type="number" id="creditCardLimits" inputmode="decimal" value="0" />
-          </div>
-          <small class="helper">Estimated at 3% of limits as a monthly commitment.</small>
-        </div>
-
-        <div class="field">
-          <label for="helpDebtMonthly">HELP/HECS monthly repayment</label>
-          <div class="input-row">
-            <input type="range" id="helpDebtMonthlySlider" min="0" max="3000" step="25" value="0" />
-            <input type="number" id="helpDebtMonthly" inputmode="decimal" value="0" />
-          </div>
-        </div>
-
-        <div class="field">
           <label for="rate">Interest rate (%)</label>
           <div class="input-row">
             <input type="range" id="rateSlider" min="" max="10" step="0.05" value="5.60" />
@@ -168,67 +143,96 @@
           <select id="term"></select>
         </div>
 
-        <div class="field">
-          <label for="propertyPrice">Property price (for LVR/LMI & stamp duty)</label>
-          <div class="input-row"><input type="number" id="propertyPrice" inputmode="decimal" value="650000" /></div>
-        </div>
-        <div class="field">
-          <label for="deposit">Deposit / savings</label>
-          <div class="input-row"><input type="number" id="deposit" inputmode="decimal" value="130000" /></div>
-        </div>
-        <div class="field">
-          <label for="state">State/Territory (stamp duty)</label>
-          <select id="state">
-            <option value="NSW">NSW</option><option value="VIC">VIC</option><option value="QLD">QLD</option>
-            <option value="SA">SA</option><option value="WA">WA</option><option value="TAS">TAS</option>
-            <option value="ACT">ACT</option><option value="NT">NT</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="buyerType">Buyer type for stamp duty</label>
-          <select id="buyerType">
-            <option value="general" selected>General / investor</option>
-            <option value="first_home">First-home buyer</option>
-            <option value="owner_occupier">Owner occupier</option>
-            <option value="foreign">Foreign purchaser</option>
-          </select>
-          <small class="helper">Concessions and surcharges vary by state and are flagged separately.</small>
-        </div>
-        <div class="field">
-          <label for="propertyType">Property type for concession checks</label>
-          <select id="propertyType">
-            <option value="established" selected>Established home</option>
-            <option value="new">New home</option>
-            <option value="off_the_plan">Off-the-plan home</option>
-            <option value="vacant_land">Vacant land</option>
-            <option value="house_and_land">House and land package</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="foreignOwnershipShare">Foreign ownership share (%)</label>
-          <input type="number" id="foreignOwnershipShare" inputmode="decimal" min="0" max="100" step="1" value="100" />
-          <small class="helper">Used only for the foreign-purchaser surcharge estimate.</small>
-        </div>
-        <div class="field">
-          <div class="toggle">
-            <input type="checkbox" id="eligibilityConfirmed" />
-            <label for="eligibilityConfirmed">I meet the relevant first-home or owner-occupier eligibility rules</label>
-          </div>
-          <small class="helper">The calculator otherwise shows general duty for conditional concessions.</small>
-        </div>
-        <div class="field">
-          <div class="toggle">
-            <input type="checkbox" id="capitaliseLMI" />
-            <label for="capitaliseLMI">Capitalise LMI into the loan</label>
-          </div>
-        </div>
+        <details class="advanced-options">
+          <summary>Advanced options</summary>
+          <div class="advanced-fields">
+            <div class="field">
+              <div class="toggle">
+                <input type="checkbox" id="includeMedicare" checked />
+                <label for="includeMedicare">Include 2% Medicare levy estimate</label>
+              </div>
+              <small class="helper">Simple estimate only; Medicare reductions, exemptions, and MLS are not modelled.</small>
+            </div>
 
-        <div class="field">
-          <div class="toggle">
-            <input type="checkbox" id="rememberInputs" />
-            <label for="rememberInputs">Remember my inputs on this device</label>
+            <div class="field">
+              <label for="creditCardLimits">Total credit card limits</label>
+              <div class="input-row">
+                <input type="range" id="creditCardLimitsSlider" min="0" max="100000" step="500" value="0" />
+                <input type="number" id="creditCardLimits" inputmode="decimal" value="0" />
+              </div>
+              <small class="helper">Estimated at 3% of limits as a monthly commitment.</small>
+            </div>
+
+            <div class="field">
+              <label for="helpDebtMonthly">HELP/HECS monthly repayment</label>
+              <div class="input-row">
+                <input type="range" id="helpDebtMonthlySlider" min="0" max="3000" step="25" value="0" />
+                <input type="number" id="helpDebtMonthly" inputmode="decimal" value="0" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="propertyPrice">Property price (for LVR/LMI &amp; stamp duty)</label>
+              <div class="input-row"><input type="number" id="propertyPrice" inputmode="decimal" value="650000" /></div>
+            </div>
+            <div class="field">
+              <label for="deposit">Deposit / savings</label>
+              <div class="input-row"><input type="number" id="deposit" inputmode="decimal" value="130000" /></div>
+            </div>
+            <div class="field">
+              <label for="state">State/Territory (stamp duty)</label>
+              <select id="state">
+                <option value="NSW">NSW</option><option value="VIC">VIC</option><option value="QLD">QLD</option>
+                <option value="SA">SA</option><option value="WA">WA</option><option value="TAS">TAS</option>
+                <option value="ACT">ACT</option><option value="NT">NT</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="buyerType">Buyer type for stamp duty</label>
+              <select id="buyerType">
+                <option value="general" selected>General / investor</option>
+                <option value="first_home">First-home buyer</option>
+                <option value="owner_occupier">Owner occupier</option>
+                <option value="foreign">Foreign purchaser</option>
+              </select>
+              <small class="helper">Concessions and surcharges vary by state and are flagged separately.</small>
+            </div>
+            <div class="field">
+              <label for="propertyType">Property type for concession checks</label>
+              <select id="propertyType">
+                <option value="established" selected>Established home</option>
+                <option value="new">New home</option>
+                <option value="off_the_plan">Off-the-plan home</option>
+                <option value="vacant_land">Vacant land</option>
+                <option value="house_and_land">House and land package</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="foreignOwnershipShare">Foreign ownership share (%)</label>
+              <input type="number" id="foreignOwnershipShare" inputmode="decimal" min="0" max="100" step="1" value="100" />
+              <small class="helper">Used only for the foreign-purchaser surcharge estimate.</small>
+            </div>
+            <div class="field">
+              <div class="toggle">
+                <input type="checkbox" id="eligibilityConfirmed" />
+                <label for="eligibilityConfirmed">I meet the relevant first-home or owner-occupier eligibility rules</label>
+              </div>
+              <small class="helper">The calculator otherwise shows general duty for conditional concessions.</small>
+            </div>
+            <div class="field">
+              <div class="toggle">
+                <input type="checkbox" id="capitaliseLMI" />
+                <label for="capitaliseLMI">Capitalise LMI into the loan</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="toggle">
+                <input type="checkbox" id="rememberInputs" />
+                <label for="rememberInputs">Remember my inputs on this device</label>
+              </div>
+            </div>
           </div>
-        </div>
+        </details>
       </form>
 
       <section class="results" aria-live="polite">
