@@ -37,6 +37,7 @@ input[type="range"]{width:100%}
 .advanced-options summary{padding:12px 14px;cursor:pointer;font-weight:700;color:var(--ink)}
 .advanced-options[open] summary{border-bottom:1px solid var(--border)}
 .advanced-fields{display:grid;gap:12px;padding:14px}
+.advanced-fields select{width:100%;max-width:100%}
 .assumptions{margin-top:12px;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fbfdff}
 .assumptions summary{cursor:pointer;font-weight:700}
 .assumptions ul{margin:10px 0 0;padding-left:20px}
@@ -185,6 +186,7 @@ footer a:hover {
 .form-section{display:grid;gap:12px;margin:0;padding:14px;border:1px solid var(--border);border-radius:8px;min-width:0}
 .form-section legend{font-weight:700;padding:0 4px}
 .form-section input[type="number"]{width:100%;max-width:none}
+.form-section select{width:100%;max-width:none}
 .refinance-results h2,.refinance-results h3{margin-top:0}
 .results-heading{margin-bottom:14px}
 .comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
@@ -198,3 +200,19 @@ footer a:hover {
 .break-even-callout p{margin:0;color:var(--ink-muted);font-size:.9rem}
 @media (min-width:768px){.calculator-layout{grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);align-items:start}.calculator-layout .form-grid{grid-template-columns:1fr}.refinance-results{position:sticky;top:16px}.form-section{grid-template-columns:1fr 1fr}.form-section legend{grid-column:1/-1}}
 @media (max-width:374px){.comparison-grid{grid-template-columns:1fr}.sticky-cta .btn{padding-inline:10px;font-size:.9rem}}
+
+/* First home buyer scheme checker */
+.scheme-layout{display:grid;gap:16px}
+.scheme-form.form-grid{grid-template-columns:1fr}
+.scheme-results{display:grid;gap:16px}
+.scheme-results h2,.scheme-status h3{margin-top:0}
+.scheme-status{display:grid;gap:12px;padding:14px;border:1px solid var(--border);border-radius:8px;background:#fbfdff}
+.scheme-status[data-state="likely"]{border-color:#78c9c2;background:#f0fdfa}
+.scheme-status[data-state="review"]{border-color:#e2c879;background:#fffdf5}
+.scheme-status-title{margin:0;font-weight:700}
+.scheme-checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.scheme-checks li{position:relative;padding-left:22px;color:var(--ink-muted)}
+.scheme-checks li::before{position:absolute;left:0;font-weight:800}
+.scheme-checks li[data-state="pass"]::before{content:"+";color:#0f766e}
+.scheme-checks li[data-state="review"]::before{content:"!";color:#a16207}
+@media (min-width:768px){.scheme-layout{grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);align-items:start}.scheme-form .form-section{grid-template-columns:1fr 1fr}.scheme-form .form-section legend{grid-column:1/-1}.scheme-results{position:sticky;top:16px}}

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <title>First Home Buyer Scheme Checker | BorrowPower</title>
+  <meta name="description" content="Compare the current Australian Government 5% Deposit Scheme and Help to Buy settings using your income, deposit, property price and estimated bank loan.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://borrowpower.com.au/first-home-schemes-calculator.html">
+  <meta name="robots" content="index,follow">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" type="image/png" href="/borrowpower-favicon.png">
+  <meta property="og:title" content="First Home Buyer Scheme Checker | BorrowPower">
+  <meta property="og:description" content="Check key deposit, income and property-price settings for Australian Government home buyer schemes.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://borrowpower.com.au/first-home-schemes-calculator.html">
+  <meta property="og:image" content="https://borrowpower.com.au/assets/thumb-home-guarantee-5percent.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"First Home Buyer Scheme Checker","applicationCategory":"FinanceApplication","operatingSystem":"Any","url":"https://borrowpower.com.au/first-home-schemes-calculator.html","description":"Compare key Australian Government home buyer scheme thresholds using your planned purchase figures."}</script>
+</head>
+<body>
+  <!-- shared-header:start -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GKLL8W3BP2"></script>
+<script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6595597891926669"
+        crossorigin="anonymous"></script>
+
+<header class="header" role="banner">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Home">
+      <svg viewBox="0 0 1300 320" class="logo">
+        <g transform="translate(0,32)">
+          <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+                fill="none"
+                stroke="var(--logo-stroke, #167d83)"
+                stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+          <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+          <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+        </g>
+        <text x="296" y="210" font-size="148"
+              font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+              font-weight="800" fill="currentColor">BorrowPower</text>
+      </svg>
+    </a>
+
+    <button id="menuToggle"
+            class="menu-toggle"
+            aria-label="Open menu"
+            aria-controls="primaryNav"
+            aria-expanded="false">
+      <span class="menu-box" aria-hidden="true">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </span>
+    </button>
+
+    <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary" data-open="false">
+      <a href="/">Borrowing Power</a>
+      <a href="/repayment-estimator.html">Repayments</a>
+      <a href="/guides/refinance-home-loan.html">Refinancing</a>
+      <a href="/negative-gearing-calculator.html">Negative Gearing</a>
+      <a href="/guides/first-home-buyer.html">First Home Buyers</a>
+      <a href="/guides/guides-index.html">Guides</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+  <div id="backdrop" class="backdrop" hidden></div>
+</header>
+<!-- shared-header:end -->
+
+  <main class="container" id="main">
+    <section class="card calculator-intro" aria-labelledby="scheme-checker-heading">
+      <p class="eyebrow-static">First-home buyers</p>
+      <h1 id="scheme-checker-heading">First Home Buyer Scheme Checker</h1>
+      <p>Compare the key financial settings for the Australian Government 5% Deposit Scheme and Help to Buy. This is a planning check, not an eligibility decision or loan approval.</p>
+    </section>
+
+    <section class="scheme-layout" aria-label="First home buyer scheme check">
+      <form id="scheme-form" class="card scheme-form form-grid" novalidate>
+        <fieldset class="form-section">
+          <legend>Your purchase plan</legend>
+          <div class="field"><label for="scheme-applicant">Applicant type</label><select id="scheme-applicant"><option value="single">Single applicant</option><option value="joint">Joint applicants</option><option value="single_parent">Single parent or legal guardian</option></select></div>
+          <div class="field"><label for="scheme-income">Annual taxable income</label><input id="scheme-income" type="number" inputmode="decimal" min="0" step="1000" value="90000"><small class="helper">Use the relevant Notice of Assessment income figure for Help to Buy.</small></div>
+          <div class="field"><label for="scheme-price">Property purchase price</label><input id="scheme-price" type="number" inputmode="decimal" min="0" step="1000" value="800000"></div>
+          <div class="field"><label for="scheme-deposit">Deposit after upfront costs</label><input id="scheme-deposit" type="number" inputmode="decimal" min="0" step="1000" value="40000"><small class="helper">Keep duty, legal costs and your buffer outside this figure.</small></div>
+          <div class="field"><label for="scheme-bank-loan">Estimated maximum bank loan</label><input id="scheme-bank-loan" type="number" inputmode="decimal" min="0" step="1000" value="550000"><small class="helper">Use a lender or BorrowPower estimate as a starting point.</small></div>
+          <div class="field"><label for="scheme-property-type">Home type</label><select id="scheme-property-type"><option value="existing">Existing home</option><option value="new">Newly built home</option></select></div>
+          <div class="field"><label for="scheme-state">State or territory</label><select id="scheme-state"><option value="NSW">New South Wales</option><option value="VIC">Victoria</option><option value="QLD">Queensland</option><option value="WA">Western Australia</option><option value="SA">South Australia</option><option value="TAS">Tasmania</option><option value="ACT">Australian Capital Territory</option><option value="NT">Northern Territory</option></select></div>
+          <div class="field"><label for="scheme-area">Buying location</label><select id="scheme-area"><option value="capital_regional">Capital city or eligible regional centre</option><option value="other">Other area</option></select><small class="helper">A postcode check with a participating lender is still required.</small></div>
+        </fieldset>
+      </form>
+
+      <section class="card scheme-results" aria-live="polite" aria-labelledby="scheme-results-heading">
+        <div class="results-heading"><p class="eyebrow-static">Your estimate</p><h2 id="scheme-results-heading">Scheme settings at a glance</h2></div>
+        <section class="scheme-status" id="five-percent-status" data-state="review" aria-labelledby="five-percent-heading">
+          <h3 id="five-percent-heading">Australian Government 5% Deposit Scheme</h3>
+          <p class="scheme-status-title" id="five-percent-title"></p>
+          <div class="results">
+            <div class="result-item"><span>Required deposit</span><strong id="five-percent-deposit"></strong></div>
+            <div class="result-item"><span>Price cap for this area</span><strong id="five-percent-cap"></strong></div>
+          </div>
+          <ul class="scheme-checks" id="five-percent-checks"></ul>
+        </section>
+
+        <section class="scheme-status" id="help-to-buy-status" data-state="review" aria-labelledby="help-to-buy-heading">
+          <h3 id="help-to-buy-heading">Australian Government Help to Buy</h3>
+          <p class="scheme-status-title" id="help-to-buy-title"></p>
+          <div class="results">
+            <div class="result-item"><span>Income cap</span><strong id="help-to-buy-income-cap"></strong></div>
+            <div class="result-item"><span>Government contribution needed</span><strong id="help-to-buy-contribution"></strong></div>
+            <div class="result-item"><span>Maximum government contribution</span><strong id="help-to-buy-maximum"></strong></div>
+            <div class="result-item"><span>Maximum purchase price at these inputs</span><strong id="help-to-buy-purchase-price"></strong></div>
+          </div>
+          <ul class="scheme-checks" id="help-to-buy-checks"></ul>
+        </section>
+        <p class="helper">Both schemes require a participating lender to assess the home, loan and personal eligibility. Help to Buy cannot be combined with other government shared-equity, loan or guarantee support for the purchase.</p>
+      </section>
+    </section>
+
+    <section class="card prose" aria-labelledby="scheme-guide-heading">
+      <h2 id="scheme-guide-heading">Understand the trade-offs before applying</h2>
+      <p>The 5% Deposit Scheme is a government guarantee to a participating lender; it can reduce the deposit needed and avoid LMI, but you remain responsible for the whole loan. Help to Buy is shared equity: the government can contribute up to 30% for an existing home or 40% for a newly built home, and shares in future value changes until its contribution is bought out or the home is sold.</p>
+      <p><a class="btn btn-outline" href="/guides/government-home-buyer-schemes.html">Read the Government Home Buyer Schemes guide</a></p>
+    </section>
+
+    <section class="disclaimer"><p>General information only, not financial, credit or legal advice. Scheme rules, price caps, participating lenders and personal eligibility can change. Confirm current conditions with the official scheme information and a participating lender before making an offer or signing a contract.</p></section>
+    <div data-include="/partials/important-information.html"></div>
+    <!-- shared-footer:start -->
+<footer>
+  <p>
+    <a href="/about.html">About</a> |
+    <a href="/contact.html">Contact</a> |
+    <a href="/privacy.html">Privacy Policy</a> |
+    <a href="/disclaimer.html">Disclaimer</a>
+  </p>
+  <p>&copy; 2026 BorrowPower. All rights reserved.</p>
+</footer>
+<!-- shared-footer:end -->
+  </main>
+
+  <div class="sticky-cta" role="region" aria-label="Calculator actions"><button class="btn btn-primary" id="scheme-recalculate" type="button">Recalculate</button><a class="btn btn-outline" href="/guides/government-home-buyer-schemes.html">Read the guide</a></div>
+  <script defer src="/assets/include.js"></script>
+  <script defer src="/script.js"></script>
+  <script defer src="/assets/first-home-schemes.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("scheme-form");
+      const currency = new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
+      let started = false;
+      let resultViewed = false;
+      let timer;
+
+      function value(id) { return document.getElementById(id).value; }
+      function setText(id, text) { document.getElementById(id).textContent = text; }
+      function setChecks(id, checks) {
+        const list = document.getElementById(id);
+        list.replaceChildren(...checks.map(function (check) {
+          const item = document.createElement("li");
+          item.dataset.state = check.pass ? "pass" : "review";
+          item.textContent = check.text;
+          return item;
+        }));
+      }
+      function setStatus(id, titleId, fits, title) {
+        document.getElementById(id).dataset.state = fits ? "likely" : "review";
+        setText(titleId, title);
+      }
+      function trackStarted() {
+        if (started) return;
+        started = true;
+        window.trackBorrowPowerEvent?.("calculator_started", { calculator_name: "first_home_schemes" });
+      }
+      function trackResultViewed() {
+        if (resultViewed) return;
+        resultViewed = true;
+        window.trackBorrowPowerEvent?.("calculator_result_viewed", { calculator_name: "first_home_schemes" });
+      }
+      function scheduleResultViewed() { window.clearTimeout(timer); timer = window.setTimeout(trackResultViewed, 700); }
+      function render() {
+        const result = window.FirstHomeSchemes.assess({ applicantType: value("scheme-applicant"), income: value("scheme-income"), price: value("scheme-price"), deposit: value("scheme-deposit"), bankLoan: value("scheme-bank-loan"), propertyType: value("scheme-property-type"), state: value("scheme-state"), area: value("scheme-area") });
+        const five = result.fivePercent;
+        setStatus("five-percent-status", "five-percent-title", five.numbersFit, five.numbersFit ? "Your entered price and deposit fit the main numeric settings." : "One or more entered figures need checking against the scheme settings.");
+        setText("five-percent-deposit", `${currency.format(five.minimumDeposit)} (${Math.round(five.minimumDepositRate * 100)}%)`);
+        setText("five-percent-cap", currency.format(five.cap));
+        setChecks("five-percent-checks", [
+          { pass: five.checks.deposit, text: five.checks.deposit ? "Deposit meets the minimum percentage on the entered purchase price." : "Deposit is below the minimum percentage on the entered purchase price." },
+          { pass: five.checks.price, text: five.checks.price ? "Purchase price is within the selected area cap." : "Purchase price is above the selected area cap." },
+          { pass: true, text: "Still confirm citizenship or permanent residency, owner-occupier plans, property history and lender approval." }
+        ]);
+
+        const help = result.helpToBuy;
+        setStatus("help-to-buy-status", "help-to-buy-title", help.numbersFit, help.numbersFit ? "Your entered figures fit the main numeric settings." : "One or more entered figures do not fit the main numeric settings.");
+        setText("help-to-buy-income-cap", currency.format(help.incomeCap));
+        setText("help-to-buy-contribution", currency.format(help.governmentContributionNeeded));
+        setText("help-to-buy-maximum", `${currency.format(help.maximumGovernmentContribution)} (up to ${Math.round(help.maximumGovernmentRate * 100)}%)`);
+        setText("help-to-buy-purchase-price", currency.format(help.maximumPurchasePrice));
+        setChecks("help-to-buy-checks", [
+          { pass: help.checks.income, text: help.checks.income ? "Taxable income is within the selected applicant cap." : "Taxable income is above the selected applicant cap." },
+          { pass: help.checks.deposit, text: help.checks.deposit ? "Deposit meets the 2% minimum on the entered purchase price." : "Deposit is below the 2% minimum on the entered purchase price." },
+          { pass: help.checks.price, text: help.checks.price ? "Purchase price is within the selected area cap." : "Purchase price is above the selected area cap." },
+          { pass: help.checks.contribution, text: help.checks.contribution ? "The government contribution needed is within the maximum share." : "The government contribution needed is outside the maximum share, or no contribution is needed." },
+          { pass: true, text: "Still confirm Australian citizenship, ownership conditions, owner-occupier plans and participating lender approval." }
+        ]);
+      }
+      form.addEventListener("input", function () { trackStarted(); render(); scheduleResultViewed(); });
+      form.addEventListener("change", function () { trackStarted(); render(); scheduleResultViewed(); });
+      document.getElementById("scheme-recalculate").addEventListener("click", function () { render(); trackResultViewed(); window.trackBorrowPowerEvent?.("calculator_recalculated", { calculator_name: "first_home_schemes" }); });
+      render();
+    });
+  </script>
+</body>
+</html>
