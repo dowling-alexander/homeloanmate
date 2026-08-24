@@ -39,4 +39,9 @@ const styles = await readFile(path.join(root, "styles.css"), "utf8");
 assert.match(styles, /img\{display:block;max-width:100%;height:auto\}/, "Images must not overflow narrow screens");
 assert.match(styles, /\.prose table\{display:block;overflow-x:auto;white-space:nowrap\}/, "Wide guide tables must scroll on narrow screens");
 
+const borrowingPowerPage = await readFile(path.join(root, "index.html"), "utf8");
+assert.match(borrowingPowerPage, /<details class="advanced-options">/, "Borrowing power calculator must group optional inputs");
+assert.ok(borrowingPowerPage.indexOf('id="expensesSlider"') < borrowingPowerPage.indexOf('<details class="advanced-options">'), "Core affordability inputs must remain visible before advanced options");
+assert.match(styles, /\.result-item\{display:grid;grid-template-columns:minmax\(0,1fr\) auto/, "Result rows must preserve room for labels and values");
+
 console.log(`Site configuration checks passed for ${pages.length} pages`);
