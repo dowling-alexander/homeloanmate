@@ -35,6 +35,14 @@ const refinanceCalculator = await readFile(path.join(root, "refinance-break-even
 assert.ok(refinanceCalculator.includes("RefinanceBreakEven.compare"), "Refinance calculator must use the shared comparison model");
 assert.ok(refinanceCalculator.includes('calculator_name: "refinance_break_even"'), "Refinance calculator must track result views");
 
+const firstHomeSchemesCalculator = await readFile(path.join(root, "first-home-schemes-calculator.html"), "utf8");
+assert.ok(firstHomeSchemesCalculator.includes("FirstHomeSchemes.assess"), "First home schemes calculator must use the shared scheme model");
+assert.ok(firstHomeSchemesCalculator.includes('calculator_name: "first_home_schemes"'), "First home schemes calculator must track result views");
+assert.ok(firstHomeSchemesCalculator.includes("government-home-buyer-schemes.html"), "First home schemes calculator must link to its guide");
+
+const firstHomeHub = await readFile(path.join(root, "guides", "first-home-buyer.html"), "utf8");
+assert.ok(firstHomeHub.includes("first-home-schemes-calculator.html"), "First home buyer hub must link to the scheme checker");
+
 const styles = await readFile(path.join(root, "styles.css"), "utf8");
 assert.match(styles, /img\{display:block;max-width:100%;height:auto\}/, "Images must not overflow narrow screens");
 assert.match(styles, /\.prose table\{display:block;overflow-x:auto;white-space:nowrap\}/, "Wide guide tables must scroll on narrow screens");
@@ -43,5 +51,6 @@ const borrowingPowerPage = await readFile(path.join(root, "index.html"), "utf8")
 assert.match(borrowingPowerPage, /<details class="advanced-options">/, "Borrowing power calculator must group optional inputs");
 assert.ok(borrowingPowerPage.indexOf('id="expensesSlider"') < borrowingPowerPage.indexOf('<details class="advanced-options">'), "Core affordability inputs must remain visible before advanced options");
 assert.match(styles, /\.result-item\{display:grid;grid-template-columns:minmax\(0,1fr\) auto/, "Result rows must preserve room for labels and values");
+assert.match(styles, /\.advanced-fields select\{width:100%;max-width:100%\}/, "Advanced dropdown labels and selected values must not be clipped");
 
 console.log(`Site configuration checks passed for ${pages.length} pages`);
