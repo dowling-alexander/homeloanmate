@@ -74,6 +74,12 @@ assert.match(styles, /\.advanced-fields select\{width:100%;max-width:100%\}/, "A
 
 const faqPage = await readFile(path.join(root, "faq.html"), "utf8");
 assert.match(faqPage, /<h1>BorrowPower FAQ<\/h1>/, "FAQ page must have a single page-level heading");
+assert.ok(faqPage.includes("Deposit &amp; Upfront Cost Calculator"), "FAQ must cover the purchase-cost planner");
+assert.ok(faqPage.includes("First Home Buyer Scheme Checker"), "FAQ must cover the scheme checker");
+
+const aboutPage = await readFile(path.join(root, "about.html"), "utf8");
+assert.ok(aboutPage.includes("Deposit &amp; Upfront Cost Calculator"), "About page must reflect the purchase-cost planner");
+assert.ok(aboutPage.includes("Refinance Break-Even Calculator"), "About page must reflect the refinance calculator");
 
 const header = await readFile(path.join(root, "partials", "header.html"), "utf8");
 assert.ok(header.includes('href="/deposit-upfront-costs.html">Deposit &amp; Costs'), "Primary navigation must feature the deposit planner");
