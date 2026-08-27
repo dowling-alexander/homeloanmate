@@ -27,9 +27,18 @@ input[type="number"],select{width:140px;min-height:44px;padding:10px 12px;border
 input[type="number"]:focus,select:focus{outline:var(--focus);outline-offset:1px;border-color:#0ea5e9}
 input[type="range"]{width:100%}
 .helper{color:var(--ink-muted);font-size:13px}
+.trust-points{margin:8px 0 0;color:var(--ink-muted);font-size:.86rem;font-weight:650}
 .toggle{display:flex;align-items:center;gap:8px}
 .toggle input{width:20px;height:20px}
 .results{display:grid;gap:12px}
+.borrowing-results{margin-top:16px}
+.borrowing-results .results-heading h2{margin:0}
+.borrowing-results .results-heading p{margin:4px 0 0}
+.result-item-primary{border-color:#8ddbd6;background:#f0fdfa}
+.result-item-primary strong{font-size:1.35rem;color:#0f766e}
+.borrowing-result-note{margin:10px 0 0}
+.borrowing-drivers h2{margin-top:0}
+.borrowing-drivers p:last-child{margin-bottom:0}
 .result-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px;background:#fbfdff;border:1px solid #cfd8e6;border-radius:12px;color:var(--ink)}
 .result-item span{min-width:0}
 .result-item strong{color:#0f172a;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}

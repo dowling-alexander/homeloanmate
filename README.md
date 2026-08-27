@@ -70,7 +70,8 @@ The older `guides/blog-template.html` is retained for reference but is marked `n
 
 The calculators are indicative only and are not financial, legal, or tax advice.
 
-- Borrowing power uses 2026-2027 resident tax bands from `assets/au_tax_bands_2025_2026.json` (legacy filename), excludes Medicare levy, applies a dependant expense floor, and uses a 3% serviceability buffer.
+- `assets/financial_assumptions.json` is the small central source of truth for the current tax year, serviceability buffer, credit-card assessment rate and review date. Borrowing power uses the linked 2026-2027 resident tax bands, excludes Medicare levy unless selected, applies a dependant expense floor, and uses a 3% serviceability buffer.
+- `assets/au_tax_bands_2025_2026.json` remains as a labelled compatibility copy for cached pre-refinement scripts. New calculator code uses `assets/au_tax_bands_2026_2027.json` through the central assumptions file.
 - Borrowing power supports partner income, optional 2% Medicare levy estimate, credit card limits assessed at 3% per month, HELP/HECS monthly repayments, and other monthly debts.
 - Stamp-duty concessions require an eligibility confirmation. The calculator shows general duty for conditional first-home or owner-occupier concessions until that is confirmed, and does not model vacant-land or house-and-land first-home concessions.
 - LMI uses approximate bands from `assets/lmi_table.json`.
@@ -98,7 +99,7 @@ The calculators are indicative only and are not financial, legal, or tax advice.
 
 ## Review Status
 
-Last local review: 2026-08-21.
+Last local review: 2026-08-27.
 
 Checks performed:
 
@@ -113,7 +114,5 @@ Checks performed:
 
 Known follow-ups:
 
-- Rename `assets/au_tax_bands_2025_2026.json` to match its current 2026-2027 data.
-- Add a visible "last reviewed" stamp to calculator assumptions on the live pages.
 - Add automated browser smoke tests for calculator form flows.
 - Add more inputs for property type, contract date, citizenship/residency, foreign ownership share, and eligible-new-home status so conditional concessions can be modelled more precisely.

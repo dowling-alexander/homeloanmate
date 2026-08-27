@@ -176,13 +176,13 @@ function initMenu(){
     const key = String(Math.max(0, Math.min(6, dependants)));
     return table.minimum_monthly_expense_floor[key] ?? 2000;
   }
-  const cardMonthlyCommitment = limits => limits * 0.03;
+  const cardMonthlyCommitment = (limits, percentPerMonth = 3) => limits * (percentPerMonth / 100);
 
-  function maxBorrowing({ netMonthlyIncome, monthlyExpenses, otherMonthlyDebts, creditCardLimits, annualRatePct, years, bufferPct = 3.0 }){
+  function maxBorrowing({ netMonthlyIncome, monthlyExpenses, otherMonthlyDebts, creditCardLimits, annualRatePct, years, bufferPct = 3.0, creditCardCommitmentPercent = 3 }){
     const periods = 12;
     const testRate = (annualRatePct + bufferPct)/100/periods;
     const nper = years*periods;
-    const capacity = Math.max(0, netMonthlyIncome - monthlyExpenses - otherMonthlyDebts - cardMonthlyCommitment(creditCardLimits));
+    const capacity = Math.max(0, netMonthlyIncome - monthlyExpenses - otherMonthlyDebts - cardMonthlyCommitment(creditCardLimits, creditCardCommitmentPercent));
     if(capacity<=0) return 0;
     if(testRate===0) return capacity * nper;
     return capacity * (1 - Math.pow(1+testRate, -nper)) / testRate;
@@ -446,10 +446,11 @@ function normaliseStampDutyTables(raw){
     bindSliderPair(creditCardLimitsSlider, creditCardLimits, 0, 100000, 500);
     bindSliderPair(helpDebtMonthlySlider, helpDebtMonthly, 0, 3000, 25);
     bindSliderPair(rateSlider, rate, 0, 10, 0.01);
+    const assumptions = await fetch('/assets/financial_assumptions.json').then(r=>r.json());
     const [taxBands, depTable, lmiTable, stampDutyRaw] = await Promise.all([
-      fetch('/assets/au_tax_bands_2025_2026.json').then(r=>r.json()),
-      fetch('/assets/dependants_cost_table.json').then(r=>r.json()),
-      fetch('/assets/lmi_table.json').then(r=>r.json()),
+      fetch(assumptions.tax?.tax_bands_file || '/assets/au_tax_bands_2026_2027.json').then(r=>r.json()),
+      fetch(assumptions.serviceability?.living_expense_floor_file || '/assets/dependants_cost_table.json').then(r=>r.json()),
+      fetch(assumptions.lmi?.data_file || '/assets/lmi_table.json').then(r=>r.json()),
 	  fetch('/assets/stampDuty.json').then(r=>r.json())
     ]);
 
@@ -478,8 +479,14 @@ function normaliseStampDutyTables(raw){
       lvr: qs('#lvr'),
       lmi: qs('#lmi'),
       stampDuty: qs('#stampDuty'),
-      stampDutyNote: qs('#stampDutyNote')
+      stampDutyNote: qs('#stampDutyNote'),
+      assessmentRate: qs('#assessmentRate'),
+      bufferImpact: qs('#bufferImpact'),
+      assumptionsReview: qs('#assumptionsReview')
     };
+    const BUFFER_PCT = Number(assumptions.serviceability?.rate_buffer_percent) || 3;
+    const CREDIT_CARD_COMMITMENT_PCT = Number(assumptions.serviceability?.credit_card_commitment_percent_per_month) || 3;
+    if(out.assumptionsReview) out.assumptionsReview.textContent = `Assumptions last reviewed ${assumptions.last_reviewed || 'recently'}.`;
     function render(){
       const grossAnnual = +incomeInput.value || 0;
       const partnerGrossAnnual = +partnerIncomeInput.value || 0;
@@ -500,10 +507,9 @@ function normaliseStampDutyTables(raw){
       const helpDebtMonthlyVal = +helpDebtMonthly.value || 0;
       const ccLimits = +creditCardLimits.value || 0;
       const totalOtherDebts = otherDebtsVal + helpDebtMonthlyVal;
-      const monthlyCommitments = monthlyExp + totalOtherDebts + cardMonthlyCommitment(ccLimits);
+      const monthlyCommitments = monthlyExp + totalOtherDebts + cardMonthlyCommitment(ccLimits, CREDIT_CARD_COMMITMENT_PCT);
       const annualRate = parseFloat(parseFloat(rate.value).toFixed(2));
       const years = parseInt(term.value,10);
-      const BUFFER_PCT = 3.0;
 	  const price = +propertyPrice.value || 0;
 	  const dep   = +deposit.value || 0;
 
@@ -516,7 +522,8 @@ function normaliseStampDutyTables(raw){
 		  creditCardLimits: ccLimits,
 		  annualRatePct: annualRate,
 		  years,
-		  bufferPct: BUFFER_PCT
+		  bufferPct: BUFFER_PCT,
+		  creditCardCommitmentPercent: CREDIT_CARD_COMMITMENT_PCT
 		});
       const maxActual = maxBorrowing({
 		  netMonthlyIncome: netMonthly,
@@ -525,7 +532,8 @@ function normaliseStampDutyTables(raw){
 		  creditCardLimits: ccLimits,
 		  annualRatePct: annualRate,
 		  years,
-		  bufferPct: 0
+		  bufferPct: 0,
+		  creditCardCommitmentPercent: CREDIT_CARD_COMMITMENT_PCT
 		});
       const base = calcLVR({price, deposit: dep, lmiCapitalised: 0});
       let lmiEstimate = estimateLMI({loan: base.loan, lvr: base.lvr, lmiTable});
@@ -548,6 +556,8 @@ function normaliseStampDutyTables(raw){
       const monthlyIoAmt = monthlyIO(maxActual, annualRate);
       out.maxLoanBuffered.textContent = maxBuffered? AUD.format(Math.round(maxBuffered)) : '—';
       out.maxLoanActual.textContent   = maxActual?   AUD.format(Math.round(maxActual))   : '—';
+      out.assessmentRate.textContent = annualRate >= 0 ? `Based on an assessment rate of ${(annualRate + BUFFER_PCT).toFixed(2)}%` : '';
+      out.bufferImpact.textContent = maxActual > maxBuffered ? AUD.format(Math.round(maxActual - maxBuffered)) : '—';
       out.netMonthlyIncome.textContent = netMonthly? AUD.format(Math.round(netMonthly)) : '?';
       out.assessedCommitments.textContent = monthlyCommitments? AUD.format(Math.round(monthlyCommitments)) : '?';
       out.monthlyPI.textContent       = monthlyPiAmt? AUD.format(Math.round(monthlyPiAmt)) : '—';

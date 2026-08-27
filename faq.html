@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-AU">
 <head>
 
   <meta charset="utf-8" />
@@ -7,14 +7,19 @@
   <meta name="description" content="Frequently asked questions about BorrowPower calculators." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="canonical" href="https://borrowpower.com.au/faq.html" />
+  <meta name="robots" content="index,follow" />
   <link rel="stylesheet" href="/styles.css" />
+  <meta property="og:title" content="BorrowPower FAQ" />
+  <meta property="og:description" content="Answers about BorrowPower calculator assumptions, estimates and limitations." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://borrowpower.com.au/faq.html" />
   <script type="application/ld+json">
   {
     "@context":"https://schema.org","@type":"FAQPage","mainEntity":[
       {"@type":"Question","name":"How do you estimate LMI?","acceptedAnswer":{"@type":"Answer","text":"If your Loan-to-Value Ratio (LVR) is above 80%, we apply a tiered LMI approximation based on your LVR band and loan size. The estimate ranges from ~0.7%–0.9% (80–85% LVR) up to ~2.6%–3.2% (90–95% LVR). We default to capitalising LMI into the loan but you can switch to paying it upfront. Actual LMI varies by lender/insurer and application details."}},
       {"@type":"Question","name":"Which tax year do you use when converting gross to net income?","acceptedAnswer":{"@type":"Answer","text":"We use 2026/27 Australian resident income tax bands. The optional 2% Medicare levy estimate does not account for reductions, exemptions, the Medicare Levy Surcharge, or offsets."}},
       {"@type":"Question","name":"How are living expenses and dependants handled?","acceptedAnswer":{"@type":"Answer","text":"We enforce a conservative minimum monthly expense floor that scales with the number of dependants (0–6). You can enter higher expenses; the floor prevents unrealistically low costs of living."}},
-      {"@type":"Question","name":"Do you include stamp duty and state costs?","acceptedAnswer":{"@type":"Answer","text":"Yes. We reference the state stamp duty tables already in the app’s script.js for indicative calculations. Check your state/territory revenue office or your lender for exact, current amounts."}},
+      {"@type":"Question","name":"Do you include stamp duty and state costs?","acceptedAnswer":{"@type":"Answer","text":"Yes. We use state stamp duty tables for indicative calculations. Check your state or territory revenue office for exact, current amounts."}},
       {"@type":"Question","name":"Why add a 3% serviceability buffer?","acceptedAnswer":{"@type":"Answer","text":"Lenders commonly assess your ability to repay at a higher buffered rate to account for potential rate rises. The calculator applies a 3% buffer to the entered rate as an indicative assumption."}},
       {"@type":"Question","name":"Is this financial advice?","acceptedAnswer":{"@type":"Answer","text":"No. BorrowPower is a general-information tool only. Speak to a licensed professional for advice tailored to you."}}
     ]
@@ -83,9 +88,8 @@
 <!-- shared-header:end -->
 
   <main class="container prose">
-    <!-- === Keep your existing FAQ content here verbatim ABOVE this line === -->
+    <h1>BorrowPower FAQ</h1>
 
-    <!-- === Appended items === -->
     <h2>How do you estimate LMI?</h2>
     <p>If your Loan-to-Value Ratio (LVR) is above 80%, we apply a tiered LMI approximation based on your LVR band and loan size. The estimate ranges from ~0.7%–0.9% (80–85% LVR) up to ~2.6%–3.2% (90–95% LVR). We default to capitalising LMI into the loan but you can switch to paying it upfront. Actual LMI varies by lender/insurer and application details.</p>
 
@@ -96,7 +100,7 @@
     <p>We enforce a conservative minimum monthly expense floor that scales with the number of dependants (0–6). You can enter higher expenses; the floor prevents unrealistically low costs of living.</p>
 
     <h2>Do you include stamp duty and state costs?</h2>
-    <p>Yes. We reference the state stamp duty tables already in the app’s <code>script.js</code> for indicative calculations. Check your state/territory revenue office or your lender for exact, current amounts.</p>
+    <p>Yes. We use state stamp duty tables for indicative calculations. Check your state or territory revenue office for exact, current amounts.</p>
 
     <h2>Why add a 3% serviceability buffer?</h2>
     <p>Lenders commonly assess your ability to repay at a higher buffered rate to account for potential rate rises. The calculator applies a 3% buffer to the entered rate as an indicative assumption.</p>

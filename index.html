@@ -4,7 +4,7 @@
 
   <meta charset="utf-8" />
   <title>Borrowing Power Calculator – BorrowPower</title>
-  <meta name="description" content="Estimate your borrowing power using 2026/27 AU tax bands, dependants expense floor, LMI, and a 3% serviceability buffer." />
+  <meta name="description" content="Estimate how much you could realistically borrow using Australian tax, living expenses, debts and lender-style serviceability assumptions. No signup required." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="canonical" href="https://borrowpower.com.au/" />
   <link rel="stylesheet" href="/styles.css" />
@@ -83,8 +83,9 @@
 
   <main class="container" id="main">
     <section class="card" aria-labelledby="bp-heading">
-      <h1 id="bp-heading">Borrowing Power</h1>
-      <p class="helper">Enter your details. All figures are indicative and for general information only.</p>
+      <h1 id="bp-heading">How much can you realistically borrow?</h1>
+      <p class="helper">Estimate borrowing power using Australian tax, living expenses, debts and lender-style serviceability assumptions.</p>
+      <p class="trust-points">No signup <span aria-hidden="true">·</span> No sales calls <span aria-hidden="true">·</span> Independent <span aria-hidden="true">·</span> Australia-specific</p>
       <form id="bp-form" class="form-grid borrowing-form" novalidate>
         <div class="field">
           <label for="incomeSlider">Annual gross income</label>
@@ -235,9 +236,14 @@
         </details>
       </form>
 
-      <section class="results" aria-live="polite">
-        <div class="result-item"><span>Max loan (buffered)</span><strong id="maxLoanBuffered">—</strong></div>
-        <div class="result-item"><span>Max loan (at your rate)</span><strong id="maxLoanActual">—</strong></div>
+      <section class="results borrowing-results" aria-live="polite" aria-labelledby="borrowing-results-heading">
+        <div class="results-heading">
+          <h2 id="borrowing-results-heading">Your estimated borrowing power</h2>
+          <p id="assessmentRate" class="helper"></p>
+        </div>
+        <div class="result-item result-item-primary"><span>Estimated lender-style buffered capacity</span><strong id="maxLoanBuffered">—</strong></div>
+        <div class="result-item"><span>Capacity at your entered interest rate</span><strong id="maxLoanActual">—</strong></div>
+        <div class="result-item"><span>Difference caused by the rate buffer</span><strong id="bufferImpact">—</strong></div>
         <div class="result-item"><span>Estimated net monthly income</span><strong id="netMonthlyIncome">—</strong></div>
         <div class="result-item"><span>Assessed monthly commitments</span><strong id="assessedCommitments">—</strong></div>
         <div class="result-item"><span>Indicative monthly P&I @ your rate</span><strong id="monthlyPI">—</strong></div>
@@ -246,6 +252,7 @@
         <div class="result-item"><span>Estimated LMI</span><strong id="lmi">—</strong></div>
         <div class="result-item"><span>Stamp duty (indicative)</span><strong id="stampDuty">—</strong></div>
       </section>
+      <p class="helper borrowing-result-note">Lenders commonly test repayments at a higher rate to check whether you could still manage if rates rose. This is why the buffered estimate is usually lower.</p>
       <p id="stampDutyNote" class="helper" aria-live="polite"></p>
 
       <details class="assumptions">
@@ -256,7 +263,7 @@
           <li>Stamp duty uses state/territory rates with buyer-type estimates where the available inputs support them. Conditional schemes are noted in the result message.</li>
           <li>LMI is an approximate owner-occupied full-doc estimate. Actual lender and insurer premiums vary.</li>
         </ul>
-        <p class="helper">Source metadata lives in <code>/assets/calculator_sources.json</code>.</p>
+        <p id="assumptionsReview" class="helper"></p>
       </details>
 
 	  <!-- Share / Save -->
@@ -279,6 +286,12 @@
 	</div>
 
 
+    </section>
+
+    <section class="card borrowing-drivers" aria-labelledby="borrowing-drivers-heading">
+      <h2 id="borrowing-drivers-heading">What is affecting your borrowing power?</h2>
+      <p>Income is only one part of the estimate. Living expenses, credit-card limits, personal or car loan repayments, HELP/HECS, dependants, the interest rate and the lender-style assessment buffer can all change the result.</p>
+      <p><a href="/guides/hidden-factors-borrowing-power.html">See the main factors that can affect borrowing power</a> <span aria-hidden="true">·</span> <a href="/repayment-estimator.html">Test repayments at different rates</a></p>
     </section>
 
     <section class="card" aria-labelledby="first-home-path-heading">
