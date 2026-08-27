@@ -1,0 +1,21 @@
+{
+  "calculator_version": "2026.08",
+  "last_reviewed": "2026-08-27",
+  "currency": "AUD",
+  "tax": {
+    "financial_year": "2026-2027",
+    "tax_bands_file": "/assets/au_tax_bands_2026_2027.json",
+    "resident_rates_only": true,
+    "medicare_levy_estimate_percent": 2
+  },
+  "serviceability": {
+    "rate_buffer_percent": 3,
+    "credit_card_commitment_percent_per_month": 3,
+    "living_expense_floor_file": "/assets/dependants_cost_table.json"
+  },
+  "lmi": {
+    "data_file": "/assets/lmi_table.json",
+    "scope": "Approximate owner-occupied, full-document estimate"
+  },
+  "notes": "Planning estimates only. Lender policy, income treatment, expenses, rates, fees, LMI and state charges vary."
+}

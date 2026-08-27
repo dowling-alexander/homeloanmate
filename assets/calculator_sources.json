@@ -1,5 +1,6 @@
 {
-  "last_checked": "2026-08-21",
+  "last_checked": "2026-08-27",
+  "financial_assumptions_file": "/assets/financial_assumptions.json",
   "currency": "AUD",
   "tax": {
     "financial_year": "2026-2027",

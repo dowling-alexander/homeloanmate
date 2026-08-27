@@ -1,6 +1,6 @@
 {
   "financial_year": "2026-2027",
-  "notes": "Legacy compatibility asset for cached calculator scripts. Current calculator source uses au_tax_bands_2026_2027.json via financial_assumptions.json.",
+  "notes": "Resident individual marginal tax rates for 2026-27 (excludes Medicare levy and MLS).",
   "brackets": [
     { "min": 0, "max": 18200, "base": 0, "rate": 0.0, "over": 0 },
     { "min": 18201, "max": 45000, "base": 0, "rate": 0.15, "over": 18200 },
