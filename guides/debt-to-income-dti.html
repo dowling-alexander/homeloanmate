@@ -70,10 +70,10 @@
   <main class="container" id="main">
     <article class="card prose" itemscope itemtype="https://schema.org/Article">
       <h1 itemprop="headline">Debt-to-Income Ratio (DTI): Why Banks Use It</h1>
-      <p class="helper">Updated 19 Sep 2025 · 4–6 min read</p>
+      <p class="helper">Reviewed 27 August 2026 · 4–6 min read</p>
 
       <div class="card" aria-label="At a glance">
-        <p><strong>At a glance:</strong> Debt-to-Income ratio (DTI) compares your total debts to your annual income. Banks use it to decide how much you can safely borrow, usually capping DTI at 6–7× your income.</p>
+        <p><strong>At a glance:</strong> Debt-to-Income ratio (DTI) compares your total debts to your annual income. Lenders may use it as one part of a broader assessment, alongside income, expenses, deposit, property and serviceability.</p>
       </div>
 
       <h2>What is DTI?</h2>
@@ -82,22 +82,16 @@
       <p>Example: If you earn $100,000 and borrow $500,000, your DTI is 5.0.</p>
 
       <h2>Why Do Banks Use DTI?</h2>
-      <p>Banks want to make sure you don’t take on more debt than you can reasonably afford. Higher DTIs mean more risk if interest rates rise or your income drops. That’s why:</p>
+      <p>Lenders use DTI to understand how large a proposed debt is relative to income. A higher result can reduce options, but there is no universal personal DTI cap that guarantees approval or decline.</p>
       <ul>
-        <li><strong>DTI under 6.0:</strong> Usually acceptable by most lenders.</li>
-        <li><strong>DTI 6.0–7.0:</strong> Considered tight; some banks may decline.</li>
-        <li><strong>DTI above 7.0:</strong> Often considered too risky.</li>
+        <li>Different lenders may apply different DTI limits or additional checks.</li>
+        <li>Income type, deposit, expenses, loan purpose and property can change an assessment.</li>
+        <li>A lower DTI does not replace the lender’s full serviceability and credit assessment.</li>
       </ul>
-      <p>This is also influenced by <strong>APRA guidelines</strong>, which encourage lenders to be cautious with high DTI borrowers.</p>
+      <p>APRA monitors higher-DTI lending at a portfolio level, while individual lenders set and update their own credit policies.</p>
 
       <h2>How Does DTI Affect Borrowing Power?</h2>
-      <p>DTI directly limits how much you can borrow. For example:</p>
-      <ul>
-        <li>Household income: $150,000</li>
-        <li>Lender max DTI: 6.0</li>
-        <li>Maximum borrowing power: $900,000</li>
-      </ul>
-      <p>Even if your expenses are low, if the loan would push you past the DTI cap, the bank is likely to decline.</p>
+      <p>DTI can be one constraint on how much you can borrow. For example, a $900,000 loan against a $150,000 household income has a DTI of 6.0. Whether that loan is available still depends on the lender’s full assessment.</p>
 
       <h2>DTI Calculator</h2>
       <div class="card" role="region" aria-label="DTI calculator">
@@ -121,7 +115,7 @@
       <p>Use our full <a href="/">Borrowing Power Calculator</a> to see how DTI, income, expenses, and buffers combine to shape your maximum loan size.</p>
 
       <section class="disclaimer">
-        <p>General information only — not financial advice. Figures are approximate and based on general lending standards as at September 2025. Individual lenders have different DTI thresholds and credit policies. Seek professional advice before making borrowing decisions.</p>
+        <p>General information only — not financial advice. This page does not apply a lender-specific DTI policy. Individual lender thresholds and credit policies vary and can change.</p>
       </section>
 
     </article>
@@ -165,9 +159,7 @@
         }
         const dti = +(loan / income).toFixed(2);
         let msg = `Your DTI is ${dti}. `;
-        if (dti < 6) msg += "This is within most banks' acceptable range.";
-        else if (dti < 7) msg += "This may be considered high — some banks may limit lending.";
-        else msg += "This is likely too high for most lenders.";
+        msg += "It is a planning ratio only; lenders assess it alongside income, expenses, deposit, loan purpose and their current policy.";
         out.textContent = msg;
       }
 
