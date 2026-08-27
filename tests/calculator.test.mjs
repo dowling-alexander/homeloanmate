@@ -3,7 +3,8 @@ import { readFile } from "node:fs/promises";
 import vm from "node:vm";
 
 const script = await readFile(new URL("../script_not_minified.js", import.meta.url), "utf8");
-const taxBands = JSON.parse(await readFile(new URL("../assets/au_tax_bands_2025_2026.json", import.meta.url), "utf8"));
+const assumptions = JSON.parse(await readFile(new URL("../assets/financial_assumptions.json", import.meta.url), "utf8"));
+const taxBands = JSON.parse(await readFile(new URL("../assets/au_tax_bands_2026_2027.json", import.meta.url), "utf8"));
 const stampDuty = JSON.parse(await readFile(new URL("../assets/stampDuty.json", import.meta.url), "utf8"));
 const lmiTable = JSON.parse(await readFile(new URL("../assets/lmi_table.json", import.meta.url), "utf8"));
 const depTable = JSON.parse(await readFile(new URL("../assets/dependants_cost_table.json", import.meta.url), "utf8"));
@@ -45,6 +46,9 @@ function approx(actual, expected, tolerance = 1) {
 }
 
 assert.equal(taxBands.financial_year, "2026-2027");
+assert.equal(assumptions.tax.financial_year, taxBands.financial_year);
+assert.equal(assumptions.serviceability.rate_buffer_percent, 3);
+assert.equal(assumptions.serviceability.credit_card_commitment_percent_per_month, 3);
 assert.equal(HLM.calculateAnnualTax(18_200, taxBands.brackets), 0);
 approx(HLM.calculateAnnualTax(80_000, taxBands.brackets), 14_520, 0.01);
 approx(HLM.calculateAnnualTax(150_000, taxBands.brackets), 36_570, 0.01);

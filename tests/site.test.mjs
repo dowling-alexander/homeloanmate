@@ -50,7 +50,13 @@ assert.match(styles, /\.prose table\{display:block;overflow-x:auto;white-space:n
 const borrowingPowerPage = await readFile(path.join(root, "index.html"), "utf8");
 assert.match(borrowingPowerPage, /<details class="advanced-options">/, "Borrowing power calculator must group optional inputs");
 assert.ok(borrowingPowerPage.indexOf('id="expensesSlider"') < borrowingPowerPage.indexOf('<details class="advanced-options">'), "Core affordability inputs must remain visible before advanced options");
+assert.ok(borrowingPowerPage.includes('id="assessmentRate"'), "Borrowing power calculator must explain its assessment rate");
+assert.ok(borrowingPowerPage.includes('id="bufferImpact"'), "Borrowing power calculator must show the rate-buffer impact");
+assert.ok(borrowingPowerPage.includes('id="assumptionsReview"'), "Borrowing power calculator must show the assumptions review date");
 assert.match(styles, /\.result-item\{display:grid;grid-template-columns:minmax\(0,1fr\) auto/, "Result rows must preserve room for labels and values");
 assert.match(styles, /\.advanced-fields select\{width:100%;max-width:100%\}/, "Advanced dropdown labels and selected values must not be clipped");
+
+const faqPage = await readFile(path.join(root, "faq.html"), "utf8");
+assert.match(faqPage, /<h1>BorrowPower FAQ<\/h1>/, "FAQ page must have a single page-level heading");
 
 console.log(`Site configuration checks passed for ${pages.length} pages`);
