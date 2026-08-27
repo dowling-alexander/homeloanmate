@@ -14,7 +14,7 @@ The deposit is only one part of buying your first home. Before you make an offer
 
 Write down two figures first: the price range you are considering and the savings you can use for the purchase. Keep an emergency buffer outside that amount where possible. Your available cash may need to cover more than the deposit, so putting every dollar toward the deposit can leave a purchase underfunded.
 
-Use the [Borrowing Power Calculator](/) to estimate a loan range, then enter a property price and savings amount to see the indicative loan-to-value ratio, LMI estimate and transfer duty. It is a planning tool, not a loan approval.
+Use the [Borrowing Power Calculator](/) to estimate a loan range, then use the [Deposit & Upfront Cost Calculator](/deposit-upfront-costs.html) to compare the property price and savings against the deposit, indicative duty, LMI and other costs. They are planning tools, not loan approvals.
 
 ## Costs to include before making an offer
 
@@ -32,7 +32,7 @@ Your exact costs depend on the state or territory, lender, property and contract
 
 Transfer duty can be one of the largest upfront costs after the deposit. First-home buyer concessions can reduce it, but they are conditional. Eligibility can depend on the property value, whether you will live in the home, the type of property, prior ownership and other state-specific rules.
 
-Start with the [stamp duty estimate in the Borrowing Power Calculator](/), select your state and buyer type, and only treat a concession as available after you have checked the current official state requirements. The calculator deliberately shows general duty where a concession needs more information than an online estimate can confirm.
+Start with the [Deposit & Upfront Cost Calculator](/deposit-upfront-costs.html), select your state and buyer type, and only treat a concession as available after you have checked the current official state requirements. The planner deliberately shows general duty where a concession needs more information than an online estimate can confirm.
 
 ## A practical way to set a safer limit
 

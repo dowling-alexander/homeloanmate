@@ -24,13 +24,13 @@ For any property price, model at least three versions:
 2. **Your current savings target:** the most realistic near-term option.
 3. **A larger deposit:** shows how the loan, LVR and repayments change if you keep saving.
 
-Enter each scenario into the [Borrowing Power Calculator](/). It shows an indicative LVR and LMI estimate alongside your borrowing result. Then run the final loan amount through the [Repayment Estimator](/repayment-estimator.html) at your expected rate and at a higher rate.
+Enter each scenario into the [Deposit & Upfront Cost Calculator](/deposit-upfront-costs.html). It shows the deposit, indicative duty, LMI, loan and remaining savings in one view. Then run the final loan amount through the [Repayment Estimator](/repayment-estimator.html) at your expected rate and at a higher rate.
 
 ## Do not forget purchase costs
 
 Savings are often discussed as though every dollar becomes the deposit. In practice, some cash may be needed for transfer duty, conveyancing, inspections, registration and moving. First-home buyer concessions can help, but they depend on your circumstances and local rules.
 
-Read [First Home Buyer Costs in Australia](/guides/first-home-buyer-costs-australia.html) before choosing a deposit target. It gives you a checklist of the expenses that sit outside the advertised property price.
+Use the [Deposit & Upfront Cost Calculator](/deposit-upfront-costs.html) before choosing a deposit target, then read [First Home Buyer Costs in Australia](/guides/first-home-buyer-costs-australia.html) for the expenses that sit outside the advertised property price.
 
 ## Smaller deposits and LMI
 

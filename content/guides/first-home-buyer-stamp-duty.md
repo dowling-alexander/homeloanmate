@@ -24,7 +24,7 @@ Those details are why an online estimate cannot certify eligibility. It can stil
 
 ## Use a conservative calculator scenario first
 
-Open the [Borrowing Power Calculator](/) and enter the property price, your savings and state or territory. Select **First-home buyer** and the relevant property type. The calculator asks you to confirm that you meet the eligibility rules; without that confirmation it deliberately falls back to general duty where a concession is conditional.
+Open the [Deposit & Upfront Cost Calculator](/deposit-upfront-costs.html) and enter the property price, your savings and state or territory. Select **First-home buyer** and confirm that you meet the relevant eligibility rules. Without that confirmation the planner deliberately falls back to general duty where a concession is conditional.
 
 That is the right mindset for your own budget as well. If your contract depends on a concession, verify it with the relevant revenue office, conveyancer or lender before assuming the lower figure is available.
 

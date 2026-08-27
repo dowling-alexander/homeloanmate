@@ -29,7 +29,7 @@ Run at least two versions of your plan:
 1. Buy sooner with your current deposit and an estimated LMI cost.
 2. Wait and save for a larger deposit, then re-run the loan and repayment.
 
-For each version, compare the cash left after purchase costs, the repayment at your expected rate, the repayment at a higher rate and your emergency buffer. The [first-home deposit guide](/guides/how-much-deposit-first-home.html) explains how to keep duty and other costs inside that comparison.
+For each version, compare the cash left after purchase costs, the repayment at your expected rate, the repayment at a higher rate and your emergency buffer. The [Deposit & Upfront Cost Calculator](/deposit-upfront-costs.html) puts deposit size, duty, LMI and remaining savings side by side; the [first-home deposit guide](/guides/how-much-deposit-first-home.html) explains the trade-off.
 
 ## Home guarantees and lender alternatives
 

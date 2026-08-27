@@ -121,14 +121,15 @@ body.no-scroll { overflow: hidden; }
 .backdrop[data-open="true"]{ opacity:1; }
 .backdrop[hidden]{ display:none; }
 
-/* Desktop ≥768px: inline nav, no drawer/backdrop */
-@media (min-width:768px){
+/* Wide desktop: inline nav. Tablets retain the drawer rather than wrapping links. */
+@media (min-width:1100px){
   .menu-toggle{ display:none; }
   .backdrop{ display:none !important; }
   .nav{
     position:static; transform:none !important; transition:none; border:0; background:transparent;
-    flex-direction:row; gap:8px; padding:0; width:auto; height:auto;
+    flex-direction:row; flex-wrap:nowrap; gap:4px; padding:0; width:auto; height:auto;
   }
+  .nav a{padding:8px;font-size:.9rem}
 }
 
 .disclaimer {

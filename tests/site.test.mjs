@@ -39,9 +39,11 @@ const firstHomeSchemesCalculator = await readFile(path.join(root, "first-home-sc
 assert.ok(firstHomeSchemesCalculator.includes("FirstHomeSchemes.assess"), "First home schemes calculator must use the shared scheme model");
 assert.ok(firstHomeSchemesCalculator.includes('calculator_name: "first_home_schemes"'), "First home schemes calculator must track result views");
 assert.ok(firstHomeSchemesCalculator.includes("government-home-buyer-schemes.html"), "First home schemes calculator must link to its guide");
+assert.ok(firstHomeSchemesCalculator.includes("deposit-upfront-costs.html"), "First home schemes calculator must link to the deposit planner");
 
 const firstHomeHub = await readFile(path.join(root, "guides", "first-home-buyer.html"), "utf8");
 assert.ok(firstHomeHub.includes("first-home-schemes-calculator.html"), "First home buyer hub must link to the scheme checker");
+assert.ok(firstHomeHub.includes("deposit-upfront-costs.html"), "First home buyer hub must link to the deposit planner");
 
 const depositPlanner = await readFile(path.join(root, "deposit-upfront-costs.html"), "utf8");
 assert.ok(depositPlanner.includes("DepositUpfrontCosts.calculate"), "Deposit planner must use the shared purchase-cost model");
@@ -72,5 +74,12 @@ assert.match(styles, /\.advanced-fields select\{width:100%;max-width:100%\}/, "A
 
 const faqPage = await readFile(path.join(root, "faq.html"), "utf8");
 assert.match(faqPage, /<h1>BorrowPower FAQ<\/h1>/, "FAQ page must have a single page-level heading");
+
+const header = await readFile(path.join(root, "partials", "header.html"), "utf8");
+assert.ok(header.includes('href="/deposit-upfront-costs.html">Deposit &amp; Costs'), "Primary navigation must feature the deposit planner");
+assert.ok(header.indexOf("Borrowing Power") < header.indexOf("Deposit &amp; Costs") && header.indexOf("Deposit &amp; Costs") < header.indexOf("Repayments"), "Primary navigation must follow the core buyer journey");
+
+const guidesIndex = await readFile(path.join(root, "guides", "guides-index.html"), "utf8");
+assert.ok(guidesIndex.includes("Deposit &amp; Upfront Cost Calculator"), "Guides index must feature the deposit planner");
 
 console.log(`Site configuration checks passed for ${pages.length} pages`);
