@@ -43,9 +43,22 @@ assert.ok(firstHomeSchemesCalculator.includes("government-home-buyer-schemes.htm
 const firstHomeHub = await readFile(path.join(root, "guides", "first-home-buyer.html"), "utf8");
 assert.ok(firstHomeHub.includes("first-home-schemes-calculator.html"), "First home buyer hub must link to the scheme checker");
 
+const depositPlanner = await readFile(path.join(root, "deposit-upfront-costs.html"), "utf8");
+assert.ok(depositPlanner.includes("DepositUpfrontCosts.calculate"), "Deposit planner must use the shared purchase-cost model");
+assert.ok(depositPlanner.includes('calculator_name: "deposit_upfront_costs"'), "Deposit planner must track result views");
+assert.ok(depositPlanner.includes("first-home-buyer.html"), "Deposit planner must link to the first-home buyer hub");
+assert.ok(depositPlanner.includes("repayment-estimator.html"), "Deposit planner must link onward to repayments");
+
+const purchaseCostsData = JSON.parse(await readFile(path.join(root, "assets", "property_purchase_costs_2026.json"), "utf8"));
+assert.equal(purchaseCostsData.lastReviewed, "2026-08-27", "Purchase-cost data must state its review date");
+for (const state of ["NSW", "VIC", "QLD", "SA", "WA", "TAS", "ACT", "NT"]) {
+  assert.ok(purchaseCostsData.jurisdictions[state], `Purchase-cost data must cover ${state}`);
+}
+
 const styles = await readFile(path.join(root, "styles.css"), "utf8");
 assert.match(styles, /img\{display:block;max-width:100%;height:auto\}/, "Images must not overflow narrow screens");
 assert.match(styles, /\.prose table\{display:block;overflow-x:auto;white-space:nowrap\}/, "Wide guide tables must scroll on narrow screens");
+assert.match(styles, /\.deposit-form \.eligibility-field\[hidden\]\{display:none\}/, "Deposit planner must hide first-home confirmation until it is relevant");
 
 const borrowingPowerPage = await readFile(path.join(root, "index.html"), "utf8");
 assert.match(borrowingPowerPage, /<details class="advanced-options">/, "Borrowing power calculator must group optional inputs");
@@ -53,6 +66,7 @@ assert.ok(borrowingPowerPage.indexOf('id="expensesSlider"') < borrowingPowerPage
 assert.ok(borrowingPowerPage.includes('id="assessmentRate"'), "Borrowing power calculator must explain its assessment rate");
 assert.ok(borrowingPowerPage.includes('id="bufferImpact"'), "Borrowing power calculator must show the rate-buffer impact");
 assert.ok(borrowingPowerPage.includes('id="assumptionsReview"'), "Borrowing power calculator must show the assumptions review date");
+assert.ok(borrowingPowerPage.includes("deposit-upfront-costs.html"), "Borrowing power calculator must link to the deposit planner");
 assert.match(styles, /\.result-item\{display:grid;grid-template-columns:minmax\(0,1fr\) auto/, "Result rows must preserve room for labels and values");
 assert.match(styles, /\.advanced-fields select\{width:100%;max-width:100%\}/, "Advanced dropdown labels and selected values must not be clipped");
 

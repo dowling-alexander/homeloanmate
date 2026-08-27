@@ -8,8 +8,8 @@
     "build:partials": "node scripts/sync-partials.mjs",
     "build:guides": "node scripts/generate-guides.mjs",
     "new:guide": "node scripts/new-guide.mjs",
-    "test": "node tests/calculator.test.mjs && node tests/refinance-break-even.test.mjs && node tests/first-home-schemes.test.mjs && node tests/site.test.mjs",
-    "check:js": "node --check script_not_minified.js && node --check script.js && node --check assets/include.js && node --check assets/refinance-break-even.js && node --check assets/first-home-schemes.js",
+    "test": "node tests/calculator.test.mjs && node tests/refinance-break-even.test.mjs && node tests/first-home-schemes.test.mjs && node tests/deposit-upfront-costs.test.mjs && node tests/site.test.mjs",
+    "check:js": "node --check script_not_minified.js && node --check script.js && node --check assets/include.js && node --check assets/refinance-break-even.js && node --check assets/first-home-schemes.js && node --check assets/deposit-upfront-costs.js",
     "check:links": "node scripts/link-check.mjs",
     "check": "npm run build && npm run check:js && npm test && npm run check:links"
   }

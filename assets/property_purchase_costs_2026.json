@@ -1,0 +1,96 @@
+{
+  "version": "2026.08",
+  "lastReviewed": "2026-08-27",
+  "effectiveFrom": "2026-07-01",
+  "currency": "AUD",
+  "generalDutyDataFile": "/assets/stampDuty.json",
+  "lmiDataFile": "/assets/lmi_table.json",
+  "notes": "General duty uses BorrowPower's shared state duty table. Registration, transfer and legal costs are not estimated automatically because fees and transaction requirements vary. Enter a quote or allowance in the optional costs fields.",
+  "jurisdictions": {
+    "NSW": {
+      "name": "New South Wales",
+      "firstHome": {
+        "status": "modelled",
+        "requiresOwnerOccupier": true,
+        "requiresEligibilityConfirmation": true,
+        "exemptionUpTo": 800000,
+        "concessionBelow": 1000000,
+        "concessionRate": 0.195935,
+        "note": "For eligible new or existing homes. Additional purchaser, residency and contract requirements apply.",
+        "source": "https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty/understanding-transfer-duty/calculate-transfer-duty"
+      }
+    },
+    "VIC": {
+      "name": "Victoria",
+      "firstHome": {
+        "status": "modelled",
+        "requiresOwnerOccupier": true,
+        "requiresEligibilityConfirmation": true,
+        "exemptionUpTo": 600000,
+        "concessionUpTo": 750000,
+        "model": "proportional_general_duty",
+        "note": "For an eligible principal place of residence. Off-the-plan treatment and all purchaser requirements are outside this estimate.",
+        "source": "https://www.sro.vic.gov.au/buying-property/land-transfer-stamp-duty/concessions-exemptions-and-waivers/first-home-buyers/first-home-buyer-duty-exemption-or-concession"
+      }
+    },
+    "QLD": {
+      "name": "Queensland",
+      "firstHome": {
+        "status": "modelled",
+        "requiresOwnerOccupier": true,
+        "requiresEligibilityConfirmation": true,
+        "exemptionUpTo": 700000,
+        "concessionUpTo": 800000,
+        "model": "qld_home_rate_less_first_home_concession",
+        "concessionBands": [[710000,17350],[720000,15615],[730000,13880],[740000,12145],[750000,10410],[760000,8675],[770000,6940],[780000,5205],[790000,3470],[800000,1735]],
+        "note": "For an eligible first-home residence. The calculator cannot assess citizenship, residency, land use, contract date or all purchaser requirements.",
+        "source": "https://qro.qld.gov.au/duties/transfer-duty/concessions/homes/first-home/"
+      }
+    },
+    "SA": {
+      "name": "South Australia",
+      "firstHome": {
+        "status": "not_modelled",
+        "note": "Relief depends on new-home or off-the-plan status and other rules not collected by this planner. General duty is shown.",
+        "source": "https://www.revenuesa.sa.gov.au/first-home-owners/first-home-owner-grant"
+      }
+    },
+    "WA": {
+      "name": "Western Australia",
+      "firstHome": {
+        "status": "modelled",
+        "requiresOwnerOccupier": true,
+        "requiresEligibilityConfirmation": true,
+        "exemptionUpTo": 600000,
+        "concessionUpTo": 800000,
+        "concessionRate": 0.1615,
+        "note": "For eligible established or newly built homes under the current First Home Owner Rate of Duty settings.",
+        "source": "https://www.wa.gov.au/government/publications/duties-fact-sheet-first-home-owner-rate"
+      }
+    },
+    "TAS": {
+      "name": "Tasmania",
+      "firstHome": {
+        "status": "not_modelled",
+        "note": "The established-home first-home buyer duty exemption ended for transfers settling after 30 June 2026. General duty is shown.",
+        "source": "https://www.sro.tas.gov.au/property-transfer-duties/concessions-exemptions/first-home-buyers-of-established-homes-duty-relief"
+      }
+    },
+    "ACT": {
+      "name": "Australian Capital Territory",
+      "firstHome": {
+        "status": "not_modelled",
+        "note": "The Home Buyer Concession Scheme can exempt eligible buyers from conveyance duty from 1 July 2026, but its income and household rules are not collected by this planner. General duty is shown.",
+        "source": "https://www.revenue.act.gov.au/home-buyer-assistance/home-buyer-concession-scheme/about-the-home-buyer-concession-scheme"
+      }
+    },
+    "NT": {
+      "name": "Northern Territory",
+      "firstHome": {
+        "status": "not_modelled",
+        "note": "HomeGrown grants and house-and-land relief need details not collected by this planner. General duty is shown.",
+        "source": "https://nt.gov.au/property/home-owner-assistance"
+      }
+    }
+  }
+}

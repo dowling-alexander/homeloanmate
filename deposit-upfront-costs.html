@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <title>Deposit &amp; Upfront Cost Calculator Australia | BorrowPower</title>
+  <meta name="description" content="Estimate the deposit, stamp duty, LMI and other upfront cash you may need to buy property in Australia.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://borrowpower.com.au/deposit-upfront-costs.html">
+  <meta name="robots" content="index,follow">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" type="image/png" href="/borrowpower-favicon.png">
+  <meta property="og:title" content="Deposit &amp; Upfront Cost Calculator Australia | BorrowPower">
+  <meta property="og:description" content="Plan your deposit, stamp duty, LMI and other upfront costs before buying property.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://borrowpower.com.au/deposit-upfront-costs.html">
+  <meta property="og:image" content="https://borrowpower.com.au/assets/thumb-first-home.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Deposit and Upfront Cost Calculator","applicationCategory":"FinanceApplication","operatingSystem":"Any","url":"https://borrowpower.com.au/deposit-upfront-costs.html","description":"An Australian property purchase planner for deposit, indicative duty, LMI and other upfront costs."}</script>
+</head>
+<body>
+  <!-- shared-header:start -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GKLL8W3BP2"></script>
+<script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6595597891926669"
+        crossorigin="anonymous"></script>
+
+<header class="header" role="banner">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Home">
+      <svg viewBox="0 0 1300 320" class="logo">
+        <g transform="translate(0,32)">
+          <path d="M128 30.72 L46.08 87.04 V220.16 H209.92 V87.04 Z"
+                fill="none"
+                stroke="var(--logo-stroke, #167d83)"
+                stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M73.87,148.48h5.85a7.31,7.31 0 0 1 7.31,7.31v41.69a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-41.69a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+          <path d="M109.71,117.76h5.85a7.31,7.31 0 0 1 7.31,7.31v72.41a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31v-72.41a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+          <path d="M145.55,81.92h5.85a7.31,7.31 0 0 1 7.31,7.31v108.25a7.31,7.31 0 0 1 -7.31,7.31h-5.85a7.31,7.31 0 0 1 -7.31,-7.31V89.23a7.31,7.31 0 0 1 7.31,-7.31z"
+                fill="var(--logo-fill, #167d83)"/>
+        </g>
+        <text x="296" y="210" font-size="148"
+              font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+              font-weight="800" fill="currentColor">BorrowPower</text>
+      </svg>
+    </a>
+
+    <button id="menuToggle"
+            class="menu-toggle"
+            aria-label="Open menu"
+            aria-controls="primaryNav"
+            aria-expanded="false">
+      <span class="menu-box" aria-hidden="true">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </span>
+    </button>
+
+    <nav id="primaryNav" class="nav" role="navigation" aria-label="Primary" data-open="false">
+      <a href="/">Borrowing Power</a>
+      <a href="/repayment-estimator.html">Repayments</a>
+      <a href="/guides/refinance-home-loan.html">Refinancing</a>
+      <a href="/negative-gearing-calculator.html">Negative Gearing</a>
+      <a href="/guides/first-home-buyer.html">First Home Buyers</a>
+      <a href="/guides/guides-index.html">Guides</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+  <div id="backdrop" class="backdrop" hidden></div>
+</header>
+<!-- shared-header:end -->
+
+  <main class="container" id="main">
+    <section class="card calculator-intro" aria-labelledby="deposit-planner-heading">
+      <p class="eyebrow-static">Property purchase planning</p>
+      <h1 id="deposit-planner-heading">Deposit &amp; Upfront Cost Calculator</h1>
+      <p>Estimate the deposit, stamp duty and other upfront cash you may need when buying property in Australia. Results are planning estimates only; actual costs, lender requirements and concessions can vary.</p>
+    </section>
+
+    <section class="deposit-layout" aria-label="Deposit and upfront cost calculator">
+      <form id="deposit-form" class="card deposit-form form-grid" novalidate>
+        <fieldset class="form-section">
+          <legend>Property</legend>
+          <div class="field">
+            <label for="purchase-price">Purchase price</label>
+            <div class="input-row"><input id="purchase-price-slider" type="range" min="100000" max="2500000" step="5000" value="650000"><input id="purchase-price" type="number" inputmode="decimal" min="0" step="1000" value="650000"></div>
+          </div>
+          <div class="field"><label for="purchase-state">State or territory</label><select id="purchase-state"><option value="NSW">New South Wales</option><option value="VIC">Victoria</option><option value="QLD">Queensland</option><option value="SA">South Australia</option><option value="WA">Western Australia</option><option value="TAS">Tasmania</option><option value="ACT">Australian Capital Territory</option><option value="NT">Northern Territory</option></select></div>
+          <div class="field"><label for="purchase-occupancy">Purchase type</label><select id="purchase-occupancy"><option value="owner_occupier">Owner occupier</option><option value="investment">Investment property</option></select></div>
+          <div class="field"><label for="purchase-first-home">First-home buyer</label><select id="purchase-first-home"><option value="no">No</option><option value="yes">Yes</option></select></div>
+          <div class="field eligibility-field" id="first-home-confirmation" hidden><label class="toggle" for="purchase-eligibility"><input id="purchase-eligibility" type="checkbox"><span>I meet the relevant first-home and occupancy rules</span></label><small class="helper">This confirms your own view only. Other eligibility rules may still apply.</small></div>
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend>Deposit and savings</legend>
+          <div class="field"><label for="deposit-percent">Deposit percentage</label><div class="input-row"><input id="deposit-percent" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="10"><span class="input-suffix">%</span></div><div class="deposit-presets" aria-label="Deposit percentage shortcuts"><button type="button" data-deposit-preset="5">5%</button><button type="button" data-deposit-preset="10">10%</button><button type="button" data-deposit-preset="20">20%</button></div></div>
+          <div class="field"><label for="deposit-dollar">Deposit amount</label><input id="deposit-dollar" type="number" inputmode="decimal" min="0" step="1000" value="65000"><small class="helper">Changing either deposit field updates the other.</small></div>
+          <div class="field"><label for="purchase-savings">Current savings available for purchase</label><input id="purchase-savings" type="number" inputmode="decimal" min="0" step="1000" value="75000"></div>
+          <div class="field"><label for="purchase-other-costs">Other purchase costs</label><input id="purchase-other-costs" type="number" inputmode="decimal" min="0" step="500" value="3000"><small class="helper">For conveyancing, inspections, moving costs and your own allowance.</small></div>
+          <div class="field"><label for="lmi-treatment">If LMI applies</label><select id="lmi-treatment"><option value="capitalised">Add it to the loan estimate</option><option value="upfront">Include it in upfront cash</option></select></div>
+        </fieldset>
+
+        <details class="advanced-options">
+          <summary>Optional cost details</summary>
+          <div class="advanced-fields"><div class="field"><label for="registration-costs">Transfer / registration cost estimate</label><input id="registration-costs" type="number" inputmode="decimal" min="0" step="100" value="0"><small class="helper">Enter a quote or allowance. State registration fees are not automatically estimated.</small></div></div>
+        </details>
+      </form>
+
+      <section class="card deposit-results" aria-live="polite" aria-labelledby="deposit-results-heading">
+        <div class="results-heading"><p class="eyebrow-static">Your purchase plan</p><h2 id="deposit-results-heading">Estimated cash needed</h2></div>
+        <div class="result-item result-item-primary"><span>Estimated cash needed to buy</span><strong id="cash-required">-</strong></div>
+        <div class="results">
+          <div class="result-item"><span>Deposit</span><strong id="result-deposit">-</strong></div>
+          <div class="result-item"><span>Stamp duty (indicative)</span><strong id="result-duty">-</strong></div>
+          <div class="result-item"><span>Transfer / registration estimate</span><strong id="result-registration">-</strong></div>
+          <div class="result-item"><span>Other purchase costs</span><strong id="result-other">-</strong></div>
+          <div class="result-item" id="upfront-lmi-row"><span>Estimated LMI paid upfront</span><strong id="result-upfront-lmi">-</strong></div>
+        </div>
+        <p class="helper" id="duty-note"></p>
+        <p class="helper" id="lmi-note"></p>
+        <div class="deposit-result-secondary">
+          <div><span>Estimated loan</span><strong id="result-loan">-</strong></div>
+          <div><span>LVR</span><strong id="result-lvr">-</strong></div>
+          <div><span>Savings position</span><strong id="result-savings">-</strong></div>
+        </div>
+        <p class="helper" id="savings-note"></p>
+        <p><a class="btn btn-outline" href="/">Check this loan against your borrowing power</a> <a class="btn" id="repayment-link" href="/repayment-estimator.html">Estimate repayments</a></p>
+      </section>
+    </section>
+
+    <section class="card deposit-comparison" aria-labelledby="comparison-heading">
+      <p class="eyebrow-static">Compare deposits</p>
+      <h2 id="comparison-heading">How common deposit sizes change the picture</h2>
+      <div class="table-wrap"><table><thead><tr><th scope="col">Deposit</th><th scope="col">Deposit cash</th><th scope="col">Loan</th><th scope="col">LVR</th><th scope="col">Estimated LMI</th><th scope="col">Cash needed</th></tr></thead><tbody id="comparison-body"></tbody></table></div>
+      <p class="helper">Cash needed includes duty, your entered costs and LMI only when you choose to pay LMI upfront. A larger deposit is not automatically the best choice for every buyer.</p>
+    </section>
+
+    <section class="card prose" aria-labelledby="upfront-costs-heading">
+      <h2 id="upfront-costs-heading">What upfront costs can apply?</h2>
+      <p>Your cash plan can include a deposit, transfer duty, lender's mortgage insurance (LMI), registration costs, conveyancing, inspections and moving costs. This planner estimates the deposit, duty and LMI using the details you enter. Add a quote or realistic allowance for costs that are personal or transaction-specific.</p>
+      <h2>Why does deposit size matter?</h2>
+      <p>A smaller deposit usually means a larger loan and higher loan-to-value ratio (LVR). Above 80% LVR, LMI may apply. The comparison table helps show the cash, loan and LMI trade-off without assuming one deposit size is right for everyone.</p>
+      <h2>First-home buyers</h2>
+      <p>Duty concessions and exemptions vary by state and eligibility criteria. Where this planner can model a concession from the details collected, it labels it as an estimate after you confirm your eligibility. It cannot confirm every residence, citizenship, income, contract-date or property requirement. See the <a href="/guides/first-home-buyer.html">First Home Buyer Hub</a>, <a href="/guides/how-much-deposit-first-home.html">deposit guide</a> and <a href="/guides/lmi-first-home-buyers.html">LMI guide</a> for context.</p>
+    </section>
+
+    <section class="disclaimer"><p>General information only, not financial, credit, tax or legal advice. Stamp duty, LMI, lender requirements, fees and concessions can change and may depend on facts this calculator does not collect. Confirm current costs with the relevant state or territory revenue office, your lender and your conveyancer before signing a contract.</p></section>
+    <div data-include="/partials/important-information.html"></div>
+    <!-- shared-footer:start -->
+<footer>
+  <p>
+    <a href="/about.html">About</a> |
+    <a href="/contact.html">Contact</a> |
+    <a href="/privacy.html">Privacy Policy</a> |
+    <a href="/disclaimer.html">Disclaimer</a>
+  </p>
+  <p>&copy; 2026 BorrowPower. All rights reserved.</p>
+</footer>
+<!-- shared-footer:end -->
+  </main>
+
+  <div class="sticky-cta" role="region" aria-label="Calculator actions"><button class="btn btn-primary" id="deposit-recalculate" type="button">Recalculate</button><a class="btn btn-outline" href="/">Borrowing Power</a></div>
+  <script defer src="/assets/include.js"></script>
+  <script defer src="/script.js"></script>
+  <script defer src="/assets/deposit-upfront-costs.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("deposit-form");
+      const currency = new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
+      const fields = {
+        price: document.getElementById("purchase-price"), priceSlider: document.getElementById("purchase-price-slider"), state: document.getElementById("purchase-state"), occupancy: document.getElementById("purchase-occupancy"), firstHome: document.getElementById("purchase-first-home"), eligibility: document.getElementById("purchase-eligibility"), confirmation: document.getElementById("first-home-confirmation"), depositPercent: document.getElementById("deposit-percent"), depositDollar: document.getElementById("deposit-dollar"), savings: document.getElementById("purchase-savings"), otherCosts: document.getElementById("purchase-other-costs"), registrationCosts: document.getElementById("registration-costs"), lmiTreatment: document.getElementById("lmi-treatment")
+      };
+      let data; let dutyTables; let lmiTable; let changed = false; let syncingDeposit = false; let resultTracked = false; let timer;
+      const value = (field) => Number(field.value) || 0;
+      const setText = (id, text) => { document.getElementById(id).textContent = text; };
+      const format = (number) => currency.format(Math.round(number));
+      function input() { return { price: value(fields.price), state: fields.state.value, occupancy: fields.occupancy.value, firstHome: fields.firstHome.value === "yes", eligibilityConfirmed: fields.eligibility.checked, deposit: value(fields.depositDollar), savings: value(fields.savings), otherCosts: value(fields.otherCosts), registrationCosts: value(fields.registrationCosts), lmiTreatment: fields.lmiTreatment.value }; }
+      function syncFromPercent() { if (syncingDeposit) return; syncingDeposit = true; fields.depositDollar.value = Math.round(value(fields.price) * (Math.min(100, Math.max(0, value(fields.depositPercent))) / 100)); syncingDeposit = false; }
+      function syncFromDollar() { if (syncingDeposit) return; syncingDeposit = true; fields.depositPercent.value = value(fields.price) > 0 ? ((value(fields.depositDollar) / value(fields.price)) * 100).toFixed(1) : 0; syncingDeposit = false; }
+      function updateConfirmation() { const visible = fields.firstHome.value === "yes" && fields.occupancy.value === "owner_occupier"; fields.confirmation.hidden = !visible; if (!visible) fields.eligibility.checked = false; }
+      function trackStart() { if (!changed) { changed = true; window.trackBorrowPowerEvent?.("calculator_started", { calculator_name: "deposit_upfront_costs" }); } }
+      function trackResult() { if (!resultTracked) { resultTracked = true; window.trackBorrowPowerEvent?.("calculator_result_viewed", { calculator_name: "deposit_upfront_costs" }); } }
+      function scheduleTracking() { window.clearTimeout(timer); timer = window.setTimeout(trackResult, 700); }
+      function renderComparison(currentInput) { const rows = window.DepositUpfrontCosts.comparisonRows(currentInput, data, dutyTables, lmiTable); const body = document.getElementById("comparison-body"); body.replaceChildren(...rows.map(function (row) { const tr = document.createElement("tr"); const cells = [`${row.depositPercent}%`, format(row.deposit), format(row.loan), `${(row.lvr * 100).toFixed(1)}%`, row.lmiOutOfRange ? "Check lender" : format(row.estimatedLmi), format(row.totalCashRequired)]; cells.forEach(function (text) { const td = document.createElement("td"); td.textContent = text; tr.appendChild(td); }); return tr; })); }
+      function render() { if (!data || !dutyTables || !lmiTable) return; updateConfirmation(); const currentInput = input(); const result = window.DepositUpfrontCosts.calculate(currentInput, data, dutyTables, lmiTable); setText("cash-required", format(result.totalCashRequired)); setText("result-deposit", `${format(result.deposit)} (${result.depositPercent.toFixed(1)}%)`); setText("result-duty", format(result.duty.duty)); setText("result-registration", format(result.registrationCosts)); setText("result-other", format(result.otherCosts)); document.getElementById("upfront-lmi-row").hidden = result.lmiTreatment !== "upfront"; setText("result-upfront-lmi", format(result.upfrontLmi)); setText("duty-note", result.duty.note); const lmiMessage = result.lmiOutOfRange ? "This approximate LMI model does not estimate loans at or above 95% LVR. Check lender policy." : result.estimatedLmi > 0 ? (result.lmiTreatment === "capitalised" ? `Estimated LMI of ${format(result.estimatedLmi)} is included in the estimated loan, not the upfront cash total.` : `Estimated LMI of ${format(result.estimatedLmi)} is included in the upfront cash total.`) : "No LMI is estimated at this LVR under BorrowPower's approximate model."; setText("lmi-note", lmiMessage); setText("result-loan", format(result.loan)); setText("result-lvr", `${(result.lvr * 100).toFixed(1)}%`); setText("result-savings", result.savingsPosition >= 0 ? `Surplus ${format(result.savingsPosition)}` : `Shortfall ${format(Math.abs(result.savingsPosition))}`); setText("savings-note", result.savingsPosition >= 0 ? "Savings available after the estimated upfront cash requirement." : "Extra savings, a lower purchase price or different cost assumptions may be needed before you have this estimated cash available."); renderComparison(currentInput); }
+      function updatePriceSlider() { fields.priceSlider.value = Math.min(Number(fields.priceSlider.max), Math.max(Number(fields.priceSlider.min), value(fields.price))); }
+      fields.priceSlider.addEventListener("input", function () { fields.price.value = fields.priceSlider.value; syncFromPercent(); trackStart(); render(); scheduleTracking(); });
+      fields.price.addEventListener("input", function () { updatePriceSlider(); syncFromPercent(); trackStart(); render(); scheduleTracking(); });
+      fields.depositPercent.addEventListener("input", function () { syncFromPercent(); trackStart(); render(); scheduleTracking(); });
+      fields.depositDollar.addEventListener("input", function () { syncFromDollar(); trackStart(); render(); scheduleTracking(); });
+      document.querySelectorAll("[data-deposit-preset]").forEach(function (button) { button.addEventListener("click", function () { fields.depositPercent.value = button.dataset.depositPreset; syncFromPercent(); trackStart(); render(); scheduleTracking(); }); });
+      form.addEventListener("change", function () { trackStart(); render(); scheduleTracking(); });
+      document.getElementById("deposit-recalculate").addEventListener("click", function () { render(); trackResult(); window.trackBorrowPowerEvent?.("calculator_recalculated", { calculator_name: "deposit_upfront_costs" }); });
+      const params = new URLSearchParams(window.location.search); if (params.has("price")) { fields.price.value = Math.max(0, Number(params.get("price")) || value(fields.price)); updatePriceSlider(); if (params.has("loan")) { fields.depositDollar.value = Math.max(0, value(fields.price) - Math.max(0, Number(params.get("loan")) || 0)); syncFromDollar(); } else { syncFromPercent(); } }
+      Promise.all([fetch("/assets/property_purchase_costs_2026.json").then(function (response) { return response.json(); }), fetch("/assets/stampDuty.json").then(function (response) { return response.json(); }), fetch("/assets/lmi_table.json").then(function (response) { return response.json(); })]).then(function (values) { [data, dutyTables, lmiTable] = values; render(); }).catch(function () { setText("cash-required", "Unavailable"); setText("duty-note", "The calculator data could not be loaded. Refresh the page and try again."); });
+    });
+  </script>
+</body>
+</html>
