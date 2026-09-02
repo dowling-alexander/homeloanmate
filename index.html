@@ -114,6 +114,8 @@
             <input type="range" id="expensesSlider" min="0" max="20000" step="50" value="2500" />
             <input type="number" id="expensesInput" inputmode="decimal" value="2500" aria-describedby="expensesHelp" />
           </div>
+          <small id="expensesHelp" class="helper">The estimate uses the higher of your entered expenses and the household expense floor below.</small>
+          <small id="expenseFloorHelp" class="helper" aria-live="polite"></small>
         </div>
 
         <div class="field">
@@ -178,8 +180,9 @@
               <div class="input-row"><input type="number" id="propertyPrice" inputmode="decimal" value="650000" /></div>
             </div>
             <div class="field">
-              <label for="deposit">Deposit / savings</label>
+              <label for="deposit">Deposit set aside (excludes buying costs)</label>
               <div class="input-row"><input type="number" id="deposit" inputmode="decimal" value="130000" /></div>
+              <small class="helper">For savings that must also pay duty and fees, use the Deposit &amp; Costs planner.</small>
             </div>
             <div class="field">
               <label for="state">State/Territory (stamp duty)</label>
@@ -246,15 +249,27 @@
         <div class="result-item"><span>Capacity at your entered interest rate</span><strong id="maxLoanActual">—</strong></div>
         <div class="result-item"><span>Difference caused by the rate buffer</span><strong id="bufferImpact">—</strong></div>
         <div class="result-item"><span>Estimated net monthly income</span><strong id="netMonthlyIncome">—</strong></div>
+        <div class="result-item"><span>Living expenses used in estimate</span><strong id="assessedLivingExpenses">—</strong></div>
         <div class="result-item"><span>Assessed monthly commitments</span><strong id="assessedCommitments">—</strong></div>
         <div class="result-item"><span>Indicative monthly P&I @ your rate</span><strong id="monthlyPI">—</strong></div>
         <div class="result-item"><span>Interest‑only monthly @ your rate</span><strong id="monthlyIO">—</strong></div>
         <div class="result-item"><span>LVR</span><strong id="lvr">—</strong></div>
         <div class="result-item"><span>Estimated LMI</span><strong id="lmi">—</strong></div>
-        <div class="result-item"><span>Stamp duty (indicative)</span><strong id="stampDuty">—</strong></div>
+        <div class="result-item"><span>Stamp duty at entered property price</span><strong id="stampDuty">—</strong></div>
       </section>
       <p class="helper borrowing-result-note">Lenders commonly test repayments at a higher rate to check whether you could still manage if rates rose. This is why the buffered estimate is usually lower.</p>
       <p id="stampDutyNote" class="helper" aria-live="polite"></p>
+      <section class="card purchase-cost-path" aria-labelledby="purchase-plan-heading">
+        <h2 id="purchase-plan-heading">Turn this borrowing estimate into a purchase plan</h2>
+        <p id="purchaseBudgetNote">Use your borrowing result, deposit set aside and state to estimate duty and other upfront costs.</p>
+        <p><a class="btn btn-outline" id="purchasePlanLink" href="/deposit-upfront-costs.html">Plan deposit and upfront costs</a></p>
+      </section>
+
+      <section class="card lender-benchmark-path" aria-labelledby="lender-benchmark-path-heading">
+        <h2 id="lender-benchmark-path-heading">See why borrowing estimates vary</h2>
+        <p>Use the same ten household scenarios to compare BorrowPower with the public calculators from ANZ, CommBank, NAB and Westpac. The comparison is dated and designed for a monthly refresh.</p>
+        <p><a class="btn btn-outline" href="/lender-borrowing-power-benchmark.html">View lender calculator comparison</a></p>
+      </section>
 
       <details class="assumptions">
         <summary>Calculation assumptions and data sources</summary>
@@ -293,12 +308,6 @@
       <h2 id="borrowing-drivers-heading">What is affecting your borrowing power?</h2>
       <p>Income is only one part of the estimate. Living expenses, credit-card limits, personal or car loan repayments, HELP/HECS, dependants, the interest rate and the lender-style assessment buffer can all change the result.</p>
       <p><a href="/guides/hidden-factors-borrowing-power.html">See the main factors that can affect borrowing power</a> <span aria-hidden="true">·</span> <a href="/repayment-estimator.html">Test repayments at different rates</a></p>
-    </section>
-
-    <section class="card purchase-cost-path" aria-labelledby="purchase-cost-path-heading">
-      <h2 id="purchase-cost-path-heading">Know how much you can borrow?</h2>
-      <p>Turn that figure into a purchase plan by estimating your deposit, stamp duty, LMI and other upfront costs before you start inspecting property.</p>
-      <p><a class="btn" href="/deposit-upfront-costs.html">Estimate deposit and upfront costs</a></p>
     </section>
 
     <section class="card" aria-labelledby="first-home-path-heading">

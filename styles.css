@@ -233,6 +233,8 @@ footer a:hover {
 .deposit-form .form-section{grid-template-columns:1fr}
 .deposit-form .eligibility-field{grid-column:1/-1}
 .deposit-form .eligibility-field[hidden]{display:none}
+.deposit-input-group{display:contents}
+.deposit-input-group[hidden]{display:none}
 .deposit-presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .deposit-presets button{min-width:52px;padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--ink);font-weight:700;cursor:pointer}
 .deposit-presets button:focus{outline:var(--focus)}
@@ -246,5 +248,15 @@ footer a:hover {
 .deposit-comparison th,.deposit-comparison td{padding:10px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
 .deposit-comparison th{font-size:.85rem;color:var(--ink-muted)}
 .table-wrap{max-width:100%;overflow-x:auto}
+.benchmark-summary{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.benchmark-summary li{padding:12px;border:1px solid var(--border);border-radius:8px;background:#fbfdff}
+.benchmark-summary strong{display:block;margin-bottom:2px}
+.benchmark-table{width:100%;min-width:920px;border-collapse:collapse}
+.benchmark-table th,.benchmark-table td{padding:12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+.benchmark-table th{font-size:.85rem;color:var(--ink-muted);background:#fbfdff}
+.benchmark-table td:first-child{font-weight:700;white-space:nowrap}
+.benchmark-table small{display:block;color:var(--ink-muted);font-weight:400;white-space:normal}
+.source-links{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.source-links a{font-weight:700}
 @media (min-width:768px){.deposit-layout{grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);align-items:start}.deposit-form .form-section{grid-template-columns:1fr 1fr}.deposit-results{position:sticky;top:16px}.deposit-result-secondary{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:374px){.deposit-presets button{min-width:48px;padding-inline:8px}.deposit-comparison th,.deposit-comparison td{padding:8px}}

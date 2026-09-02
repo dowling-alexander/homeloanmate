@@ -69,6 +69,7 @@ assert.ok(borrowingPowerPage.includes('id="assessmentRate"'), "Borrowing power c
 assert.ok(borrowingPowerPage.includes('id="bufferImpact"'), "Borrowing power calculator must show the rate-buffer impact");
 assert.ok(borrowingPowerPage.includes('id="assumptionsReview"'), "Borrowing power calculator must show the assumptions review date");
 assert.ok(borrowingPowerPage.includes("deposit-upfront-costs.html"), "Borrowing power calculator must link to the deposit planner");
+assert.ok(borrowingPowerPage.includes("lender-borrowing-power-benchmark.html"), "Borrowing power calculator must link to the lender benchmark");
 assert.match(styles, /\.result-item\{display:grid;grid-template-columns:minmax\(0,1fr\) auto/, "Result rows must preserve room for labels and values");
 assert.match(styles, /\.advanced-fields select\{width:100%;max-width:100%\}/, "Advanced dropdown labels and selected values must not be clipped");
 
@@ -84,6 +85,13 @@ assert.ok(aboutPage.includes("Refinance Break-Even Calculator"), "About page mus
 const header = await readFile(path.join(root, "partials", "header.html"), "utf8");
 assert.ok(header.includes('href="/deposit-upfront-costs.html">Deposit &amp; Costs'), "Primary navigation must feature the deposit planner");
 assert.ok(header.indexOf("Borrowing Power") < header.indexOf("Deposit &amp; Costs") && header.indexOf("Deposit &amp; Costs") < header.indexOf("Repayments"), "Primary navigation must follow the core buyer journey");
+
+const lenderBenchmark = await readFile(path.join(root, "lender-borrowing-power-benchmark.html"), "utf8");
+assert.ok(lenderBenchmark.includes("2 September 2026"), "Lender benchmark must state its snapshot date");
+for (const lender of ["ANZ", "CommBank", "NAB", "Westpac"]) {
+  assert.ok(lenderBenchmark.includes(lender), `Lender benchmark must name ${lender}`);
+}
+assert.ok(lenderBenchmark.includes("10 repeatable scenarios"), "Lender benchmark must state its scenario methodology");
 
 const guidesIndex = await readFile(path.join(root, "guides", "guides-index.html"), "utf8");
 assert.ok(guidesIndex.includes("Deposit &amp; Upfront Cost Calculator"), "Guides index must feature the deposit planner");

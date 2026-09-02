@@ -474,6 +474,7 @@ function normaliseStampDutyTables(raw){
       maxLoanBuffered: qs('#maxLoanBuffered'),
       maxLoanActual: qs('#maxLoanActual'),
       netMonthlyIncome: qs('#netMonthlyIncome'),
+      assessedLivingExpenses: qs('#assessedLivingExpenses'),
       assessedCommitments: qs('#assessedCommitments'),
       monthlyPI: qs('#monthlyPI'),
       monthlyIO: qs('#monthlyIO'),
@@ -483,7 +484,10 @@ function normaliseStampDutyTables(raw){
       stampDutyNote: qs('#stampDutyNote'),
       assessmentRate: qs('#assessmentRate'),
       bufferImpact: qs('#bufferImpact'),
-      assumptionsReview: qs('#assumptionsReview')
+      assumptionsReview: qs('#assumptionsReview'),
+      expenseFloorHelp: qs('#expenseFloorHelp'),
+      purchaseBudgetNote: qs('#purchaseBudgetNote'),
+      purchasePlanLink: qs('#purchasePlanLink')
     };
     const BUFFER_PCT = Number(assumptions.serviceability?.rate_buffer_percent) || 3;
     const CREDIT_CARD_COMMITMENT_PCT = Number(assumptions.serviceability?.credit_card_commitment_percent_per_month) || 3;
@@ -560,6 +564,11 @@ function normaliseStampDutyTables(raw){
       out.assessmentRate.textContent = annualRate >= 0 ? `Based on an assessment rate of ${(annualRate + BUFFER_PCT).toFixed(2)}%` : '';
       out.bufferImpact.textContent = maxActual > maxBuffered ? AUD.format(Math.round(maxActual - maxBuffered)) : '—';
       out.netMonthlyIncome.textContent = netMonthly? AUD.format(Math.round(netMonthly)) : '?';
+      if(out.assessedLivingExpenses){
+        const floorApplied = monthlyExp > (+expensesInput.value || 0);
+        out.assessedLivingExpenses.textContent = AUD.format(Math.round(monthlyExp));
+        out.assessedLivingExpenses.title = floorApplied ? `Entered expenses were raised to the ${AUD.format(Math.round(minFloor))} household expense floor.` : 'Entered living expenses are above the household expense floor.';
+      }
       out.assessedCommitments.textContent = monthlyCommitments? AUD.format(Math.round(monthlyCommitments)) : '?';
       out.monthlyPI.textContent       = monthlyPiAmt? AUD.format(Math.round(monthlyPiAmt)) : '—';
       out.monthlyIO.textContent       = monthlyIoAmt? AUD.format(Math.round(monthlyIoAmt)) : '—';
@@ -567,6 +576,20 @@ function normaliseStampDutyTables(raw){
       out.lmi.textContent             = lmiEstimate>0 ? AUD.format(Math.round(lmiEstimate)) : '—';
       out.stampDuty.textContent       = price>0 ? AUD.format(Math.round(duty)) : '—';
       out.stampDutyNote.textContent   = price>0 ? dutyEstimate.note : '';
+      if(out.expenseFloorHelp){
+        out.expenseFloorHelp.textContent = `Minimum used for 0 dependants: ${AUD.format(Math.round(minFloor))} per month. This is BorrowPower's household expense floor, not a lender's private HEM figure.`.replace('0 dependants', `${depCount} dependant${depCount === 1 ? '' : 's'}`);
+      }
+      if(out.purchaseBudgetNote && out.purchasePlanLink){
+        const purchasePriceBeforeCosts = maxBuffered + dep;
+        out.purchaseBudgetNote.textContent = purchasePriceBeforeCosts > 0
+          ? `At this buffered borrowing estimate plus your deposit set aside, the purchase price before duty and other costs is about ${AUD.format(Math.round(purchasePriceBeforeCosts))}. Open the planner to allow for those costs properly.`
+          : 'Use your borrowing result, deposit set aside and state to estimate duty and other upfront costs.';
+        const params = new URLSearchParams({
+          price: String(Math.round(purchasePriceBeforeCosts)),
+          loan: String(Math.round(maxBuffered))
+        });
+        out.purchasePlanLink.href = `/deposit-upfront-costs.html?${params.toString()}`;
+      }
 	saveIfOptIn(LS_KEYS.bp, {
 	  incomeInput: incomeInput.value,
 	  partnerIncomeInput: partnerIncomeInput.value,

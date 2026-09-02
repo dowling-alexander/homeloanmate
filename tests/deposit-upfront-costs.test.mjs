@@ -52,6 +52,12 @@ const capitalisedLmi = calculator.calculate({ ...baseInput, deposit: 65_000, lmi
 assert.ok(capitalisedLmi.loan > capitalisedLmi.baseLoan, "Capitalised LMI should be included in the loan");
 approx(capitalisedLmi.upfrontLmi, 0);
 
+const totalSavings = calculator.calculate({ ...baseInput, deposit: 130_000, savings: 130_000, cashMode: "total_savings" }, data, dutyTables, lmiTable);
+assert.equal(totalSavings.cashMode, "total_savings");
+assert.ok(totalSavings.deposit < 130_000, "Total savings mode must reserve cash for duty and other costs before calculating the deposit");
+approx(totalSavings.totalCashRequired, 130_000, 0.01);
+assert.ok(totalSavings.lvr > twentyPercent.lvr, "Using total savings should increase LVR when purchase costs reduce the usable deposit");
+
 const nswFirstHome = calculator.firstHomeDuty({ ...baseInput, firstHome: true, eligibilityConfirmed: true }, data, dutyTables);
 approx(nswFirstHome.duty, 0);
 assert.equal(nswFirstHome.concessionApplied, true);

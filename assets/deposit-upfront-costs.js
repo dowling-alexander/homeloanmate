@@ -85,31 +85,55 @@
 
   function calculate(input, data, dutyTables, lmiTable) {
     const price = amount(input.price);
-    const deposit = Math.min(price, amount(input.deposit));
-    const baseLoan = Math.max(0, price - deposit);
-    const baseLvr = price > 0 ? baseLoan / price : 0;
     const lmiTreatment = input.lmiTreatment === "upfront" ? "upfront" : "capitalised";
-    let estimatedLmi = estimateLmi(baseLoan, baseLvr, lmiTable);
-    let loan = baseLoan;
-    if (lmiTreatment === "capitalised" && estimatedLmi > 0) {
-      const loanWithLmi = baseLoan + estimatedLmi;
-      const lvrWithLmi = price > 0 ? loanWithLmi / price : 0;
-      const revisedLmi = estimateLmi(loanWithLmi, lvrWithLmi, lmiTable);
-      if (revisedLmi > 0) estimatedLmi = revisedLmi;
-      loan = baseLoan + estimatedLmi;
-    }
-    const lvr = price > 0 ? loan / price : 0;
     const duty = firstHomeDuty(input, data, dutyTables);
     const registrationCosts = amount(input.registrationCosts);
     const otherCosts = amount(input.otherCosts);
-    const upfrontLmi = lmiTreatment === "upfront" ? estimatedLmi : 0;
-    const totalCashRequired = deposit + duty.duty + registrationCosts + otherCosts + upfrontLmi;
     const savings = amount(input.savings);
+    const cashMode = input.cashMode === "total_savings" ? "total_savings" : "deposit_separate";
+    const nonDepositCosts = duty.duty + registrationCosts + otherCosts;
+    let deposit = Math.min(price, amount(input.deposit));
+    let baseLoan = 0;
+    let baseLvr = 0;
+    let estimatedLmi = 0;
+    let loan = 0;
+    let upfrontLmi = 0;
+
+    // When all savings must cover the purchase, the deposit is what remains after
+    // duty, entered costs and (when selected) upfront LMI. LMI can affect that
+    // remainder, so settle the small feedback loop before returning the estimate.
+    const calculateLoan = () => {
+      baseLoan = Math.max(0, price - deposit);
+      baseLvr = price > 0 ? baseLoan / price : 0;
+      estimatedLmi = estimateLmi(baseLoan, baseLvr, lmiTable);
+      loan = baseLoan;
+      if (lmiTreatment === "capitalised" && estimatedLmi > 0) {
+        const loanWithLmi = baseLoan + estimatedLmi;
+        const lvrWithLmi = price > 0 ? loanWithLmi / price : 0;
+        const revisedLmi = estimateLmi(loanWithLmi, lvrWithLmi, lmiTable);
+        if (revisedLmi > 0) estimatedLmi = revisedLmi;
+        loan = baseLoan + estimatedLmi;
+      }
+      upfrontLmi = lmiTreatment === "upfront" ? estimatedLmi : 0;
+    };
+    if (cashMode === "total_savings") {
+      deposit = Math.min(price, Math.max(0, savings - nonDepositCosts));
+      for (let iteration = 0; iteration < 6; iteration += 1) {
+        calculateLoan();
+        const nextDeposit = Math.min(price, Math.max(0, savings - nonDepositCosts - upfrontLmi));
+        if (Math.abs(nextDeposit - deposit) < 0.01) break;
+        deposit = nextDeposit;
+      }
+    }
+    calculateLoan();
+    const lvr = price > 0 ? loan / price : 0;
+    const totalCashRequired = deposit + nonDepositCosts + upfrontLmi;
     const savingsPosition = savings - totalCashRequired;
-    const lmiOutOfRange = baseLvr >= 0.95;
+    const lmiOutOfRange = Math.max(baseLvr, lvr) >= 0.95;
     return {
       price,
       deposit,
+      cashMode,
       depositPercent: price > 0 ? (deposit / price) * 100 : 0,
       baseLoan,
       loan,
