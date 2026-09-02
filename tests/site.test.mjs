@@ -91,16 +91,16 @@ assert.ok(header.indexOf("Borrowing Power") < header.indexOf("Deposit &amp; Cost
 
 const lenderBenchmark = await readFile(path.join(root, "lender-borrowing-power-benchmark.html"), "utf8");
 assert.ok(lenderBenchmark.includes("2 September 2026"), "Lender benchmark must state its snapshot date");
-for (const lender of ["ANZ", "CommBank"]) {
+for (const lender of ["CommBank"]) {
   assert.ok(lenderBenchmark.includes(lender), `Lender benchmark must name ${lender}`);
 }
-for (const retiredLender of ["NAB", "Westpac"]) {
+for (const retiredLender of ["ANZ", "NAB", "Westpac"]) {
   assert.ok(!lenderBenchmark.includes(retiredLender), `Lender benchmark must not present ${retiredLender} as a current comparison`);
 }
 assert.ok(lenderBenchmark.includes("Five repeatable core scenarios"), "Lender benchmark must state its scenario methodology");
 assert.ok(lenderBenchmark.includes("80% LVR"), "Lender benchmark must state its controlled LVR context");
-assert.ok(lenderBenchmark.includes("$436,849"), "Lender benchmark must publish its dated BorrowPower result");
-assert.ok(lenderBenchmark.includes("$364,358"), "Lender benchmark must publish its dated ANZ result");
+assert.ok(lenderBenchmark.includes("6.49% p.a."), "Lender benchmark must disclose the shared customer rate");
+assert.ok(lenderBenchmark.includes("$403,512"), "Lender benchmark must publish its rate-aligned BorrowPower result");
 assert.ok(lenderBenchmark.includes("$397,500"), "Lender benchmark must publish its dated CommBank result");
 assert.ok(lenderBenchmark.includes("owner-occupied, principal-and-interest repayments over 30 years"), "Lender benchmark must disclose its comparison controls");
 
