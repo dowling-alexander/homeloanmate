@@ -99,6 +99,7 @@ for (const retiredLender of ["NAB", "Westpac"]) {
 }
 assert.ok(lenderBenchmark.includes("Five repeatable core scenarios"), "Lender benchmark must state its scenario methodology");
 assert.ok(lenderBenchmark.includes("80% LVR"), "Lender benchmark must state its controlled LVR context");
+assert.ok(lenderBenchmark.includes("$436,849"), "Lender benchmark must publish its dated BorrowPower result");
 assert.ok(lenderBenchmark.includes("$364,358"), "Lender benchmark must publish its dated ANZ result");
 assert.ok(lenderBenchmark.includes("$397,500"), "Lender benchmark must publish its dated CommBank result");
 assert.ok(lenderBenchmark.includes("owner-occupied, principal-and-interest repayments over 30 years"), "Lender benchmark must disclose its comparison controls");
