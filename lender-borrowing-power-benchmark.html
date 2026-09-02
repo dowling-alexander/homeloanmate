@@ -89,36 +89,31 @@
 
     <section class="card prose" aria-labelledby="calibration-heading">
       <h2 id="calibration-heading">Snapshot calibration in progress</h2>
-      <p>Published lender figures must use the same loan purpose, repayment type, term, LVR band, public product and common inputs. Because the lenders present those settings differently, the first result table will be published only after each scenario has been checked against an equivalent product setting and recorded with its displayed rate context.</p>
+      <p>Published lender figures must use the same loan purpose, repayment type, term, LVR band, public product and common inputs. This benchmark uses an 80% LVR context (a 20% deposit) so a lender tool can be set to its closest owner-occupied 70.01%-to-80% product where that choice is available. The first result table will be published only after each scenario has been checked against that context and recorded with its displayed rate.</p>
       <p class="helper">Until then, this page deliberately shows the repeatable inputs and official tools rather than presenting a number that looks comparable but is based on a different LVR or product assumption.</p>
     </section>
 
     <section class="card" aria-labelledby="method-heading">
       <h2 id="method-heading">Monthly comparison method</h2>
       <ol class="benchmark-summary">
-        <li><strong>Use 10 repeatable scenarios</strong> Every profile below uses owner-occupied, principal-and-interest repayments over 30 years unless a source calculator applies a different built-in assumption.</li>
-        <li><strong>Keep the inputs aligned</strong> Use the listed income, dependants, living expenses, other monthly debt payments and card limits. Deposit is shown as purchase context because public borrowing tools do not all use it in their borrowing result.</li>
+        <li><strong>Use five repeatable core scenarios</strong> Every profile below uses owner-occupied, principal-and-interest repayments over 30 years and an 80% LVR context unless a source calculator applies a different built-in assumption.</li>
+        <li><strong>Keep the inputs aligned</strong> Use the listed income, dependants, living expenses, other monthly debt payments and card limits. Do not add savings targets, HELP repayment assumptions, rental income or current-home-loan details to this comparison.</li>
         <li><strong>Record the public estimate and source context</strong> At each monthly review, record the displayed result, calculator date and any stated product/rate assumption. Note an unavailable field rather than forcing an unmatched input.</li>
       </ol>
     </section>
 
     <section class="card" aria-labelledby="scenarios-heading">
-      <h2 id="scenarios-heading">10 repeatable scenarios</h2>
-      <p class="helper">Annual income is gross income. Expenses and debt payments are monthly. “Joint” means two applicants. Savings are a purchase-planning reference only, not a promise that a lender will treat them as deposit.</p>
+      <h2 id="scenarios-heading">Five repeatable core scenarios</h2>
+      <p class="helper">Annual income is gross income. Expenses and debt payments are monthly. “Joint” means two applicants. Each scenario assumes a 20% deposit/80% LVR context; it is used only to select an equivalent public product where the lender calculator provides that control.</p>
       <div class="table-wrap">
         <table class="benchmark-table">
-          <thead><tr><th>Scenario</th><th>Applicants and income</th><th>Household profile</th><th>Commitments</th><th>Purchase context</th><th>Run through</th></tr></thead>
+          <thead><tr><th>Scenario</th><th>Applicants and income</th><th>Household profile</th><th>Commitments</th><th>LVR context</th><th>Run through</th></tr></thead>
           <tbody>
-            <tr><td>1. Single starter</td><td>Single: $90,000</td><td>0 dependants<br><small>Expenses: $2,400</small></td><td>No other debt<br><small>Card limit: $0</small></td><td>$60,000 savings<br><small>$600,000 target</small></td><td><a href="/">BorrowPower</a> <small>Then check the four official sources below.</small></td></tr>
-            <tr><td>2. Single established</td><td>Single: $120,000</td><td>0 dependants<br><small>Expenses: $3,000</small></td><td>No other debt<br><small>Card limit: $5,000</small></td><td>$130,000 savings<br><small>$650,000 target</small></td><td><a href="/">BorrowPower</a></td></tr>
-            <tr><td>3. Single with car loan</td><td>Single: $120,000</td><td>0 dependants<br><small>Expenses: $3,000</small></td><td>Other debt: $650<br><small>Card limit: $10,000</small></td><td>$70,000 savings<br><small>$700,000 target</small></td><td><a href="/">BorrowPower</a></td></tr>
-            <tr><td>4. Couple entry</td><td>Joint: $100,000 + $80,000</td><td>0 dependants<br><small>Expenses: $3,800</small></td><td>No other debt<br><small>Card limit: $0</small></td><td>$100,000 savings<br><small>$850,000 target</small></td><td><a href="/">BorrowPower</a></td></tr>
-            <tr><td>5. Couple with one child</td><td>Joint: $105,000 + $85,000</td><td>1 dependant<br><small>Expenses: $4,600</small></td><td>No other debt<br><small>Card limit: $0</small></td><td>$90,000 savings<br><small>$900,000 target</small></td><td><a href="/">BorrowPower</a></td></tr>
-            <tr><td>6. Couple with two children</td><td>Joint: $120,000 + $95,000</td><td>2 dependants<br><small>Expenses: $5,400</small></td><td>Other debt: $650<br><small>Card limit: $10,000</small></td><td>$150,000 savings<br><small>$1,000,000 target</small></td><td><a href="/">BorrowPower</a></td></tr>
-            <tr><td>7. Single parent</td><td>Single: $105,000</td><td>1 dependant<br><small>Expenses: $3,800</small></td><td>Other debt: $300<br><small>Card limit: $3,000</small></td><td>$50,000 savings<br><small>$650,000 target</small></td><td><a href="/">BorrowPower</a></td></tr>
-            <tr><td>8. Higher-income household</td><td>Joint: $150,000 + $120,000</td><td>0 dependants<br><small>Expenses: $5,000</small></td><td>Other debt: $1,000<br><small>Card limit: $20,000</small></td><td>$240,000 savings<br><small>$1,200,000 target</small></td><td><a href="/">BorrowPower</a></td></tr>
-            <tr><td>9. Couple with HELP repayment</td><td>Joint: $95,000 + $75,000</td><td>1 dependant<br><small>Expenses: $4,400</small></td><td>Other commitments: $700<br><small>Card limit: $5,000</small></td><td>$80,000 savings<br><small>$800,000 target</small></td><td><a href="/">BorrowPower</a></td></tr>
-            <tr><td>10. Single professional</td><td>Single: $160,000</td><td>0 dependants<br><small>Expenses: $4,200</small></td><td>No other debt<br><small>Card limit: $15,000</small></td><td>$180,000 savings<br><small>$900,000 target</small></td><td><a href="/">BorrowPower</a></td></tr>
+            <tr><td>1. Single starter</td><td>Single: $90,000</td><td>0 dependants<br><small>Expenses: $2,500</small></td><td>No other debt<br><small>Card limit: $0</small></td><td>20% deposit<br><small>80% LVR</small></td><td><a href="/">BorrowPower</a> <small>Then check the four official sources below.</small></td></tr>
+            <tr><td>2. Single established</td><td>Single: $120,000</td><td>0 dependants<br><small>Expenses: $3,000</small></td><td>No other debt<br><small>Card limit: $0</small></td><td>20% deposit<br><small>80% LVR</small></td><td><a href="/">BorrowPower</a></td></tr>
+            <tr><td>3. Couple entry</td><td>Joint: $100,000 + $80,000</td><td>0 dependants<br><small>Expenses: $4,000</small></td><td>No other debt<br><small>Card limit: $0</small></td><td>20% deposit<br><small>80% LVR</small></td><td><a href="/">BorrowPower</a></td></tr>
+            <tr><td>4. Couple with one child</td><td>Joint: $105,000 + $85,000</td><td>1 dependant<br><small>Expenses: $4,600</small></td><td>No other debt<br><small>Card limit: $0</small></td><td>20% deposit<br><small>80% LVR</small></td><td><a href="/">BorrowPower</a></td></tr>
+            <tr><td>5. Couple with two children and debt</td><td>Joint: $120,000 + $95,000</td><td>2 dependants<br><small>Expenses: $5,400</small></td><td>Other debt: $650<br><small>Card limit: $10,000</small></td><td>20% deposit<br><small>80% LVR</small></td><td><a href="/">BorrowPower</a></td></tr>
           </tbody>
         </table>
       </div>

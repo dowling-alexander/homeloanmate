@@ -91,7 +91,8 @@ assert.ok(lenderBenchmark.includes("2 September 2026"), "Lender benchmark must s
 for (const lender of ["ANZ", "CommBank", "NAB", "Westpac"]) {
   assert.ok(lenderBenchmark.includes(lender), `Lender benchmark must name ${lender}`);
 }
-assert.ok(lenderBenchmark.includes("10 repeatable scenarios"), "Lender benchmark must state its scenario methodology");
+assert.ok(lenderBenchmark.includes("Five repeatable core scenarios"), "Lender benchmark must state its scenario methodology");
+assert.ok(lenderBenchmark.includes("80% LVR"), "Lender benchmark must state its controlled LVR context");
 assert.ok(lenderBenchmark.includes("Snapshot calibration in progress"), "Lender benchmark must state when its figures are not yet comparable");
 assert.ok(lenderBenchmark.includes("same loan purpose, repayment type, term, LVR band"), "Lender benchmark must disclose its comparison controls");
 
