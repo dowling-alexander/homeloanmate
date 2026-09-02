@@ -92,6 +92,10 @@ for (const lender of ["ANZ", "CommBank", "NAB", "Westpac"]) {
   assert.ok(lenderBenchmark.includes(lender), `Lender benchmark must name ${lender}`);
 }
 assert.ok(lenderBenchmark.includes("10 repeatable scenarios"), "Lender benchmark must state its scenario methodology");
+assert.ok(lenderBenchmark.includes("Verified public-calculator results"), "Lender benchmark must contain its dated results table");
+assert.ok(lenderBenchmark.includes("$449,735"), "Lender benchmark must publish the verified BorrowPower starter scenario");
+assert.ok(lenderBenchmark.includes("$286,477"), "Lender benchmark must publish the verified ANZ starter scenario");
+assert.ok(lenderBenchmark.includes("$424,100"), "Lender benchmark must publish the verified CommBank starter scenario");
 
 const guidesIndex = await readFile(path.join(root, "guides", "guides-index.html"), "utf8");
 assert.ok(guidesIndex.includes("Deposit &amp; Upfront Cost Calculator"), "Guides index must feature the deposit planner");

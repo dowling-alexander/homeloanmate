@@ -256,6 +256,7 @@ footer a:hover {
 .benchmark-table th{font-size:.85rem;color:var(--ink-muted);background:#fbfdff}
 .benchmark-table td:first-child{font-weight:700;white-space:nowrap}
 .benchmark-table small{display:block;color:var(--ink-muted);font-weight:400;white-space:normal}
+.benchmark-pending{min-width:190px;background:#fffdf5;color:#6b4d00;font-weight:700}
 .source-links{display:grid;gap:8px;margin:0;padding:0;list-style:none}
 .source-links a{font-weight:700}
 @media (min-width:768px){.deposit-layout{grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);align-items:start}.deposit-form .form-section{grid-template-columns:1fr 1fr}.deposit-results{position:sticky;top:16px}.deposit-result-secondary{grid-template-columns:repeat(3,1fr)}}
