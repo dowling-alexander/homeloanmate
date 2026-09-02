@@ -67,6 +67,8 @@ input[type="range"]{width:100%}
 .footer-inner{max-width:1120px;margin:auto;padding:20px 16px;display:grid;gap:8px} */
 .prose{max-width:800px}
 .guide-feature-image{width:100%;margin:0 0 20px;border-radius:8px}
+.guide-sources{margin-top:24px;padding-top:16px;border-top:1px solid var(--border)}
+.guide-sources h2{font-size:1.1rem}
 .prose table{max-width:100%;border-collapse:collapse}
 .ad-slot{display:block;width:100%;min-height:120px}
 @media (min-width:375px){.site-title{font-size:19px}}

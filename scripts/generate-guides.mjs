@@ -162,6 +162,10 @@ ${header.trim()}
       <div itemprop="articleBody">
       ${renderMarkdown(guide.body)}
       </div>
+      <section class="guide-sources" aria-labelledby="guide-sources-heading">
+        <h2 id="guide-sources-heading">Sources and review</h2>
+        <p>This guide was last reviewed ${displayDate(updated)}. It uses BorrowPower's published assumptions where relevant. Check the <a href="/methodology.html">data and methodology</a> page and the linked official authorities before relying on changing tax, duty, scheme or lending settings.</p>
+      </section>
       <section class="disclaimer">
         <p>General information only and not financial advice. Consider independent advice for your circumstances.</p>
       </section>

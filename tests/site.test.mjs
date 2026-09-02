@@ -14,6 +14,7 @@ async function walk(dir) {
 }
 
 await walk(root);
+assert.ok(!pages.some((page) => page.endsWith(path.join("guides", "blog-template.html"))), "A public placeholder article template must not be deployed");
 for (const page of pages) {
   const html = await readFile(page, "utf8");
   const label = path.relative(root, page);
@@ -81,6 +82,8 @@ assert.ok(faqPage.includes("First Home Buyer Scheme Checker"), "FAQ must cover t
 const aboutPage = await readFile(path.join(root, "about.html"), "utf8");
 assert.ok(aboutPage.includes("Deposit &amp; Upfront Cost Calculator"), "About page must reflect the purchase-cost planner");
 assert.ok(aboutPage.includes("Refinance Break-Even Calculator"), "About page must reflect the refinance calculator");
+assert.ok(aboutPage.includes('href="/methodology.html"'), "About page must link to the published methodology");
+assert.ok(faqPage.includes('href="/methodology.html"'), "FAQ must link to the published methodology");
 
 const header = await readFile(path.join(root, "partials", "header.html"), "utf8");
 assert.ok(header.includes('href="/deposit-upfront-costs.html">Deposit &amp; Costs'), "Primary navigation must feature the deposit planner");
@@ -88,13 +91,23 @@ assert.ok(header.indexOf("Borrowing Power") < header.indexOf("Deposit &amp; Cost
 
 const lenderBenchmark = await readFile(path.join(root, "lender-borrowing-power-benchmark.html"), "utf8");
 assert.ok(lenderBenchmark.includes("2 September 2026"), "Lender benchmark must state its snapshot date");
-for (const lender of ["ANZ", "CommBank", "NAB", "Westpac"]) {
+for (const lender of ["ANZ", "CommBank"]) {
   assert.ok(lenderBenchmark.includes(lender), `Lender benchmark must name ${lender}`);
+}
+for (const retiredLender of ["NAB", "Westpac"]) {
+  assert.ok(!lenderBenchmark.includes(retiredLender), `Lender benchmark must not present ${retiredLender} as a current comparison`);
 }
 assert.ok(lenderBenchmark.includes("Five repeatable core scenarios"), "Lender benchmark must state its scenario methodology");
 assert.ok(lenderBenchmark.includes("80% LVR"), "Lender benchmark must state its controlled LVR context");
-assert.ok(lenderBenchmark.includes("Snapshot calibration in progress"), "Lender benchmark must state when its figures are not yet comparable");
-assert.ok(lenderBenchmark.includes("same loan purpose, repayment type, term, LVR band"), "Lender benchmark must disclose its comparison controls");
+assert.ok(lenderBenchmark.includes("$364,358"), "Lender benchmark must publish its dated ANZ result");
+assert.ok(lenderBenchmark.includes("$397,500"), "Lender benchmark must publish its dated CommBank result");
+assert.ok(lenderBenchmark.includes("owner-occupied, principal-and-interest repayments over 30 years"), "Lender benchmark must disclose its comparison controls");
+
+const methodology = await readFile(path.join(root, "methodology.html"), "utf8");
+for (const sourceLabel of ["APRA Prudential Standard APS 220", "Helia: lenders mortgage insurance", "Australian Government 5% Deposit Scheme"]) {
+  assert.ok(methodology.includes(sourceLabel), `Methodology must publish the ${sourceLabel} source`);
+}
+assert.ok(methodology.includes("transparent household expense floor"), "Methodology must distinguish BorrowPower's expense model from lender HEM");
 
 const guidesIndex = await readFile(path.join(root, "guides", "guides-index.html"), "utf8");
 assert.ok(guidesIndex.includes("Deposit &amp; Upfront Cost Calculator"), "Guides index must feature the deposit planner");
