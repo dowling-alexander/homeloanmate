@@ -14,7 +14,7 @@ A lower advertised rate can be useful, but it is not the whole refinance decisio
 
 Use the same loan balance and remaining term for both loans, then compare the repayment at your current rate with the new rate. The difference is your starting monthly saving. It is an estimate, not a quote: lender fees, repayment type and the actual loan term can all change the result.
 
-The [refinance comparison tool](/guides/refinancing-2025.html) shows this side by side. For a broader repayment comparison, use the [Repayment Estimator](/repayment-estimator.html).
+The [Refinance Break-Even Calculator](/refinance-break-even-calculator.html) shows this side by side. For a broader repayment comparison, use the [Repayment Estimator](/repayment-estimator.html).
 
 ## List the switching costs before you decide
 

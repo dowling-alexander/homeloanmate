@@ -113,4 +113,38 @@ assert.ok(methodology.includes("transparent household expense floor"), "Methodol
 const guidesIndex = await readFile(path.join(root, "guides", "guides-index.html"), "utf8");
 assert.ok(guidesIndex.includes("Deposit &amp; Upfront Cost Calculator"), "Guides index must feature the deposit planner");
 
+const legacyGuideSlugs = [
+  "how-much-can-i-borrow-80k",
+  "how-much-can-i-borrow-100k",
+  "mortgage-repayments-600k",
+  "stamp-duty-500k",
+  "home-guarantee-5-percent",
+  "refinancing-2025",
+  "negative-gearing",
+  "offset-account-redraw",
+  "debt-to-income-dti",
+  "home-equity-car",
+  "rba-rate-decisions"
+];
+const sitemap = await readFile(path.join(root, "sitemap.xml"), "utf8");
+for (const slug of legacyGuideSlugs) {
+  const guide = await readFile(path.join(root, "guides", `${slug}.html`), "utf8");
+  assert.ok(guide.includes('name="robots" content="noindex,follow"'), `${slug} must remain out of search results`);
+  assert.ok(!sitemap.includes(`/guides/${slug}.html`), `${slug} must not appear in the sitemap`);
+  assert.ok(!guidesIndex.includes(`/guides/${slug}.html`), `${slug} must not be promoted in the guides index`);
+}
+
+const extraIncomeGuide = await readFile(path.join(root, "guides", "increase-borrowing-power-extra-income.html"), "utf8");
+assert.ok(extraIncomeGuide.includes("no universal percentage"), "Extra-income guide must not imply a universal lender income policy");
+assert.ok(!extraIncomeGuide.includes("$55,000–$65,000"), "Extra-income guide must not contain unsupported borrowing-capacity ranges");
+assert.ok(extraIncomeGuide.includes('href="/methodology.html"'), "Extra-income guide must link to methodology");
+
+const repaymentEstimator = await readFile(path.join(root, "repayment-estimator.html"), "utf8");
+assert.ok(repaymentEstimator.includes("$2,998 per month"), "Repayment estimator must include its formula-backed example");
+assert.ok(repaymentEstimator.includes("$329 more each month"), "Repayment estimator must explain rate sensitivity");
+assert.ok(repaymentEstimator.includes('href="/methodology.html"'), "Repayment estimator must link to methodology");
+
+assert.ok(aboutPage.includes("may be supported by advertising"), "About page must not imply AdSense approval");
+assert.ok(!aboutPage.includes("supported by Google AdSense advertising"), "About page must not imply AdSense approval");
+
 console.log(`Site configuration checks passed for ${pages.length} pages`);
